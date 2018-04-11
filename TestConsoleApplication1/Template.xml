@@ -1,0 +1,212 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<CollectionItem>
+  <Field>
+    <Name>SSN</Name>
+    <Length>9</Length>
+    <Value>RS,10,9</Value>
+  </Field>
+  <Field>
+    <Name>FirstName</Name>
+    <DisplayName>First Name</DisplayName>
+    <Value>RS,19,15</Value>
+  </Field>
+  <Field>
+    <Name>MiddleName</Name>
+    <DisplayName>Middle Name</DisplayName>
+    <Value>RS,34,15</Value>
+  </Field>
+  <Field>
+    <Name>LastName</Name>
+    <DisplayName>Last Name</DisplayName>
+    <Value>RS,49,20</Value>
+  </Field>
+  <Field>
+    <Name>StreetAddress</Name>
+    <DisplayName>Street Address</DisplayName>
+    <Value>RS,95,22</Value>
+  </Field>
+  <Field>
+    <Name>AddressLine2</Name>
+    <DisplayName>AddressLine2</DisplayName>
+    <Value>RS,73,22</Value>
+  </Field>
+  <Field>
+    <Name>EmployeeStartDate</Name>
+    <DisplayName>EmployeeStartDate</DisplayName>
+    <Value>RS,227,8,Date</Value>
+  </Field>
+  <Field>
+    <Name>EmployeeEndDate</Name>
+    <DisplayName>EmployeeEndDate</DisplayName>
+    <Value>RS,235,8,Date</Value>
+  </Field>
+  <Field>
+    <Name>City</Name>
+    <Value>RS,117,22</Value>
+  </Field>
+  <Field>
+    <Name>State</Name>
+    <Length>2</Length>
+    <Value>RS,139,2</Value>
+  </Field>
+  <Field>
+    <Name>ZipCode</Name>
+    <Length>5</Length>
+    <Value>RS,141,5</Value>
+  </Field>
+  <Field>
+    <Name>WagesTipsAndOtherCompensation</Name>
+    <DisplayName>Wages Tips And Other Compensation</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,188,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>FederalIncomeTaxWithheld</Name>
+    <Type>Number</Type>
+    <Value>RW,199,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>SocialSecurityWages</Name>
+    <Type>Number</Type>
+    <Value>RW,210,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>SocialSecurityTaxWithheld</Name>
+    <Type>Number</Type>
+    <Value>RW,221,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>MedicareWagesAndTips</Name>
+    <Type>Number</Type>
+    <Value>RW,232,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>MedicareTaxWithheld</Name>
+    <Type>Number</Type>
+    <Value>RW,243,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>SocialSecurityTips</Name>
+    <Type>Number</Type>
+    <Value>RW,254,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DependentCareBenefits</Name>
+    <Type>Number</Type>
+    <Value>RW,276,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DeferredCompensationContributionstoSection401k</Name>
+    <DisplayName>Deferred Compensation Contributions to Section 401 k</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,287,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DeferredCompensationContributionstoSection403b</Name>
+    <DisplayName>Deferred Compensation Contributions to Section 403 b</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,298,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DeferredCompensationContributionstoSection408k6</Name>
+    <DisplayName>Deferred Compensation Contributions to Section 408 k 6</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,309,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DeferredCompensationContributionstoSection457b</Name>
+    <DisplayName>Deferred Compensation Contributions to Section 457 b</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,320,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DeferredCompensationContributionstoSection501c18D</Name>
+    <DisplayName>Deferred Compensation Contributions to Section 501 c 18 D</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,331,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>NonQualifiedPlanSection457DistributionsOrContributions</Name>
+    <DisplayName>Non Qualified Plan Section 457 Distributions Or Contributions</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,353,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>EmployerContributionsToAHealthSavingsAccount</Name>
+    <DisplayName>Employer Contributions To A Health Savings Account</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,364,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>NonQualifiedPlanNotSection457DistributionsOrContributions</Name>
+    <DisplayName>Non Qualified Plan Not Section 457 Distributions Or Contributions</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,375,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>NontaxableCombatPay</Name>
+    <DisplayName>Nontaxable Combat Pay</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,386,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>EmployerCostOfPremiumsForGroupTermLifeInsuranceOver50000</Name>
+    <DisplayName>Employer Cost Of Premiums For Group Term Life Insurance Over 50000</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,408,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>IncomeFromTheExerciseOfNonstatutoryStockOptions</Name>
+    <DisplayName>Income From The Exercise Of Nonstatutory Stock Options</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,419,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DeferralsUnderASection409ANonQualifiedDeferredCompensationPlan</Name>
+    <DisplayName>Deferrals Under A Section 409A Non Qualified Deferred Compensation Plan</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,430,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DesignatedRothContributionsToASection401kPlan</Name>
+    <DisplayName>Designated Roth Contributions To A Section 401 k Plan</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,441,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>DesignatedRothContributionsUnderASection403BSalaryReductionAgreement</Name>
+    <DisplayName>Designated Roth Contributions Under A Section 403 B Salary Reduction Agreement</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,452,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>CostOfEmployerSponsoredHealthCoverage</Name>
+    <DisplayName>Cost Of Employer Sponsored Health Coverage</DisplayName>
+    <Type>Number</Type>
+    <Value>RW,463,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>WHTaxableWages</Name>
+    <DisplayName>WH Taxable Wages</DisplayName>
+    <Type>Number</Type>
+    <Value>RS,276,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>TaxWithheld</Name>
+    <DisplayName>Tax Withheld</DisplayName>
+    <Type>Number</Type>
+    <Value>RS,287,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>LocalTaxableWages</Name>
+    <DisplayName>Local Taxable Wages</DisplayName>
+    <Type>Number</Type>
+    <Value>RS,309,11,Number</Value>
+  </Field>
+  <Field>
+    <Name>LocalIncomeTaxWithheld</Name>
+    <DisplayName>Local Income Tax Withheld</DisplayName>
+    <Type>Number</Type>
+    <Value>RS,320,11,Number</Value>
+  </Field>
+</CollectionItem>

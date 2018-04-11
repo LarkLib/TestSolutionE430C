@@ -1,0 +1,12 @@
+﻿
+        [TestMethod]
+        public void $State$Efiling_$FormCode$()
+        {
+            FilingDataTestRunnerUtil.RunCase("$State$.$FormCode$", OriginCaseName);
+        }
+        public static bool $FormCode$Pre(FilingDataMocker mocker, MockerStubber mockData)
+        {
+            mockData.FilingStub.TaxDepositFrequency = TaxDepositFrequencyEnum.$TaxDepositFrequency$;
+            mockData.FilingStub.FormCode = FormCode.$FormCode$;
+            return true;
+        }

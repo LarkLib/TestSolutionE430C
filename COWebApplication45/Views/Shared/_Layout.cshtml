@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Commerce Objectives Global Co., Ltd</title>
+    <LINK href="~/Content/css/style.css" rel="stylesheet" type="text/css">
+    <LINK href="~/Content/css/styles1.css" rel="stylesheet" type="text/css">
+</head>
+<BODY id="TotalBodyId" style="background-position: 0pt 0pt; margin: 0px 0pt 0pt;">
+    <DIV id="top-wrap">
+        <DIV id="header-wrap">
+            <DIV id="header">
+                <DIV id="main-menu">
+                    <UL class="topmenu" id="css3menu_top">
+                        <IMG alt="logo" src="~/Content/Image/logo.png">
+                        <LI class="topmenu">
+                            <a style="height: 24px; line-height: 24px;"><b>Who We Are</b></a>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>
+                                            @Html.ActionLink("Group Overview", "Index", "Home")
+                                        </LI>
+                                        <LI>
+                                            @Html.ActionLink("Leadership Team", "LeadershipTeam", "Home")
+                                        </LI>
+                                        <LI>
+                                            @Html.ActionLink("People & Culture", "PeopleCultur", "Home")
+                                        </LI>
+                                        <LI>
+                                            @Html.ActionLink("Vision, Mission & Value", "VisionMissionValue", "Home")
+                                        </LI>
+                                        <LI>
+                                            @Html.ActionLink("Corporate Responsibility", "CorporateResponsibility", "Home")
+                                        </LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;">
+                                <b>What We Do</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("Overview", "Overview", "Home")</LI>
+                                        <LI>@Html.ActionLink("Consultancy Service", "ConsultingOutsourcingService", "Home")</LI>
+                                        <LI>@Html.ActionLink("Educational Service", "EducationTrainingService", "Home")</LI>
+                                        <LI>@Html.ActionLink("Technology Service", "TechnologyManufacturing", "Home")</LI>
+                                        <LI>
+                                            <A style="height: 24px; line-height: 24px;">
+                                                Global Investment&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;>
+                                            </A>
+                                            <DIV class="submenu">
+                                                <DIV class="column">
+                                                    <UL>
+                                                        <LI>@Html.ActionLink("Investment Management", "InvestmentManagement", "Home")</LI>
+                                                        <LI>@Html.ActionLink("Mining", "Mining", "Home")</LI>
+                                                        <LI>@Html.ActionLink("Real Estate", "RealEstateProperty", "Home")</LI>
+                                                        <LI>@Html.ActionLink("International Trading", "GlobalTrading", "Home")</LI>
+                                                        <LI>@Html.ActionLink("Innovation", "Innovation", "Home")</LI>
+                                                    </UL>
+                                                </DIV>
+                                            </DIV>
+                                        </LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;">
+                                <b>Our Thinking People</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("Student & Graduates", "StudenGraduates", "Home")</LI>
+                                        <LI>@Html.ActionLink("Experienced Professionals", "ExperiencedProfessionals", "Home")</LI>
+                                        <LI>@Html.ActionLink("External Consultants", "ExternalConsultants", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;">
+                                <b>Worldwide</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("Americas", "Americas", "Home")</LI>
+                                        <LI>@Html.ActionLink("Asia Pacific", "AsiaPacific", "Home")</LI>
+                                        <LI>@Html.ActionLink("Middle East", "MiddleEast", "Home")</LI>
+                                        <LI>@Html.ActionLink("Europe", "Europe", "Home")</LI>
+                                        <LI>@Html.ActionLink("Africa", "Africa", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A href="~/Home/OurClients" style="height: 24px; line-height: 24px;">
+                                <b>Our Clients</b>
+                            </A>
+                        </LI>
+                    </UL>
+                </DIV>
+            </DIV>
+        </DIV><!--header ends here-->
+    </DIV><!--end of outer-wrapper-->
+    <div class="container body-content">
+        <DIV id="bodywrap">
+            <DIV id="content-wrap">
+                <DIV class="leftPan" style="color: rgb(255, 0, 0);">
+                    @RenderBody()
+                </DIV>
+            </DIV>
+        </DIV>
+        <p></p>
+        <p></p>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Commerce Objectives Global Co., Ltd</p>
+        </footer>
+    </div>
+</BODY>
+</html>

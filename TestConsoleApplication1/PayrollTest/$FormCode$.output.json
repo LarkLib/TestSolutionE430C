@@ -1,0 +1,14 @@
+{
+  "@formCode": "TC941PC",
+  "@state": "UT",
+  "@title": "",
+  "WHAccountNumber": "123456788",
+  "TaxPeriodEndDate": "2015-12-31",
+  "TaxPeriodBeginDate": "2015-01-01",
+  "PaymentAmount": "0.00",
+  "BusinessName": "LegalOrgName",
+  "FEIN": "123456789",
+  "BankAccountNumber": "123456789",
+  "RoutingTransitNumber": "123456789",
+  "BankAccountType": "Checking"
+}

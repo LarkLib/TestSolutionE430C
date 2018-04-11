@@ -1,0 +1,16 @@
+﻿using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Newtonsoft.Json;
+using Paycycle.Common;
+using Paycycle.DomainModel;
+using Paycycle.EForms.Tests.USTaxServices.FilingGenerationsTest;
+
+namespace Paycycle.EForms.Tests.USTaxServices.FilingGenerationsTest.$State$
+{
+    [TestClass]
+    public class TestSetup
+    {
+        const string OriginCaseName = "$State$.$FormCode$";
+        $TestCaseTemplate$
+    }
+}

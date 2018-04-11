@@ -1,0 +1,91 @@
+{
+  "State": "$State$",
+  "FormCode": "$FormCode$",
+  "DepositGroupCode": "$State$_$DepositGroupCode$",
+  "UserCid": "USERINFOCID",
+  "UserEmail": "Test@xero.test.org",
+  "Fein": "123456789",
+  "FormattedAccountNumber": "12-3456789",
+  "SitAccountNumber": "123456788",
+  "SutaAccountNumber": "123456787",
+  "PaymentDaysAfter": 5,
+  "FilingStartDate": "2015-01-01T00:00:00Z",
+  "FilingEndDate": "2016-01-01T00:00:00Z",
+  "TwinObligation": false,
+  "TaxObligationType": "$TaxObligationType$",
+  "TaxDepositFrequency": 4, //Quarterly
+  "ReportingFrequency": 4, //Quarterly
+  "OrgnisationId": "2be68399-1b2c-416a-ab57-1ef7a702d9e1",
+  "OrganisationLegalName": "LegalOrgName",
+  "OrganisationDisplayName": "Organisation Display Name",
+  "RoutingNumber": "123456789",
+  "BankAccountType": 0,
+  "ContactEmail": "test@xero.com",
+  "ContactName": "Contact Name",
+  "ContactPhone": "4445556666",
+  "AddressLine1": "101 Green St",
+  "AddressLine2": "Filing",
+  "PostCode": "94111",
+  "City": "San Francisco",
+  "TaxRegistrationApplicationId": 105,
+  "TaxFormDepositGroupId": 104,
+  "CustomerId": 101,
+  "TaxObligationId": 103,
+  "NominatedBankAccountId": 102,
+  "Employees": [
+    {
+      "PayeeId": 10001,
+      "Ssn": "135246789",
+      "FirstName": "FirstName",
+      "MiddleName": "MiddleName",
+      "LastName": "LastName",
+      "AddressLine1": "101 Green St.",
+      "AddressLine2": "EmployeeAddress",
+      "PostCode": "94111",
+      "State": "TX",
+      "City": "San Francisco",
+      "StartDate": "2015-01-01T00:00:00Z",
+      "EndDate": "2015-12-31T00:00:00Z",
+      "PayLines": [
+        {
+          "UnitType": "Hour",
+          "PayLineType": "Earnings",
+          "UnitRate": 40.0,
+          "FixedAmount": null,
+          "NumberOfUnits": 5000,
+          "StartDate": "2015-01-01T00:00:00Z",
+          "EndDate": "2015-03-31T00:00:00Z"
+        },
+        {
+          "UnitType": "Hour",
+          "PayLineType": "Earnings",
+          "UnitRate": 40.0,
+          "FixedAmount": null,
+          "NumberOfUnits": 510,
+          "StartDate": "2015-04-01T00:00:00Z",
+          "EndDate": "2015-06-30T00:00:00Z"
+        },
+        {
+          "UnitType": "Hour",
+          "PayLineType": "Earnings",
+          "UnitRate": 40.0,
+          "FixedAmount": null,
+          "NumberOfUnits": 520,
+          "StartDate": "2015-07-01T00:00:00Z",
+          "EndDate": "2015-10-31T00:00:00Z"
+        },
+        {
+          "UnitType": "Hour",
+          "PayLineType": "Earnings",
+          "UnitRate": 40.0,
+          "FixedAmount": null,
+          "NumberOfUnits": 530,
+          "StartDate": "2015-11-01T00:00:00Z",
+          "EndDate": "2015-12-31T00:00:00Z"
+        }
+      ]
+    }
+  ],
+  "TaxSettings": [
+  ]
+}

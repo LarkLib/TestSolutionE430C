@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="StockModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <Function Name="usp_GetDetailDateListByCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stockCode" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_GetSummaryDateListByCode" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stockCode" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="usp_SaveStockDetail" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stockDetailSql" Type="nvarchar(max)" Mode="In" />
+          <Parameter Name="actionDate" Type="datetimeoffset" Mode="In" />
+          <Parameter Name="stockCode" Type="nvarchar" Mode="In" />
+          <Parameter Name="batchNumber" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_SaveStockSummary" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="stockSummaryXml" Type="xml" Mode="In" />
+        </Function>
+        <Function Name="usp_UpdateStockOperationStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="action" Type="int" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="In" />
+          <Parameter Name="content" Type="nvarchar" Mode="In" />
+          <Parameter Name="message" Type="nvarchar" Mode="In" />
+          <Parameter Name="elapsedMilliseconds" Type="int" Mode="In" />
+        </Function>
+        <Function Name="usp_UpdateStockSummaryStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="id" Type="uniqueidentifier" Mode="In" />
+          <Parameter Name="status" Type="int" Mode="In" />
+          <Parameter Name="content" Type="nvarchar" Mode="In" />
+          <Parameter Name="elapsedMilliseconds" Type="int" Mode="In" />
+        </Function>
+        <EntityContainer Name="StockModelStoreContainer" />
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="StockModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="StockEntities" annotation:LazyLoadingEnabled="true">
+          <FunctionImport Name="usp_UpdateStockOperationStatus">
+            <Parameter Name="id" Mode="In" Type="Guid" />
+            <Parameter Name="action" Mode="In" Type="Int32" />
+            <Parameter Name="status" Mode="In" Type="Int32" />
+            <Parameter Name="content" Mode="In" Type="String" />
+            <Parameter Name="message" Mode="In" Type="String" />
+            <Parameter Name="elapsedMilliseconds" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetSummaryDateListByCode" ReturnType="Collection(StockModel.usp_GetSummaryDateListByCode_Result)">
+          <Parameter Name="stockCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_SaveStockSummary">
+          <Parameter Name="stockSummaryXml" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_GetDetailDateListByCode" ReturnType="Collection(StockModel.usp_GetDetailDateListByCode_Result)">
+          <Parameter Name="stockCode" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="usp_UpdateStockSummaryStatus">
+            <Parameter Name="id" Mode="In" Type="Guid" />
+            <Parameter Name="status" Mode="In" Type="Int32" />
+            <Parameter Name="content" Mode="In" Type="String" />
+            <Parameter Name="elapsedMilliseconds" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="usp_SaveStockDetail">
+            <Parameter Name="stockDetailSql" Mode="In" Type="String" />
+            <Parameter Name="actionDate" Mode="In" Type="DateTimeOffset" />
+            <Parameter Name="stockCode" Mode="In" Type="String" />
+            <Parameter Name="batchNumber" Mode="In" Type="Int32" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="usp_GetSummaryDateList_Result">
+          <Property Type="String" Name="Code" Nullable="false" MaxLength="50" />
+          <Property Type="DateTimeOffset" Name="ActionDate" Nullable="false" />
+          <Property Type="Guid" Name="Id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_GetSummaryDateListByCode_Result">
+          <Property Type="DateTimeOffset" Name="ActionDate" Nullable="false" />
+          <Property Type="Guid" Name="Id" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="usp_GetDetailDateListByCode_Result">
+          <Property Type="Guid" Name="Id" Nullable="false" />
+          <Property Type="DateTimeOffset" Name="ActionDate" Nullable="false" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="StockModelStoreContainer" CdmEntityContainer="StockEntities">
+          <FunctionImportMapping FunctionImportName="usp_UpdateStockOperationStatus" FunctionName="StockModel.Store.usp_UpdateStockOperationStatus" />
+          <FunctionImportMapping FunctionImportName="usp_GetSummaryDateListByCode" FunctionName="StockModel.Store.usp_GetSummaryDateListByCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StockModel.usp_GetSummaryDateListByCode_Result">
+                <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_SaveStockSummary" FunctionName="StockModel.Store.usp_SaveStockSummary" />
+          <FunctionImportMapping FunctionImportName="usp_GetDetailDateListByCode" FunctionName="StockModel.Store.usp_GetDetailDateListByCode">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="StockModel.usp_GetDetailDateListByCode_Result">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="ActionDate" ColumnName="ActionDate" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="usp_UpdateStockSummaryStatus" FunctionName="StockModel.Store.usp_UpdateStockSummaryStatus" />
+          <FunctionImportMapping FunctionImportName="usp_SaveStockDetail" FunctionName="StockModel.Store.usp_SaveStockDetail" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
