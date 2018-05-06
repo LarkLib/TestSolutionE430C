@@ -1,0 +1,38 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+<img src="~/Content/Image/home.png" width="640" height="320" />
+<p></p><p></p>
+<div>
+    <b>经典课程</b>
+    <DIV class="submenu">
+        <DIV class="column">
+            <UL>
+                <LI>&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("Python课程", "ClassicPython", "Home")</LI>
+                <LI>&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("AP课程", "ClassicAP", "Home")</LI>
+                <LI>&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("移动APP课程", "ClassicAPP", "Home")</LI>
+            </UL>
+        </DIV>
+    </DIV>
+    <b>课程信息</b>
+    <DIV class="submenu">
+        <DIV class="column">
+            <UL>
+                <LI>&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("课 程 目 录", "CourseCatalogue", "Home")</LI>
+                <LI>&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("课  程  表", "CourseSchedule", "Home")</LI>
+                <LI>&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("师资力量", "Teachers", "Home")</LI>
+            </UL>
+        </DIV>
+    </DIV>
+    <b>联系方式</b>
+    <DIV class="submenu">
+        <DIV class="column">
+            <UL>
+                <LI>&nbsp;&nbsp;&nbsp;&nbsp;@Html.ActionLink("联络我们", "ContactUs", "Home")</LI>
+            </UL>
+        </DIV>
+    </DIV>
+
+
+    <p></p>
+</div>

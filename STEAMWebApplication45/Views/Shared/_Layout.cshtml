@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - STEM天才训练营</title>
+    <LINK href="~/Content/css/style.css" rel="stylesheet" type="text/css">
+    <LINK href="~/Content/css/styles1.css" rel="stylesheet" type="text/css">
+</head>
+<BODY id="TotalBodyId" style="background-position: 0pt 0pt; margin: 0px 0pt 0pt;">
+    <DIV id="top-wrap">
+        <DIV id="header-wrap">
+            <DIV id="header">
+                <DIV id="main-menu">
+                    <UL class="topmenu" id="css3menu_top">
+                        <IMG alt="logo" src="~/Content/Image/logo.png">
+                        <LI class="topmenu">
+                            @Html.ActionLink("STEM天才训练营", "Index", "Home", new { style = "font-weight:bold;width:150px;text-align:center" })
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;width:150px;text-align:center">
+                                <b>经典课程</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("Python课程", "ClassicPython", "Home")</LI>
+                                        <LI>@Html.ActionLink("AP课程", "ClassicAP", "Home")</LI>
+                                        <LI>@Html.ActionLink("移动APP课程", "ClassicAPP", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;width:150px;text-align:center">
+                                <b>课程表</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("课 程 目 录", "CourseCatalogue", "Home")</LI>
+                                        <LI>@Html.ActionLink("课  程  表", "CourseSchedule", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            @Html.ActionLink("师资力量", "Teachers", "Home", new { style = "font-weight:bold;;width:150px;text-align:center" })
+                        </LI>
+                        <LI class="topmenu">
+                            @Html.ActionLink("联络我们", "ContactUs", "Home", new { style = "font-weight:bold;;width:150px;text-align:center" })
+                        </LI>
+                    </UL>
+                </DIV>
+            </DIV>
+        </DIV><!--header ends here-->
+    </DIV><!--end of outer-wrapper-->
+    <div class="container body-content">
+        <DIV id="bodywrap">
+            <DIV id="content-wrap">
+                <DIV class="leftPan" style="color: rgb(255, 0, 0);">
+                    @RenderBody()
+                </DIV>
+            </DIV>
+        </DIV>
+        <p></p>
+        <p></p>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - STEM天才训练营. All rights reserved.</p>
+        </footer>
+    </div>
+</BODY>
+</html>

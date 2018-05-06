@@ -1,0 +1,574 @@
+@import url( http://fonts.googleapis.com/css?family=Open+Sans:300&subset=latin,greek-ext,cyrillic-ext,greek,vietnamese,cyrillic,latin-ext );
+body {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+div {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+span {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+p {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+a {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+img {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+h1 {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+h2 {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+h3 {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+h4 {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+h5 {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+h6 {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+ul {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+ol {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+li {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+blockquote {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+input {
+	margin: 0px; padding: 0px; outline: 0px; border: 0px currentColor; border-image: none;
+}
+ul {
+	list-style: none;
+}
+li {
+	list-style: none;
+}
+ol {
+	list-style: none;
+}
+a {
+	text-decoration: none;
+}
+body {
+	font-family: Open Sans,Helvetica,Arial,sans-serif; font-size: 13px; font-weight: normal; /* background-color: rgb(35, 38, 41); */
+}
+#top-wrap {
+	width: 100%; float: left;
+}
+#bodywrap {
+	padding: 50px 0px 0px; width: 100%; overflow: hidden; float: left; /* background-color: rgb(243, 243, 243); */
+}
+#header-wrap {
+	width: 100%; float: left; z-index: 9999; /* background-color: rgb(35, 38, 41); */
+}
+#header {
+	margin: 0px auto; width: 100%; height: 72px; float: left; /* position: relative; */ max-width: 970px;
+}
+h1 {
+	margin: 18px 0px 0px; float: left; display: block;
+}
+ul.nav {
+	margin: 22px 0px 0px; float: right; display: block; min-width: 573px;
+}
+ul.nav li {
+	width: auto; float: left;
+}
+ul.nav li a {
+	padding: 0px 16px; text-align: center; color: rgb(255, 255, 255); line-height: 25px; font-size: 12px; float: left;
+}
+ul.nav li a:hover {
+/* 	background: url("images/nav-right.png") no-repeat right; padding: 0px 16px 0px 0px; color: rgb(35, 38, 41); float: left;
+ */}
+ul.nav li a.active {
+/* 	background: url("images/nav-right.png") no-repeat right; padding: 0px 16px 0px 0px; color: rgb(35, 38, 41); float: left;
+ */}
+ul.nav li a:hover span {
+/* 	background: url("images/nav-left.png") no-repeat left; padding: 0px 0px 0px 16px; height: 29px; color: rgb(35, 38, 41); float: left; display: block;
+ */}
+ul.nav li a.active span {
+/* 	background: url("images/nav-left.png") no-repeat left; padding: 0px 0px 0px 16px; height: 29px; color: rgb(35, 38, 41); float: left; display: block;
+ */}
+.banner-wrap {
+/* 	background: url("images/banner_bg.png") repeat-x; margin: 0px auto; width: 100%; height: auto; clear: both; float: left;
+ */}
+.banner-inner {
+/* 	background: url("images/banner-grad.png") no-repeat 50px 0px; height: auto;
+ */}
+.banner {
+	margin: 0px auto; width: 100%; float: none; display: block; max-width: 970px;
+}
+#menus {
+	margin: 0px; width: 100%; float: right; max-width: 550px;
+}
+.banner-twit img {
+	margin: 0px; float: left;
+}
+.leftContent {
+	margin: 15px 0px 0px; width: 390px; padding-bottom: 20px; float: left;
+}
+.leftContent h2 {
+	width: 100%; color: rgb(255, 255, 255); text-transform: uppercase; padding-top: 15px; padding-bottom: 25px; font-size: 32px; float: left; text-shadow: 2px 2px 3px #016137;
+}
+.image {
+	padding: 0px; float: none;
+}
+.leftContent p {
+	width: 100%; color: rgb(255, 255, 255); line-height: 30px; padding-bottom: 35px; font-size: 21px; float: left;
+}
+.m-info {
+	background: url("images/m-info_btn.png") no-repeat; width: 173px; height: 46px; text-align: center; color: rgb(255, 255, 255); line-height: 44px; font-size: 18px; font-weight: bold; float: left; text-shadow: 1px 1px 1px #d3ceaa;
+}
+.m-info1 {
+	background: url("images/m-info_btn1.png") no-repeat; width: 173px; height: 46px; text-align: center; color: rgb(255, 255, 255); line-height: 44px; font-size: 18px; font-weight: bold; float: left; text-shadow: 1px 1px 1px #d3ceaa;
+}
+.container {
+	margin: 0px auto; width: 100%; height: auto; overflow: hidden; position: relative; max-width: 970px;
+}
+.slides {
+	left: 0px; top: 0px; position: relative;
+}
+ul.pagination {
+	background: url("images/pagination.jpg") no-repeat; list-style: none; margin: 0px; padding: 0px; left: 190px; top: -18px; width: 79px; height: 18px; float: left; position: relative;
+}
+ul.pagination li {
+	background: rgb(255, 255, 255); margin: 5px 0px 0px 6px; width: 9px; height: 9px; float: left;
+}
+ul.pagination li a {
+	background: url("images/slide-visited.png") no-repeat; width: 9px; height: 9px; display: block;
+}
+ul.pagination li.active a {
+	background: url("images/hover-active.png") no-repeat;
+}
+#content-wrap {
+	margin: 0px auto; width: 100%; clear: both; float: none; max-width: 970px;
+}
+.leftPan {
+	width: 65%; margin-right: 60px; float: left; display: block;
+}
+.leftPan h3 {
+	width: 100%; color: rgb(35, 38, 41); line-height: 21px; padding-bottom: 26px; font-size: 18px; float: left;
+}
+.leftPan p {
+	width: 100%; text-align: left; color: rgb(0, 0, 0); line-height: 21px; padding-bottom: 23px; font-size: 16px; float: left;
+}
+.leftPan a.more {
+	background: url("images/read-more.jpg") no-repeat rgb(0, 185, 135); width: 59px; height: 14px; text-align: center; color: rgb(255, 255, 255); font-size: 11px; font-weight: normal; float: left;
+}
+.leftPan .innerLeft {
+	width: 30%; margin-right: 69px; float: left;
+}
+.leftPan .innerLeft p {
+	width: 100%; float: left;
+}
+.leftPan .innerRight {
+	width: 55%; float: left; display: block;
+}
+.innerRight img {
+	margin: 0px; width: 64px; height: 64px; float: left;
+}
+.leftPan a {
+	border-width: 0px 0px 1px; border-style: dotted; border-color: rgb(95, 172, 235); color: rgb(95, 172, 235);
+}
+.leftPan a:hover {
+	border-width: 0px 0px 1px; border-style: dotted; border-color: rgb(114, 114, 114); color: rgb(95, 172, 235);
+}
+.innerRight ul {
+	width: 100%; float: left; display: block;
+}
+.innerRight li {
+	width: 100%; float: left; display: block;
+}
+.innerRight ul li {
+	padding-bottom: 12px;
+}
+.leftPan .innerRight ul li p {
+	padding: 0px; width: 75%; text-align: left; line-height: 18px; float: right;
+}
+.rightPan {
+	width: 25%; float: right;
+}
+.rightPan h3 {
+	color: rgb(35, 38, 41); padding-bottom: 28px; font-size: 18px;
+}
+.rightPan a.more {
+	background: url("images/read-more.jpg") no-repeat; width: 59px; height: 14px; text-align: center; color: rgb(255, 255, 255); font-size: 11px; float: left;
+}
+.rightPan .right {
+	float: none;
+}
+.rightPan ul {
+	width: 277px; float: left; display: block;
+}
+.rightPan ul li {
+	width: 100%; padding-bottom: 18px; float: left;
+}
+.rightPan ul li p {
+	width: 277px; color: rgb(114, 114, 114); line-height: 21px; padding-bottom: 5px; font-size: 13px; float: left;
+}
+.rightPan ul li img {
+	text-align: center; float: none;
+}
+.botomwrap {
+	margin: 40px 0px 46px; width: 970px; float: left;
+}
+.botomLeft {
+	width: 625px; margin-right: 60px; float: left;
+}
+.botomLeft h4 {
+	width: 100%; color: rgb(35, 38, 41); padding-bottom: 12px; font-size: 18px; float: left;
+}
+.leftPan h4 {
+	width: 100%; color: rgb(35, 38, 41); padding-bottom: 12px; font-size: 15px; float: left;
+}
+.botomLeft h5 {
+	width: 100%; color: rgb(51, 51, 51); padding-bottom: 12px; font-size: 14px; float: left;
+}
+.botomLeft blockquote {
+	background: url("images/quot-watermark.png") no-repeat left top; padding: 15px 0px 26px; width: 618px; color: rgb(114, 114, 114); line-height: 21px; font-size: 12px; float: left;
+}
+.botomLeft p.signature {
+	color: rgb(93, 93, 93); clear: left; font-size: 12px; font-weight: bold; float: left;
+}
+.botomRight {
+	width: 277px; float: left; display: block;
+}
+.botomRight h4 {
+	width: 100%; color: rgb(35, 38, 41); padding-bottom: 26px; font-size: 18px; float: left;
+}
+.botomRight p.qcontact {
+	width: 233px; color: rgb(114, 114, 114); line-height: 21px; font-size: 12px; float: left;
+}
+p.qcontact a {
+	color: rgb(114, 114, 114); font-size: 12px; text-decoration: underline;
+}
+p.qcontact a:hover {
+	color: rgb(114, 114, 114); font-size: 12px; text-decoration: none;
+}
+.qcontact a {
+	float: none;
+}
+#footer-wrap {
+	width: 100%; clear: both; float: left; background-color: rgb(35, 38, 41);
+}
+#footer {
+	margin: 0px auto; width: 100%; height: 200px; float: none; position: relative; max-width: 970px;
+}
+#footer p.copyright {
+	margin: 55px 0px 0px; color: rgb(114, 114, 114); line-height: 21px; font-size: 11px; float: left; min-width: 120px;
+}
+p.sign {
+	margin: 7px 47px 0px 0px; width: 180px; color: rgb(114, 114, 114); clear: left; font-size: 11px; font-style: italic; font-weight: bold; float: left;
+}
+p.sign a {
+	color: rgb(114, 114, 114); font-size: 11px; font-style: italic; text-decoration: underline;
+}
+p.sign a:hover {
+	text-decoration: none;
+}
+ul.footNav {
+	clear: left; float: left; min-width: 260px;
+}
+ul.footNav li {
+	color: rgb(114, 114, 114); line-height: 21px; float: left;
+}
+ul.footNav li a {
+	padding: 0px 4px; color: rgb(114, 114, 114); font-size: 11px; float: left;
+}
+div.footLogo {
+	background: url("images/gradient_footer.png") no-repeat left; top: 0px; width: 237px; height: auto; right: 70px; float: right; position: relative;
+}
+div.footLogo img {
+	margin: 0px 0px 0px 30px;
+}
+div.clear {
+	width: 100%; height: 40px; clear: both; float: left;
+}
+.leftPan img.map {
+	margin-bottom: 28px;
+}
+.rightPan p {
+	width: 100%; color: rgb(114, 114, 114); line-height: 21px; font-size: 13px; float: left;
+}
+ul.blog {
+	width: 100%; float: left; display: block;
+}
+ul.blog li {
+	width: 100%; padding-bottom: 30px; float: left; display: block;
+}
+ul.blog li h4 {
+	padding: 0px 0px 10px; color: rgb(73, 73, 73); line-height: 21px; font-size: 21px;
+}
+ul.blog li img {
+	margin: 10px 9px 10px 0px;
+}
+ul.blog li p a {
+	color: rgb(114, 114, 114); font-size: 12px; text-decoration: underline;
+}
+ul.blog li p a:hover {
+	text-decoration: none;
+}
+ul.blog li p.date {
+	padding: 0px 0px 9px;
+}
+ul.blog li p.post {
+	padding: 0px 0px 9px;
+}
+ul.blog li p.comments {
+	padding: 0px 0px 9px;
+}
+ul.blog li p.date a {
+	text-decoration: none; border-bottom-color: rgb(69, 69, 69); border-bottom-width: 1px; border-bottom-style: dashed;
+}
+ul.sitemap {
+	width: 120px; clear: both; float: left; display: block;
+}
+ul.sitemap li {
+	width: 120px; clear: both; float: left; display: block;
+}
+ul.sitemap li a {
+	color: rgb(0, 185, 135); line-height: 19px; font-size: 12px; float: left;
+}
+ul.sitemap li a:hover {
+	color: rgb(69, 69, 69);
+}
+.menu_templ {
+	top: 40px; width: 100%; height: 300px; position: relative; z-index: 1000; max-width: 600px; background-color: rgb(153, 153, 153);
+}
+#form .label {
+	width: 100px; color: rgb(114, 114, 114); line-height: 24px; float: left; display: block;
+}
+#form .input_text {
+	padding: 5px; border: 1px solid rgb(187, 187, 187); border-image: none; width: 300px; -moz-border-radius: 5px;
+}
+#form div div {
+	margin: 10px 0px;
+}
+#form .esubmit {
+	background: rgb(238, 238, 238); padding: 5px; border: 1px solid rgb(187, 187, 187); border-image: none; left: 290px; color: rgb(51, 51, 51); position: relative; -moz-border-radius: 5px;
+}
+* + html #form .esubmit {
+	left: 313px;
+}
+.notice {
+	color: red;
+}
+.rightPan ul#rq li {
+	padding-bottom: 10px;
+}
+ul#rq p {
+	color: rgb(114, 114, 114); display: none;
+}
+.rightPan ul#rq a {
+	background: none; width: auto; color: rgb(114, 114, 114); line-height: 22px; padding-bottom: 1px; font-size: 13px; font-weight: bold; float: none;
+}
+ul#rq small {
+	color: rgb(114, 114, 114); display: block;
+}
+ul#rq a:hover {
+	color: rgb(95, 172, 235); padding-bottom: 0px; border-bottom-color: rgb(95, 172, 235); border-bottom-width: 1px; border-bottom-style: dotted;
+}
+.rightPan ul#rq p a {
+	color: rgb(114, 114, 114); font-weight: normal; display: inline;
+}
+.rightPan ul#rq p a:hover {
+	border: 0px currentColor; border-image: none; padding-bottom: 1px;
+}
+.rightPan .faq-h3 a {
+	background: none; width: auto; color: rgb(35, 38, 41); line-height: 21px; padding-bottom: 0px; font-size: 18px; font-weight: bold; float: none;
+}
+#paypal li a {
+	width: 220px;
+}
+#paypal .price {
+	background: url("images/paypal.png") no-repeat right 2px; padding-right: 75px;
+}
+#more-options-button {
+	padding: 0px 0px 20px 20px; color: rgb(114, 114, 114); font-size: 11px; margin-top: -15px;
+}
+#more-options-button a {
+	font-size: 13px;
+}
+#more-options {
+	height: 170px; margin-top: -20px; display: none;
+}
+input.respond {
+	display: none;
+}
+div.respond {
+	margin: 10px auto; width: 300px; height: 80px; text-align: center; font-size: 13px;
+}
+div.respond label {
+	width: 33%; text-align: center; float: left; display: block;
+}
+div.respond label img {
+	cursor: pointer;
+}
+.leftPan p.ttip {
+	width: 1px; height: 1px; overflow: hidden; position: absolute;
+}
+.ttip {
+	width: 1px; height: 1px; overflow: hidden; position: absolute;
+}
+:checked#respond_ipad ~ #content-wrap {
+	max-width: 600px;
+}
+:checked#respond_iphone ~ #content-wrap {
+	max-width: 360px;
+}
+#flags {
+	margin: 0px auto; padding: 10px 5px 0px 0px; float: none; position: relative; max-width: 970px;
+}
+#flags a {
+	margin-left: 10px;
+}
+#main-menu {
+	margin: 0px 5px 0px 100px; top: 17px; height: 50px; position: relative;
+}
+.demo {
+	padding: 0px 0px 50px; width: 33%; height: 210px; float: left; position: relative;
+}
+.demo-more {
+	background: url("images/read-more.jpg") repeat-x 0px 0px; width: auto; height: 14px; text-align: center; color: rgb(255, 255, 255); font-size: 11px; float: left;
+}
+.demo img {
+	opacity: 0.75;
+}
+.demo img:hover {
+	opacity: 1;
+}
+@media all and (max-width:960px)
+{
+#menus {
+	display: none;
+}
+}
+@media all and (max-width:970px) and (min-width:766px)
+{
+#main-menu {
+	margin: 50px 5px 0px 0px;
+}
+#header {
+	height: 175px;
+}
+.rightPan {
+	display: none;
+}
+.leftPan {
+	width: 100%;
+}
+.leftPan .innerLeft {
+	width: 40%;
+}
+.leftPan .innerRight {
+	width: 50%;
+}
+}
+@media all and (max-width:766px) and (min-width:480px)
+{
+#main-menu {
+	margin: 50px 5px 0px 0px;
+}
+#header {
+	height: 200px;
+}
+.rightPan {
+	display: none;
+}
+.leftPan {
+	width: 100%;
+}
+.leftPan .innerLeft {
+	width: 100%;
+}
+.leftPan .innerRight {
+	width: 100%;
+}
+.leftPan .innerRight ul li p {
+	width: 85%;
+}
+.demo {
+	width: 50%;
+}
+}
+@media all and (max-width:479px) and (min-width:360px)
+{
+#top-wrap {
+	float: none;
+}
+#main-menu {
+	margin: 50px 5px 0px 0px;
+}
+#header {
+	height: 250px;
+}
+.rightPan {
+	display: none;
+}
+.leftPan {
+	width: 100%;
+}
+.leftPan .innerLeft {
+	width: 100%;
+}
+.leftPan .innerRight {
+	width: 100%;
+}
+.leftPan .innerRight ul li p {
+	width: 80%;
+}
+.demo {
+	width: 100%;
+}
+}
+@media all and (max-width:359px)
+{
+#top-wrap {
+	float: none;
+}
+#main-menu {
+	margin: 50px 5px 0px 0px;
+}
+#header {
+	height: 300px;
+}
+.leftContent {
+	width: 360px;
+}
+.leftContent p {
+	width: 330px;
+}
+.leftContent h2 {
+	width: 330px;
+}
+.rightPan {
+	display: none;
+}
+.leftPan {
+	width: 100%;
+}
+.leftPan .innerLeft {
+	width: 100%;
+}
+.leftPan .innerRight {
+	width: 100%;
+}
+.leftPan .innerRight ul li p {
+	width: 80%;
+}
+.demo {
+	width: 100%;
+}
+}
