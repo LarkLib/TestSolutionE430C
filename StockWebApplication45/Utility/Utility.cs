@@ -42,5 +42,31 @@ namespace StockWebApplication45.Utility
             }
             return list;
         }
+
+        internal IList<ReturnRateEntity> GetReturnRateList()
+        {
+            var list = new List<ReturnRateEntity>();
+
+
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var cmd = connection.CreateCommand();
+                //cmd.CommandText = $"select date, (select sum(ReturnRate) from StockDeploy where date<= sd.date and Category =sd.category ) ReturnRate, Category  from StockDeploy sd where date< (GETDATE() - 41 ) and ReturnRate is not null group by date,Category order by date";
+                cmd.CommandText = $"select date, (select sum(ReturnRate)/count(1) from StockDeploy where class=3 and  date<= sd.date and Category =sd.category ) ReturnRate, Category  from StockDeploy sd where class=3 and ReturnRate is not null group by date,Category order by date";
+                connection.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(new ReturnRateEntity()
+                    {
+                        Date = reader.GetDateTime(0),
+                        ReturnRate = reader.GetDecimal(1),
+                        Category = reader.GetInt32(2)
+                    });
+                }
+                connection.Close();
+            }
+            return list;
+        }
     }
 }

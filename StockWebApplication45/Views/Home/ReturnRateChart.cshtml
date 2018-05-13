@@ -1,0 +1,48 @@
+﻿@model IEnumerable<StockWebApplication45.Models.ReturnRateEntity>
+
+@{
+    var category = int.Parse(Request["cateogry"]);
+    var dataSource = Model.Where((item) => item.Category == category).ToList();
+    string customTheam = @"
+<Chart Palette=""SemiTransparent"" BorderColor=""#000"" BorderWidth=""2"" BorderlineDashStyle=""Solid"">
+    <ChartAreas>
+        <ChartArea 
+            _Template_=""All"" 
+            Name=""Default""
+            BackColor=""Transparent"" 
+            BackSecondaryColor=""White"" 
+            BorderColor=""64, 64, 64, 64"" 
+            BorderDashStyle=""Solid"" 
+            ShadowColor=""Transparent""> 
+                <AxisX>
+                    <MinorGrid Enabled=""False"" />
+                    <MajorGrid Enabled=""False"" />
+                </AxisX>
+                <AxisY>
+                    <MajorGrid Enabled=""False"" />
+                    <MinorGrid Enabled=""False"" />
+                </AxisY>
+        </ChartArea>
+    </ChartAreas>
+    <Series> 
+        <series _Template_=""All"" 
+                  BorderColor=""180, 26, 59, 105"" 
+                  CustomProperties=""LabelStyle=Bottom"" 
+                  IsValueShownAsLabel=""False""> 
+          </series> 
+    </Series> 
+</Chart>
+";
+    var returnRateChart = new Chart(width: 600, height: 300,theme: customTheam)
+    .AddTitle($"Policy {category} return rate")
+    .AddSeries(chartType: "line")
+    //.DataBindCrossTable(dataSource:dataSource,xField:"date",yFields:"returnrate",groupByField:"category")
+    .AddSeries(
+        name: $"Policy-{category}",
+        chartType: "line",
+        xValue: dataSource,
+        yValues: dataSource,
+        xField:"date",
+        yFields: "returnrate")
+    .Write();
+}

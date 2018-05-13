@@ -15,6 +15,12 @@ namespace StockWebApplication45.Controllers
             var stockEntities = utility.GetStockEntityList();
             return View(stockEntities);
         }
+        public ActionResult ReturnRateChart()
+        {
+            var utility = new Operation();
+            var returnRateEntities = utility.GetReturnRateList();
+            return View(returnRateEntities);
+        }
 
         public ActionResult About()
         {
