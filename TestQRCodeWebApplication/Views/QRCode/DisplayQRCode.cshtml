@@ -1,0 +1,18 @@
+﻿
+@{
+    ViewBag.Title = "DisplayQRCode";
+}
+
+<h2>DisplayQRCode</h2>
+
+<div id="qrcode"></div>
+<script src="/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="~/scripts/jquery.qrcode.min.js"></script>
+<script type="text/javascript" src="~/Scripts/qrcode.js"></script>
+<script>
+    $('#qrcode').qrcode("this plugin is great");
+</script>
+
+<img id="qrcode" src="@Url.Action("CreateQRCode")" />
+
+
