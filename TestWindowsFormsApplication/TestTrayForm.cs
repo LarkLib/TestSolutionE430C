@@ -146,6 +146,106 @@ namespace TestWindowsFormsApplication
             }
         }
 
+        //example code
+        private void TestWebBrowser_DocumentCompleted2(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            //byte[] postData = Encoding.UTF8.GetBytes("{\"bizAccountId\":\"NodeJs\",\"pmsPoListQueryParam\":{\"poNo\":\"\",\"status\":-1,\"poiId\":-1,\"preArrivalStartTime\":-1,\"preArrivalEndTime\":-1,\"paging\":{\"offset\":200,\"limit\":100}}}");
+            //var additionalHeaders = $@"
+            //    Content-Type: application/json
+            //    Accept: application/json
+            //    Accept-Language: en-US
+            //    Accept-Encoding: gzip, deflate
+            //    User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; Trident/7.0; rv:11.0) like Gecko
+            //    Host: vss.baobaoaichi.cn
+            //    Content-Length: {postData.Length}
+            //    Connection: Keep-Alive
+            //    Cache-Control: no-cache
+            //    Cookie: BSID={Bsid}; msid=shqnymy
+            //    ";
+            //TestWebBrowser.Navigate(SupplierPmsPoListUrl, null, postData, additionalHeaders);
+
+            //InfoTextBox.Text += e.Url + "\r\n";
+            if (e.Url == TestWebBrowser.Url)
+            {
+                if (TestWebBrowser.ReadyState == WebBrowserReadyState.Complete || TestWebBrowser.ReadyState == WebBrowserReadyState.Interactive)
+                {
+                    var htmlDocument = TestWebBrowser.Document;
+                    var outerHtml = TestWebBrowser.Document.Body.OuterHtml;
+                    var loginTextBox = htmlDocument.GetElementById("login");
+                    var passwordTextBox = htmlDocument.GetElementById("password");
+                    if (loginTextBox != null && passwordTextBox != null)
+                    {
+                        var js = @"
+function fireKeyEvent(el, evtType, keyCode) {
+	var evtObj;
+    if (document.createEventObject) { //IE 浏览器下模拟事件
+		evtObj = document.createEventObject();
+		evtObj.keyCode = keyCode
+			el.fireEvent('on' + evtType, evtObj);
+	}
+}
+function inputLogin(text) {
+    var login = document.getElementById('login');
+    login.focus()
+    login.value=text
+    //login.blur()
+}
+function inputPassword() {
+    var password = document.getElementById('password');
+    password.focus()
+    password.value='password'
+    //password.blur()
+
+    var button=document.getElementsByTagName('button')
+    //alert(button.length)
+}
+";
+                        ////htmlDocument.InvokeScript(js);
+                        ////找到head元素
+                        //HtmlElement head = htmlDocument.GetElementsByTagName("head")[0];
+                        ////创建script标签
+                        //HtmlElement scriptEl = htmlDocument.CreateElement("script");
+                        //IHTMLScriptElement element = (IHTMLScriptElement)scriptEl.DomElement;
+                        ////给script标签加js内容
+                        ////element.text = "function sayHello() { alert('hello') }";
+                        //element.text = js;
+                        ////将script标签添加到head标签中
+                        //head.AppendChild(scriptEl);
+                        ////执行js代码
+                        //htmlDocument.InvokeScript("inputLogin", new object[] { "login" });
+                        //htmlDocument.InvokeScript("inputPassword");
+
+                        //loginTextBox.InvokeMember("focus");
+                        //loginTextBox.SetAttribute("value","login");
+                        //passwordTextBox.InvokeMember("focus");
+                        //passwordTextBox.SetAttribute("value", "login");
+                        //passwordTextBox.InnerText = "password";
+                        //var elements = htmlDocument.GetElementsByTagName("button");
+                        //foreach (HtmlElement element in elements)
+                        //{
+                        //    if (element.InnerText.Equals("登录"))
+                        //    {
+                        //        //element.InvokeMember("click");
+                        //    }
+                        //}
+                        loginTextBox.InvokeMember("focus");
+                        SendKeys.SendWait("(login)");
+                        passwordTextBox.InvokeMember("focus");
+                        SendKeys.SendWait("(password)");
+                        var elements = htmlDocument.GetElementsByTagName("button");
+                        foreach (HtmlElement element in elements)
+                        {
+                            if (element.InnerText.Equals("登录"))
+                            {
+                                element.InvokeMember("click");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+
         private void Input_Click(object sender, HtmlElementEventArgs e)
         {
             //throw new NotImplementedException();

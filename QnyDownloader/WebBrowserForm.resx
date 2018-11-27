@@ -117,7 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AddressTextBox.Text" xml:space="preserve">
-    <value>https://epassport.meituan.com/account/unitivelogin?bg_source=14&amp;continue=https:%2F%2Fvss.baobaoaichi.cn%2Fauth%2Flogin%3Ftype%3DLOGIN&amp;leftBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Fsignup.html&amp;part_type=0&amp;rightBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Frecover.html&amp;service=com.sankuai.mall.fe.vss</value>
-  </data>
 </root>

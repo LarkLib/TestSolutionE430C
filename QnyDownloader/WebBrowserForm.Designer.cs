@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebBrowserForm));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.AddressTextBox = new System.Windows.Forms.TextBox();
             this.GoButton = new System.Windows.Forms.Button();
@@ -60,7 +59,6 @@
             this.AddressTextBox.Name = "AddressTextBox";
             this.AddressTextBox.Size = new System.Drawing.Size(913, 20);
             this.AddressTextBox.TabIndex = 1;
-            this.AddressTextBox.Text = resources.GetString("AddressTextBox.Text");
             this.AddressTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.AddressTextBox_KeyPress);
             // 
             // GoButton
