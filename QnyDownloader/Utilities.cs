@@ -1,4 +1,8 @@
-﻿using Microsoft.Win32;
+﻿using Aliyun.Acs.Core;
+using Aliyun.Acs.Core.Exceptions;
+using Aliyun.Acs.Core.Profile;
+using Aliyun.Acs.Dysmsapi.Model.V20170525;
+using Microsoft.Win32;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -16,6 +20,8 @@ namespace QnyDownloader
     class Utilities
     {
         private static string ConnectionString = ConfigurationManager.AppSettings["ConnectionString"];
+        private static string AccessKeyId = ConfigurationManager.AppSettings["AccessKeyId"];
+        private static string AccessKeySecret = ConfigurationManager.AppSettings["AccessKeySecret"];
         internal static void UpdateWebBrowserControlRegistryKey(string appName, uint version = 11001)
         {
             var subKey = @"SOFTWARE\Microsoft\Internet Explorer\Main\FeatureControl\FEATURE_BROWSER_EMULATION";
@@ -29,17 +35,39 @@ namespace QnyDownloader
 
         internal void GetSupplierPmsPoList(string bsid)
         {
-            var pmsPoSummary = GetSupplierPmsPoPage(bsid, 200, 100);
-            for (int i = 0; i < pmsPoSummary.total; i += 100)
+            var sentMsmPoiList = new List<int>();
+            var pmsPoSummary = GetSupplierPmsPoPage(bsid, 0, 20);
+            var total = pmsPoSummary.total;
+            var lastId = pmsPoSummary.pmsPoList[0].id;
+            var maxId = GetMaxPmsPoIdFromDb();
+            for (int i = 20; i < total && lastId > maxId; i += 20)
             {
                 var pageList = pmsPoSummary.pmsPoList;
                 foreach (var item in pageList)
                 {
+                    lastId = item.id;
+                    if (lastId <= maxId)
+                    {
+                        break;
+                    }
+                    var poiId = int.Parse(item.poiId);
+                    if (!sentMsmPoiList.Contains(poiId))
+                    {
+                        sentMsmPoiList.Add(poiId);
+                    }
                     SavePmsPoToDb(item);
                     var detail = GetSupplierPmsPoDetail(bsid, item.poNo);
                     SavePmsPoDetailToDb(detail);
-                    System.Threading.Thread.Sleep(5000);
                     SaveSkuToDb(detail.poNo, detail.skuList);
+                }
+                pmsPoSummary = GetSupplierPmsPoPage(bsid, i, 20);
+            }
+            foreach (var item in sentMsmPoiList)
+            {
+                var phoneNumber = PhoneConfig[item];
+                if (!string.IsNullOrWhiteSpace(phoneNumber))
+                {
+                    SendSms(phoneNumber);
                 }
             }
         }
@@ -205,5 +233,87 @@ IF NOT EXISTS(SELECT [poNo] FROM Sku WHERE [poNo]='{poNo}')
                 connection.Close();
             }
         }
+        private long GetMaxPmsPoIdFromDb()
+        {
+            var id = -1L;
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT COALESCE(MAX(ID),-1) FROM PMSPO";
+                connection.Open();
+                id = (long)cmd.ExecuteScalar();
+                connection.Close();
+            }
+            return id;
+        }
+        private static Dictionary<int, string> PhoneConfig { get; set; }
+
+        private void GetPhoneConfigFromDb()
+        {
+            if (PhoneConfig == null)
+            {
+                PhoneConfig = new Dictionary<int, string>();
+                using (var connection = new SqlConnection(ConnectionString))
+                {
+                    var cmd = connection.CreateCommand();
+                    cmd.CommandText = "SELECT poiid,phonenumber FROM PoiConfig";
+                    connection.Open();
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            var poiid = reader.GetInt32(0);
+                            var phoneNumber = reader.GetString(1);
+                            if (!PhoneConfig.ContainsKey(poiid))
+                                PhoneConfig.Add(poiid, phoneNumber);
+                        }
+                    }
+                    connection.Close();
+                }
+            }
+        }
+        internal void SendSms(string phoneNumber, string templateParam = "{\"name\":\"name\",\"remark\":\"remark\"}", string signName = "天风", string templateCode = "SMS_126865429")
+        {
+            String product = "Dysmsapi";//短信API产品名称
+            String domain = "dysmsapi.aliyuncs.com";//短信API产品域名
+            String accessKeyId = AccessKeyId;//你的accessKeyId
+            String accessKeySecret = AccessKeySecret;//你的accessKeySecret
+
+            IClientProfile profile = DefaultProfile.GetProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+            //IAcsClient client = new DefaultAcsClient(profile);
+            // SingleSendSmsRequest request = new SingleSendSmsRequest();
+
+            DefaultProfile.AddEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
+            IAcsClient acsClient = new DefaultAcsClient(profile);
+            SendSmsRequest request = new SendSmsRequest();
+            //try
+            //{
+            //必填:待发送手机号。支持以逗号分隔的形式进行批量调用，批量上限为20个手机号码,批量调用相对于单条调用及时性稍有延迟,验证码类型的短信推荐使用单条调用的方式
+            request.PhoneNumbers = phoneNumber;
+            //必填:短信签名-可在短信控制台中找到
+            request.SignName = signName;
+            //必填:短信模板-可在短信控制台中找到
+            request.TemplateCode = templateCode;
+            //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
+            request.TemplateParam = templateParam;
+            //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
+            request.OutId = "21212121211";
+            //请求失败这里会抛ClientException异常
+            SendSmsResponse sendSmsResponse = acsClient.GetAcsResponse(request);
+
+            //System.Console.WriteLine(sendSmsResponse.Message);
+
+
+            //}
+            //catch (ServerException e)
+            //{
+            //    System.Console.WriteLine("Hello World!");
+            //}
+            //catch (ClientException e)
+            //{
+            //    System.Console.WriteLine("Hello World!");
+            //}
+        }
+
     }
 }

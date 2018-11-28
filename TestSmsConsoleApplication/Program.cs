@@ -14,8 +14,8 @@ namespace TestSmsConsoleApplication
         {
             String product = "Dysmsapi";//短信API产品名称
             String domain = "dysmsapi.aliyuncs.com";//短信API产品域名
-            String accessKeyId = "LTAIJmz1pA63cwNR";//你的accessKeyId
-            String accessKeySecret = "jmCOHI1Klg7BiXr8MSwf0KdeZplXOm";//你的accessKeySecret
+            String accessKeyId = "";//你的accessKeyId
+            String accessKeySecret = "";//你的accessKeySecret
 
             IClientProfile profile = DefaultProfile.GetProfile("cn-hangzhou", accessKeyId, accessKeySecret);
             //IAcsClient client = new DefaultAcsClient(profile);

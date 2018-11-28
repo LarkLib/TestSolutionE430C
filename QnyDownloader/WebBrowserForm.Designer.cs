@@ -28,14 +28,17 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.TopPanel = new System.Windows.Forms.Panel();
             this.AddressTextBox = new System.Windows.Forms.TextBox();
             this.GoButton = new System.Windows.Forms.Button();
             this.WebViewPanel = new System.Windows.Forms.Panel();
             this.TestWebBrowser = new System.Windows.Forms.WebBrowser();
             this.ControlPanel = new System.Windows.Forms.Panel();
-            this.InfoPanel = new System.Windows.Forms.Panel();
             this.InfoTextBox = new System.Windows.Forms.TextBox();
+            this.InfoPanel = new System.Windows.Forms.Panel();
+            this.SyncTimer = new System.Windows.Forms.Timer(this.components);
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.TopPanel.SuspendLayout();
             this.WebViewPanel.SuspendLayout();
             this.ControlPanel.SuspendLayout();
@@ -100,14 +103,6 @@
             this.ControlPanel.Size = new System.Drawing.Size(200, 439);
             this.ControlPanel.TabIndex = 2;
             // 
-            // InfoPanel
-            // 
-            this.InfoPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.InfoPanel.Location = new System.Drawing.Point(0, 467);
-            this.InfoPanel.Name = "InfoPanel";
-            this.InfoPanel.Size = new System.Drawing.Size(972, 42);
-            this.InfoPanel.TabIndex = 3;
-            // 
             // InfoTextBox
             // 
             this.InfoTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -116,6 +111,18 @@
             this.InfoTextBox.Name = "InfoTextBox";
             this.InfoTextBox.Size = new System.Drawing.Size(200, 439);
             this.InfoTextBox.TabIndex = 0;
+            // 
+            // InfoPanel
+            // 
+            this.InfoPanel.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.InfoPanel.Location = new System.Drawing.Point(0, 467);
+            this.InfoPanel.Name = "InfoPanel";
+            this.InfoPanel.Size = new System.Drawing.Size(972, 42);
+            this.InfoPanel.TabIndex = 3;
+            // 
+            // SyncTimer
+            // 
+            this.SyncTimer.Tick += new System.EventHandler(this.SyncTimer_Tick);
             // 
             // WebBrowserForm
             // 
@@ -148,5 +155,7 @@
         private System.Windows.Forms.Panel ControlPanel;
         private System.Windows.Forms.Panel InfoPanel;
         private System.Windows.Forms.TextBox InfoTextBox;
+        private System.Windows.Forms.Timer SyncTimer;
+        private System.Windows.Forms.Timer timer1;
     }
 }

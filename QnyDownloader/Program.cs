@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -20,7 +21,7 @@ namespace QnyDownloader
 
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            
+
             // Tell the WidowsInterop to Hook messages
             WindowsInterop.Hook();
             Application.Run(new WebBrowserForm());

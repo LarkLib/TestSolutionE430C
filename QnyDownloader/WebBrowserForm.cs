@@ -4,6 +4,7 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -22,7 +23,12 @@ namespace QnyDownloader
 {
     public partial class WebBrowserForm : Form
     {
-        private Utilities utilities = new Utilities();
+        private static Utilities utilities = new Utilities();
+        private static string Login = ConfigurationManager.AppSettings["Login"];
+        private static string Password = ConfigurationManager.AppSettings["Password"];
+        private static string AdminPhone = ConfigurationManager.AppSettings["AdminPhone"];
+        private static int Interval = int.Parse(ConfigurationManager.AppSettings["Interval"] ?? "180") * 1000;
+        private static bool IsLogin = false;
         private string LoginUrlHeader = "https://epassport.meituan.com/account/unitivelogin";
         private string LoginUrl = "https://epassport.meituan.com/account/unitivelogin?bg_source=14&continue=https:%2F%2Fvss.baobaoaichi.cn%2Fauth%2Flogin%3Ftype%3DLOGIN&leftBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Fsignup.html&part_type=0&rightBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Frecover.html&service=com.sankuai.mall.fe.vss";
         private string AutoLoginUrlHeader = "https://vss.baobaoaichi.cn/auth/login";
@@ -41,6 +47,7 @@ namespace QnyDownloader
             AddressTextBox.Focus();
             AddressTextBox.Text = LoginUrl;
             TestWebBrowser.Navigate(LoginUrl);
+            Task.Run(() => CheckLogin());
         }
 
         private void GoButton_Click(object sender, EventArgs e)
@@ -72,9 +79,9 @@ namespace QnyDownloader
                     if (loginTextBox != null && passwordTextBox != null)
                     {
                         loginTextBox.InvokeMember("focus");
-                        SendKeys.SendWait("(shqnymy)");
+                        SendKeys.SendWait($"({Login})");
                         passwordTextBox.InvokeMember("focus");
-                        SendKeys.SendWait("(xx6601)");
+                        SendKeys.SendWait($"({Password})");
                         var elements = htmlDocument.GetElementsByTagName("button");
                         foreach (HtmlElement element in elements)
                         {
@@ -89,6 +96,8 @@ namespace QnyDownloader
             }
             else if (currentUrl.Contains(AutoLoginUrlHeader))
             {
+                #region AutoLogin
+                IsLogin = true;
                 var parameters = currentUrl.Split(new[] { '?', '&' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var item in parameters)
                 {
@@ -97,19 +106,25 @@ namespace QnyDownloader
                         Bsid = item.Split(new[] { '=' }, StringSplitOptions.RemoveEmptyEntries)[1];
                     }
                 }
+                #endregion
             }
             else if (currentUrl.Contains(PurchaseListUrl))
             {
+                #region PurchaseListUrl
                 if (TestWebBrowser.ReadyState == WebBrowserReadyState.Complete || TestWebBrowser.ReadyState == WebBrowserReadyState.Interactive)
                 {
-                    Task.Run(() => GetSupplierPmsPoList(Bsid));
+                    //Task.Run(() => GetSupplierPmsPoList());
+                    GetSupplierPmsPoList();
                 }
+                #endregion
             }
         }
 
-        private void GetSupplierPmsPoList(string bsid)
+        private void GetSupplierPmsPoList()
         {
-            utilities.GetSupplierPmsPoList(bsid);
+            SyncTimer.Interval = Interval;
+            SyncTimer.Enabled = true;
+            SyncTimer.Start();
         }
         private Boolean WindowsInterop_SecurityAlertDialogWillBeShown(Boolean blnIsSSLDialog)
         {
@@ -118,5 +133,20 @@ namespace QnyDownloader
             return true;
         }
 
+        private void SyncTimer_Tick(object sender, EventArgs e)
+        {
+            SyncTimer.Enabled = false;
+            utilities.GetSupplierPmsPoList(Bsid);
+            SyncTimer.Enabled = true;
+        }
+        private void CheckLogin()
+        {
+            Thread.Sleep(3 * 60 * 1000);
+            if (!IsLogin)
+            {
+                utilities.SendSms(AdminPhone);
+                IsLogin = true;
+            }
+        }
     }
 }
