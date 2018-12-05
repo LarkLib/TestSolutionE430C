@@ -99,4 +99,14 @@ namespace QnyDownloader
         public string msg { get; set; }
         public PmsPoSummary data { get; set; }
     }
+
+    public class SmsTemplateParam
+    {
+        //您有新采购单(${poNo})，下单人mis账号(${creator})，收货方(${poiName})，约定到货(${preArrivalTime})，请于小象系统中确认。
+        //创建人:${creator},类别:${categoryName},订单号:${poNo},收货:${poiName}
+        public string poNo { get; set; }
+        //public string preArrivalTime { get; set; }
+        public string creator { get; set; }
+        public string poiName { get; set; }
+    }
 }

@@ -34,14 +34,10 @@
             this.GoButton = new System.Windows.Forms.Button();
             this.WebViewPanel = new System.Windows.Forms.Panel();
             this.TestWebBrowser = new System.Windows.Forms.WebBrowser();
-            this.ControlPanel = new System.Windows.Forms.Panel();
-            this.InfoTextBox = new System.Windows.Forms.TextBox();
             this.InfoPanel = new System.Windows.Forms.Panel();
             this.SyncTimer = new System.Windows.Forms.Timer(this.components);
-            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.TopPanel.SuspendLayout();
             this.WebViewPanel.SuspendLayout();
-            this.ControlPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // TopPanel
@@ -81,7 +77,7 @@
             this.WebViewPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.WebViewPanel.Location = new System.Drawing.Point(0, 28);
             this.WebViewPanel.Name = "WebViewPanel";
-            this.WebViewPanel.Size = new System.Drawing.Size(772, 439);
+            this.WebViewPanel.Size = new System.Drawing.Size(972, 439);
             this.WebViewPanel.TabIndex = 1;
             // 
             // TestWebBrowser
@@ -90,27 +86,9 @@
             this.TestWebBrowser.Location = new System.Drawing.Point(0, 0);
             this.TestWebBrowser.MinimumSize = new System.Drawing.Size(20, 20);
             this.TestWebBrowser.Name = "TestWebBrowser";
-            this.TestWebBrowser.Size = new System.Drawing.Size(772, 439);
+            this.TestWebBrowser.Size = new System.Drawing.Size(972, 439);
             this.TestWebBrowser.TabIndex = 0;
             this.TestWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.TestWebBrowser_DocumentCompleted);
-            // 
-            // ControlPanel
-            // 
-            this.ControlPanel.Controls.Add(this.InfoTextBox);
-            this.ControlPanel.Dock = System.Windows.Forms.DockStyle.Right;
-            this.ControlPanel.Location = new System.Drawing.Point(772, 28);
-            this.ControlPanel.Name = "ControlPanel";
-            this.ControlPanel.Size = new System.Drawing.Size(200, 439);
-            this.ControlPanel.TabIndex = 2;
-            // 
-            // InfoTextBox
-            // 
-            this.InfoTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.InfoTextBox.Location = new System.Drawing.Point(0, 0);
-            this.InfoTextBox.Multiline = true;
-            this.InfoTextBox.Name = "InfoTextBox";
-            this.InfoTextBox.Size = new System.Drawing.Size(200, 439);
-            this.InfoTextBox.TabIndex = 0;
             // 
             // InfoPanel
             // 
@@ -130,7 +108,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(972, 509);
             this.Controls.Add(this.WebViewPanel);
-            this.Controls.Add(this.ControlPanel);
             this.Controls.Add(this.InfoPanel);
             this.Controls.Add(this.TopPanel);
             this.Name = "WebBrowserForm";
@@ -139,8 +116,6 @@
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
             this.WebViewPanel.ResumeLayout(false);
-            this.ControlPanel.ResumeLayout(false);
-            this.ControlPanel.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -152,10 +127,7 @@
         private System.Windows.Forms.Button GoButton;
         private System.Windows.Forms.Panel WebViewPanel;
         private System.Windows.Forms.WebBrowser TestWebBrowser;
-        private System.Windows.Forms.Panel ControlPanel;
         private System.Windows.Forms.Panel InfoPanel;
-        private System.Windows.Forms.TextBox InfoTextBox;
         private System.Windows.Forms.Timer SyncTimer;
-        private System.Windows.Forms.Timer timer1;
     }
 }

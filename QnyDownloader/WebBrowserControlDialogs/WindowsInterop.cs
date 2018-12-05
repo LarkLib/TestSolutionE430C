@@ -54,6 +54,9 @@ namespace WebBrowserControlDialogs
         [DllImport("user32.dll")]
         private static extern int GetDlgCtrlID(IntPtr hwndCtl);
 
+        [DllImport("Kernel32", EntryPoint = "GetCurrentThreadId", ExactSpelling = true)]
+        public static extern Int32 GetCurrentThreadId();
+
         #endregion
 
         #region << Managed Structures/Enums >>
@@ -117,6 +120,8 @@ namespace WebBrowserControlDialogs
                 // the use of the Obsolete 'GetCurrentThreadId()' function
                 // however, unless the app is running on fibres 
                 // it seems to do the job quite nicely.
+                // Import winapi function GetCurrentThreadId to this file
+                // Replace it with GetCurrentThreadId if you want
             }
         }
 

@@ -26,7 +26,6 @@ namespace QnyDownloader
         private static Utilities utilities = new Utilities();
         private static string Login = ConfigurationManager.AppSettings["Login"];
         private static string Password = ConfigurationManager.AppSettings["Password"];
-        private static string AdminPhone = ConfigurationManager.AppSettings["AdminPhone"];
         private static int Interval = int.Parse(ConfigurationManager.AppSettings["Interval"] ?? "180") * 1000;
         private static bool IsLogin = false;
         private string LoginUrlHeader = "https://epassport.meituan.com/account/unitivelogin";
@@ -52,7 +51,10 @@ namespace QnyDownloader
 
         private void GoButton_Click(object sender, EventArgs e)
         {
+            GoButton.Enabled = false;
+            TestWebBrowser.Visible = true;
             TestWebBrowser.Navigate(AddressTextBox.Text);
+            GoButton.Enabled = true;
         }
         private void AddressTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -66,10 +68,10 @@ namespace QnyDownloader
         private void TestWebBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             var currentUrl = e.Url.AbsoluteUri;
-            InfoTextBox.Text += currentUrl + "\r\n";
             if (currentUrl.Contains(LoginUrlHeader))
             {
                 #region Login
+                Utilities.LogInfo("Running auto login");
                 if (TestWebBrowser.ReadyState == WebBrowserReadyState.Complete || TestWebBrowser.ReadyState == WebBrowserReadyState.Interactive)
                 {
                     var htmlDocument = TestWebBrowser.Document;
@@ -97,6 +99,7 @@ namespace QnyDownloader
             else if (currentUrl.Contains(AutoLoginUrlHeader))
             {
                 #region AutoLogin
+                Utilities.LogInfo("Auto login done");
                 IsLogin = true;
                 var parameters = currentUrl.Split(new[] { '?', '&' }, StringSplitOptions.RemoveEmptyEntries);
                 foreach (var item in parameters)
@@ -113,8 +116,10 @@ namespace QnyDownloader
                 #region PurchaseListUrl
                 if (TestWebBrowser.ReadyState == WebBrowserReadyState.Complete || TestWebBrowser.ReadyState == WebBrowserReadyState.Interactive)
                 {
+                    Utilities.LogInfo("redirct to list page");
                     //Task.Run(() => GetSupplierPmsPoList());
                     GetSupplierPmsPoList();
+                    TestWebBrowser.Visible = false;
                 }
                 #endregion
             }
@@ -132,20 +137,22 @@ namespace QnyDownloader
             // "Security Alert" dialog to the user
             return true;
         }
-
         private void SyncTimer_Tick(object sender, EventArgs e)
         {
             SyncTimer.Enabled = false;
+            Utilities.CheckTimeWithExit();
             utilities.GetSupplierPmsPoList(Bsid);
             SyncTimer.Enabled = true;
         }
         private void CheckLogin()
         {
+            Utilities.LogInfo("CheckLogin");
             Thread.Sleep(3 * 60 * 1000);
             if (!IsLogin)
             {
-                utilities.SendSms(AdminPhone);
+                utilities.AdminSendSms();
                 IsLogin = true;
+                Utilities.LogInfo("CheckLogin:Auto Login Error.");
             }
         }
     }

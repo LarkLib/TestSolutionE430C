@@ -97,6 +97,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebApplication2", "Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWebBrowserWindowsFormsApplication", "TestWebBrowserWindowsFormsApplication\TestWebBrowserWindowsFormsApplication.csproj", "{7ED9DB56-64CE-4E65-8331-A4FF05053FCC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPdfConsoleApplication", "TestPdfConsoleApplication\TestPdfConsoleApplication.csproj", "{95E00F56-5FBB-45CE-950C-9383A6B169E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -647,6 +649,18 @@ Global
 		{7ED9DB56-64CE-4E65-8331-A4FF05053FCC}.Release|x64.Build.0 = Release|x64
 		{7ED9DB56-64CE-4E65-8331-A4FF05053FCC}.Release|x86.ActiveCfg = Release|Any CPU
 		{7ED9DB56-64CE-4E65-8331-A4FF05053FCC}.Release|x86.Build.0 = Release|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Debug|x64.Build.0 = Debug|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Debug|x86.Build.0 = Debug|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Release|x64.ActiveCfg = Release|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Release|x64.Build.0 = Release|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Release|x86.ActiveCfg = Release|Any CPU
+		{95E00F56-5FBB-45CE-950C-9383A6B169E5}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

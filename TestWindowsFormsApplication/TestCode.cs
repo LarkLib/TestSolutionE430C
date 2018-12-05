@@ -1,5 +1,5 @@
-﻿using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿//using Newtonsoft.Json;
+//using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -79,7 +79,7 @@ namespace QnyDownloader
             writer.Write(payload, 0, payload.Length);
             writer.Close();//关闭请求流
 
-            String strValue = "";//strValue为http响应所返回的字符流
+            //String strValue = "";//strValue为http响应所返回的字符流
             HttpWebResponse response;
             try
             {
@@ -139,19 +139,20 @@ namespace QnyDownloader
             {
                 strValue += StrDate + "\r\n";
             }
-            dynamic loginReturn = (JObject)JsonConvert.DeserializeObject(strValue);
-            JObject loginReturn2 = JObject.Parse(strValue);
-            var bsid = loginReturn.bsid;
+            //dynamic loginReturn = (JObject)JsonConvert.DeserializeObject(strValue);
+            //JObject loginReturn2 = JObject.Parse(strValue);
+            //var bsid = loginReturn.bsid;
             cookies = request.CookieContainer;
 
-            return bsid;
+            //return bsid;
+            return null;
         }
         private static void PostMoths2(string bsid)
         {
             string strURL = "https://vss.baobaoaichi.cn/thrift/vss/SupplierPMSTService/querySupplierPmsPoList";
             string paraUrlCoded = "{\"bizAccountId\":\"NodeJs\",\"pmsPoListQueryParam\":{\"poNo\":\"\",\"status\":-1,\"poiId\":-1,\"preArrivalStartTime\":-1,\"preArrivalEndTime\":-1,\"paging\":{\"offset\":60,\"limit\":20}}}";
             //string cookiestr = $"BSID={bsid}; msid=shqnymy";
-            string cookiestr = "BSID=hNOseozkOrkrysHe4LTuCd5YPaZZplHj7vb1f2F80ghY36rwBPu9nV6BIJZ8kjwqM0pHo8PLgvSbVHHYjGHP_g; msid=shqnymy";
+            //string cookiestr = "BSID=hNOseozkOrkrysHe4LTuCd5YPaZZplHj7vb1f2F80ghY36rwBPu9nV6BIJZ8kjwqM0pHo8PLgvSbVHHYjGHP_g; msid=shqnymy";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(strURL);
             request.Method = "POST";
