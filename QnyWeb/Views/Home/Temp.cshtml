@@ -1,0 +1,79 @@
+﻿
+@{
+    Layout = null;
+}
+<p></p>
+<p></p>
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common-material.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.min.css" />
+<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.mobile.min.css" />
+
+<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
+
+<div id="example">
+    <div class="demo-section k-content">
+        <h4>Remind me on</h4>
+        <input id="datetimepicker" title="datetimepicker" style="width: 100%;" />
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // create DateTimePicker from input HTML element
+            $("#datetimepicker").kendoDateTimePicker({
+                value: new Date(),
+                dateInput: true
+            });
+        });
+    </script>
+
+</div>
+
+@*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">*@
+@*<link rel="stylesheet" href="/resources/demos/style.css">*@
+
+@*<script src="~/Scripts/jquery-3.3.1.js">*@
+@*</script><script src="https://code.jquery.com/jquery-1.12.4.js"></script>*@
+@*<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>*@
+@*<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>*@
+@*<script>
+        $(function () {
+            $("#datepicker").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>*@
+
+<p></p>
+<p></p>
+<p></p>
+@*<script src="~/Scripts/jquery-3.3.1.js"></script>*@
+@*<script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+    <input id="datepicker" width="270" />
+    <script>
+        $('#datepicker').datepicker({
+            uiLibrary: 'bootstrap'
+        });
+    </script>*@
+@*<p>Date: <input type="text" id="datepicker"></p>*@
+<p></p>
+<p></p>
+<p></p>
+<p></p>
+@*<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <input type="text" class="datepicker" placeholder="请选择日期" />
+    <script type="text/javascript">
+        $(function () {
+            $(".datepicker").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: true,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+        });
+    </script>*@

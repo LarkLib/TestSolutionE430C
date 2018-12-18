@@ -127,6 +127,7 @@ namespace QnyDownloader
 
         private void GetSupplierPmsPoList()
         {
+            utilities.UpdateSupplierPmsPoList(Bsid);
             SyncTimer.Interval = Interval;
             SyncTimer.Enabled = true;
             SyncTimer.Start();

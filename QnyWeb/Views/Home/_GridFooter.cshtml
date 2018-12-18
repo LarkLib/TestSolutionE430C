@@ -1,0 +1,12 @@
+﻿@model IGrid<QnyWeb.Models.Sku>
+<tr>
+    <td colspan="9"><b>合计</b></td>
+    <td><b>@(Model.Rows.Sum(row => (int)(row.Model.prePoAmount / row.Model.skuBoxQuantity)))<b></td>
+    <td><b>@(Model.Rows.Sum(row => row.Model.prePoAmount))</b></td>
+    <td><b>@(Model.Rows.Sum(row => row.Model.sumPrePoPrice / 100m))</b></td>
+    <td><b>@(Model.Rows.Sum(row => row.Model.availableQuantity))</b></td>
+    <td><b>@(Model.Rows.Sum(row => row.Model.availablePoPrice))</b></td>
+    <td><b>@(Model.Rows.Sum(row => row.Model.poAmount.HasValue && row.Model.poAmount.Value > 0 ? row.Model.poAmount.Value : 0))</b></td>
+    <td><b>@(Model.Rows.Sum(row => row.Model.sumPoPrice.HasValue && row.Model.sumPoPrice.Value > 0 ? row.Model.sumPoPrice.Value : 0))</b></td>
+    <td></td>
+</tr>

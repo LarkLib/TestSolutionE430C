@@ -1,0 +1,72 @@
+﻿@model IEnumerable<QnyWeb.Models.PoiConfig>
+
+@{
+    ViewBag.Title = "SmsPhoneNumber";
+    Layout = "~/Views/Home/_AccountManager.cshtml";
+    IDictionary<int, string> Pois = ViewBag.Pois;
+}
+
+<h2>SmsPhoneNumber</h2>
+
+<p>
+    <b>Please use "," to separate multiple phone number, example "13666666666,13999999999,13888888888" </b>
+</p>
+@using (Html.BeginForm("SmsPhoneNumber", "Home", FormMethod.Post))
+{
+    <table class="table">
+        <tr>
+            <th>
+                @Html.Label("Name")
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phonenumber)
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!Pois.Keys.Contains(item.poiid))
+                    {
+                        @Html.Label("Default")
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => Pois[item.poiid])
+                    }
+                </td>
+                <td>
+                    <input class="text-box single-line" id="item_phonenumber" name="item.phonenumber.@item.poiid" type="text" value="@item.phonenumber" />
+                </td>
+            </tr>
+        }
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" id="SaveButton" class="btn btn-default" value="Save" />
+        </div>
+    </div>
+}
+@section scripts {
+    <script>
+        document.getElementById("SaveButton").onclick = function () {
+            var breakEach = false;
+            $("input[type = text]").each(
+                function (i, e) {
+                    if (e.value != null && e.value != '') {
+                        if (!$.isNumeric(e.value.replace(/,/g, '').replace(/ /g, ''))) {
+                            if (breakEach) return false;
+                            e.focus();
+                            e.select();
+                            alert('wrong phone number')
+                            breakEach = true;
+                            return false;
+                        }
+                        e.value = e.value.replace(/ /g, '')
+                    }
+                });
+            return !breakEach;
+        };
+    </script>
+}

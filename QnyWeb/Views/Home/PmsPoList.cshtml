@@ -1,0 +1,49 @@
+﻿@using NonFactors.Mvc.Grid;
+@model IEnumerable<QnyWeb.Models.PmsPoView>
+@Styles.Render("~/Content/MvcGrid");
+@{
+    ViewBag.Title = "ShQny-PmsPoList";
+}
+<div class="widget example">
+    <div class="widget-header">
+        <div class="fa fa-bars"></div>
+        <span>采购单列表</span>
+        <div class="widget-buttons">
+            <span class="fa fa-minus content-toggle"></span>
+        </div>
+    </div>
+    <div class="widget-content">
+        @(Html
+            .Grid(Model)
+            .Build(columns =>
+            {
+                columns.Add((model) => model.poNo).Titled("采购单号");
+                columns.Add(model => model.poiname).Titled("收货方");
+                columns.Add(model => model.categoryName).Titled("品类");
+                columns.Add(model => model.totalSku).Titled("品项数");
+                columns.Add(model => (model.totalPrepoAmount.Value / 100m).ToString("#.00")).Titled("采购金额");
+                columns.Add(model => model.ctime2.Value.ToString("yyyy-MM-dd HH:mm")).Titled("创建时间");
+                columns.Add(model => model.@operator).Titled("采购员");
+                columns.Add(model => model.preArrivalTime2.Value.ToString("yyyy-MM-dd")).Titled("预计到货日期");
+                columns.Add(model => model.expairTime2.Value.ToString("yyyy-MM-dd")).Titled("失效日期");
+                columns.Add(model => model.StatusName).Titled("状态");
+                columns.Add(model => Html.ActionLink("详情", "PmsPoDetail", new { poNo = model.poNo }, new { target = "_blank" })).Titled("");
+            })
+            .Pageable(pager =>
+            {
+                pager.PageSizes = new Dictionary<Int32, String> { { 0, "All" }, { 10, "10" }, { 20, "20" }, { 50, "50" }, { 100, "100" } };
+                pager.ShowPageSizes = true;
+                pager.PagesToDisplay = 10;
+                pager.CurrentPage = 1;
+                pager.RowsPerPage = 20;
+            })
+            .Filterable()
+        )
+    </div>
+</div>
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>

@@ -1,0 +1,157 @@
+﻿@model QnyWeb.Models.PmsPoDetail
+@Styles.Render("~/Content/MvcGrid")
+@{
+    ViewBag.Title = "PmsPoDetail";
+}
+<div class="widget example">
+    <div class="widget-header">
+        <div class="fa fa-bars"></div>
+        <span>采购单-@Html.DisplayFor(model => model.poNo) (<b>@Html.DisplayFor(model => model.StatusItem.Name)</b>)</span>
+        <div class="widget-buttons">
+            <span class="fa fa-minus content-toggle"></span>
+        </div>
+    </div>
+</div>
+<h2></h2>
+<h2></h2>
+<span><b>基本信息</b></span>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <div>
+            <div>采购单号：</div>
+            <div>@Html.DisplayFor(model => model.poNo)</div>
+        </div>
+        <div>
+            <div>供应商编号：</div>
+            <div>@Html.DisplayFor(model => model.supplierCode)</div>
+        </div>
+        <div>
+            <div>供应商名称：</div>
+            <div>@Html.DisplayFor(model => model.supplierName)</div>
+        </div>
+        <div>
+            <div>采购单时间：</div>
+            <div>
+                @if (Model.cTime2.HasValue)
+                {@Model.cTime2.Value.ToString("yyyy-MM-dd HH:mm")}
+            </div>
+        </div>
+        <div>
+            <div>采购单类型：</div>
+            <div>常规</div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <div>供应商联系人：</div>
+            <div>@Html.DisplayFor(model => model.supplierPrimaryContactName)</div>
+        </div>
+        <div>
+            <div>供应商联系电话：</div>
+            <div>@Html.DisplayFor(model => model.supplierPrimaryContactPhone)</div>
+        </div>
+        <div>
+            <div>约定到货日期：</div>
+            <div>
+                @if (Model.preArrivalTime2.HasValue)
+                {@Model.preArrivalTime2.Value.ToString("yyyy-MM-dd")})
+            </div>
+        </div>
+        <div>
+            <div>实际到货时间：</div>
+            <div>
+                @if (Model.arrivalTime2.HasValue)
+                {@Model.arrivalTime2.Value.ToString("yyyy-MM-dd HH:mm")}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div>
+            <div>门店编号：</div>
+            <div>@Html.DisplayFor(model => model.poiId)</div>
+        </div>
+        <div>
+            <div>门店名称：</div>
+            <div>@Html.DisplayFor(model => model.poiName)</div>
+        </div>
+        <div>
+            <div>门店地址：</div>
+            <div>@Html.DisplayFor(model => model.poiAddress)</div>
+        </div>
+        <div>
+            <div>门店联系人：</div>
+            <div>@Html.DisplayFor(model => model.poiContactName)</div>
+        </div>
+        <div>
+            <div>门店联系电话：</div>
+            <div>@Html.DisplayFor(model => model.poiServicePhone)</div>
+        </div>
+    </div>
+</div>
+<p></p>
+<span><b>采购详情</b></span>
+<div class="content">
+    @functions{
+        public string GetStorageTemperatureLevel(int? type)
+        {
+            var result = string.Empty;
+            if (type.HasValue)
+            {
+                switch (type.Value)
+                {
+                    case 1:
+                        result = "冷冻";
+                        break;
+                    case 2:
+                        result = "冷藏";
+                        break;
+                    case 5:
+                        result = "常温";
+                        break;
+                    default:
+                        break;
+                }
+
+            }
+            return result;
+        }
+        public string GetPrice(int? price)
+        {
+            return price.HasValue ? (price.Value / 100m).ToString("#.00") : string.Empty;
+        }
+    }
+
+
+    @(Html
+        .Grid(Model.SkuList)
+        .Build(columns =>
+        {
+            columns.Add(model => model.categoryName).Titled("品类");
+            columns.Add(c => c.skuId).Titled("SkuId");
+            columns.Add(c => c.spuName).Titled("商品名称");
+            columns.Add(c => GetStorageTemperatureLevel(c.storageTemperatureLevel)).Titled("存储条件");
+            columns.Add(c => $"{c.guaranteePeriod}个月").Titled("保质期");
+            columns.Add(c => c.skuBoxQuantity).Titled("箱规");
+            columns.Add(c => c.skuSpec).Titled("规格)");
+            columns.Add(c => GetPrice(c.skuCostPrice)).Titled("采购价(含税)");
+            columns.Add(c => c.skuDictUnitName).Titled("单位");
+            columns.Add(c => (int)(c.prePoAmount / c.skuBoxQuantity)).Titled("箱数");
+            columns.Add(c => c.prePoAmount).Titled("采购数量");
+            columns.Add(c => GetPrice((int)c.sumPrePoPrice)).Titled("采金额购");
+            columns.Add(c => c.availableQuantity).Titled("可供数量");
+            columns.Add(c => c.availablePoPrice.HasValue ? c.availablePoPrice.Value.ToString(".00") : string.Empty).Titled("可供金额");
+            columns.Add(c => c.poAmount > 0 ? c.poAmount.ToString() : string.Empty).Titled("实收数量");
+            columns.Add(c => c.sumPoPrice > 0 ? c.sumPoPrice.ToString() : string.Empty).Titled("实收金额");
+            columns.Add(c => c.productionDate2.HasValue ? c.productionDate2.Value.ToString("yyyy-MM-dd") : string.Empty).Titled("生产日期");
+        })
+        .WithFooter("_GridFooter")
+    )
+</div>
+
+<script src="~/Scripts/MvcGrid/mvc-grid.js"></script>
+<script>
+    [].forEach.call(document.getElementsByClassName('mvc-grid'), function (element) {
+        new MvcGrid(element);
+    });
+</script>

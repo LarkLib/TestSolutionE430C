@@ -21,7 +21,7 @@ namespace QnyDownloader
         public string skuBoxQuantity { get; set; }
         public string prePoAmount { get; set; }
         public string poAmount { get; set; }
-        public string productionDate { get; set; }
+        public long productionDate { get; set; }
         public string sumPrePoPrice { get; set; }
         public string sumPoPrice { get; set; }
         public string unitId { get; set; }
@@ -108,5 +108,6 @@ namespace QnyDownloader
         //public string preArrivalTime { get; set; }
         public string creator { get; set; }
         public string poiName { get; set; }
+        public string categoryName { get; set; }
     }
 }

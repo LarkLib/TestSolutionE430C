@@ -1,0 +1,97 @@
+﻿
+@{
+    ViewBag.Title = "IndexView";
+}
+@*<script src="https://unpkg.com/axios/dist/axios.min.js"></script>*@
+<script src="~/Scripts/axios.min.js"></script>
+
+<style>
+    .Task {
+        text-decoration: line-through;
+    }
+</style>
+<nav class="navbar"></nav>
+<div class="container" id="app">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="panel panel-default">
+                <div class="panel-heading">My Tasks</div>
+                <div class="panel-body">
+                    <h1>My Todos({{ remaining }})</h1>
+                    <ul class="list-group">
+                        <li class="list-group-item" :class="{'Task':todo.Task}" v-for="(todo,index) in todos">
+                            {{todo.Name}}
+                            <button class="btn btn-success btn-xs pull-right" v-on:click="toggleTodo(index)" v-if="todo.Task">撤销</button>
+                            <button class="btn btn-primary btn-xs pull-right" v-on:click="toggleTodo(index)" v-else>完成</button>
+                            <span class="pull-right">&nbsp;</span>
+                            <button class="btn btn-warning btn-xs pull-right" v-on:click="deleteTodo(index)">删除</button>
+                        </li>
+                    </ul>
+                    <form v-on:submit.prevent="addTodo(newTodo)">
+                        <div class="form-group">
+                            <input type="text" v-model="newTodo.Name" class="form-control" placeholder="输入新事件" />
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success" type="submit">Add Todo</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    Vue.prototype.$http = axios;
+    new Vue({
+        el: "#app",
+        data: {
+            num:0,//计算未完成总数
+            todos: '',//空的数据
+            newTodo: { id: null, Name: '', Task: false }//新建默认数据
+        },
+        mounted() {
+            this.getData('/api/todo/GetAllTodo');//通过this.getData的URL取得API数据
+
+        },
+        computed: {
+            remaining: function () {
+                return this.num;
+             }
+        },//这里我们声明了一个计算属性 remaining,通过返回this.num的值做为未完成总数
+        methods: {//VUE事件处理器
+             getData(url){
+                this.$http.get(url).then((response) => {
+                    this.todos = response.data;
+                    this.num = this.todos.filter(function (todo) {
+                        return todo.Task == false;
+                    }).length;
+                });
+             },//this.getData取得数据库数据，并取得未完成事件总数
+            addTodo(newTodo) {
+                this.todos.push(newTodo);
+                this.num++;
+                this.$http.post('/api/todo/PostTodo', newTodo).then(response=>console.log(response));
+                this.newTodo = { id: null, Name: '', Task: false }
+            },//添加任务，并且将数据post到URL
+            deleteTodo(index,id) {
+                if (!this.todos[index].Task) {
+                    this.num--;
+                }
+                this.$http.delete('/api/todo/DeleteTodo/' +id).then(response=>console.log(response));
+                this.todos.splice(index, 1);
+            },//删除任务，如果删除的任务是未完成的，那么将对未完成总数-1
+            toggleTodo(index,id) {
+                var thistodo = !this.todos[index].Task;
+                var thisdata={
+                    Name:this.todos[index].Name,
+                    Task:thistodo
+                };
+                this.$http.put('/api/todo/puttodo/'+id,thisdata
+                    ).then(response=>console.log(response));
+                thistodo ? this.num-- : this.num++;
+                this.todos[index].Task = thistodo;
+                           }
+        },//完成任务或者撤销任务
+
+    });
+</script>

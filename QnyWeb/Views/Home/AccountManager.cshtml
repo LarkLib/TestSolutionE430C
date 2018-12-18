@@ -1,0 +1,68 @@
+﻿@model IEnumerable<QnyWeb.Models.AspNetUser>
+
+@{
+    ViewBag.Title = "AccountManager";
+    Layout = "~/Views/Home/_AccountManager.cshtml";
+    IList<QnyWeb.Models.AspNetRole> Roles = ViewBag.Roles;
+    IList<QnyWeb.Models.PoiList> Pois = ViewBag.Pois;
+}
+
+<h2>AccountManager</h2>
+
+<p></p>
+@using (Html.BeginForm("AccountManager", "Home", FormMethod.Post))
+{
+    <table class="table">
+        <tr>
+            <th>User Name</th>
+            <th colspan="3">Roles</th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserName)
+                </td>
+                @foreach (var role in Roles)
+                {
+                    var roleCheckd = item.AspNetUserRoles.Where(ur => ur.RoleId == role.Id).Any();
+                    <td>
+                        @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}" })
+                        @Html.DisplayFor(r => role.Name)
+                        @if (role.Name.Equals("Sales"))
+                        {
+                            <br />
+                            foreach (var poi in Pois)
+                            {
+                                var poiCheckd = item.AspNetUserPois.Where(up => up.poiId == poi.poiid).Any();
+                                @Html.CheckBoxFor(p => poiCheckd, new { id = $"up_{item.Id}_{poi.poiid}" })
+                                @Html.DisplayFor(p => poi.poiname)
+                                <br />
+                            }
+                        }
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" id="SaveButton" value="Save" />
+        </div>
+    </div>
+    <input type="hidden" value="" id="hiddenResult" name="hiddenResult" />
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        document.getElementById("SaveButton").onclick = function () {
+            var value = "";
+            $("input[type = checkbox]").each(
+                function (i, e) {
+                    if (e.checked) value += e.id + ","
+                });
+            document.getElementById("hiddenResult").value = value;
+        };
+    </script>
+}

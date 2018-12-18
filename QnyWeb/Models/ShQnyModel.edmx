@@ -1,0 +1,928 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="ShQnyModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserPois">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="poiId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="poiId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUserRoles">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Email" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
+          <Property Name="PasswordHash" Type="nvarchar(max)" />
+          <Property Name="SecurityStamp" Type="nvarchar(max)" />
+          <Property Name="PhoneNumber" Type="nvarchar(max)" />
+          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="smalldatetime" />
+          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PmsPo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="supplierId" Type="int" Nullable="false" />
+          <Property Name="poiId" Type="int" Nullable="false" />
+          <Property Name="preArrivalTime" Type="bigint" />
+          <Property Name="arrivalTime" Type="bigint" />
+          <Property Name="status" Type="int" />
+          <Property Name="categoryName" Type="nvarchar" MaxLength="255" />
+          <Property Name="totalSku" Type="int" />
+          <Property Name="totalPrepoAmount" Type="int" />
+          <Property Name="expairTime" Type="bigint" />
+          <Property Name="skuPriceType" Type="int" />
+          <Property Name="creator" Type="nvarchar" MaxLength="255" />
+          <Property Name="ctime" Type="bigint" />
+          <Property Name="utime" Type="bigint" />
+          <Property Name="operator" Type="nvarchar" MaxLength="255" />
+          <Property Name="preArrivalTime2" Type="datetime" />
+          <Property Name="arrivalTime2" Type="datetime" />
+          <Property Name="expairTime2" Type="datetime" />
+          <Property Name="ctime2" Type="datetime" />
+          <Property Name="utime2" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PmsPoDetail">
+          <Key>
+            <PropertyRef Name="poNo" />
+          </Key>
+          <Property Name="supplierId" Type="int" />
+          <Property Name="supplierName" Type="nvarchar" MaxLength="255" />
+          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="cTime" Type="bigint" />
+          <Property Name="poiId" Type="int" />
+          <Property Name="preArrivalTime" Type="bigint" />
+          <Property Name="arrivalTime" Type="bigint" />
+          <Property Name="creator" Type="nvarchar" MaxLength="255" />
+          <Property Name="poiType" Type="int" />
+          <Property Name="supplierCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="supplierPrimaryContactPhone" Type="nvarchar" MaxLength="255" />
+          <Property Name="supplierPrimaryContactName" Type="nvarchar" MaxLength="255" />
+          <Property Name="poiName" Type="nvarchar" MaxLength="255" />
+          <Property Name="poiAddress" Type="nvarchar" MaxLength="255" />
+          <Property Name="poiServicePhone" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="int" Nullable="false" />
+          <Property Name="poiContactName" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuPriceType" Type="int" />
+          <Property Name="remark" Type="nvarchar" MaxLength="255" />
+          <Property Name="supplyType" Type="int" />
+          <Property Name="areaId" Type="int" />
+          <Property Name="areaName" Type="nvarchar" MaxLength="255" />
+          <Property Name="cTime2" Type="datetime" />
+          <Property Name="preArrivalTime2" Type="datetime" />
+          <Property Name="arrivalTime2" Type="datetime" />
+        </EntityType>
+        <EntityType Name="PoiConfig">
+          <Key>
+            <PropertyRef Name="poiid" />
+          </Key>
+          <Property Name="poiid" Type="int" Nullable="false" />
+          <Property Name="phonenumber" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ShQny.dbo.PoiList' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PoiList">
+          <Key>
+            <PropertyRef Name="poiid" />
+          </Key>
+          <Property Name="poiid" Type="int" Nullable="false" />
+          <Property Name="poiname" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="ReceivingNote">
+          <Key>
+            <PropertyRef Name="RnId" />
+          </Key>
+          <Property Name="RnId" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="skuId" Type="bigint" Nullable="false" />
+          <Property Name="cDate" Type="date" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastGrossProfit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Supplier" Type="nvarchar" MaxLength="255" />
+          <Property Name="PaymentStatus" Type="bit" Nullable="false" />
+          <Property Name="ApplyQuantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CreateTime" Type="datetime" />
+          <Property Name="Creator" Type="nvarchar" MaxLength="255" />
+          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="operator" Type="nvarchar" MaxLength="255" />
+        </EntityType>
+        <EntityType Name="RnPoItem">
+          <Key>
+            <PropertyRef Name="RnId" />
+            <PropertyRef Name="poNo" />
+          </Key>
+          <Property Name="RnId" Type="uniqueidentifier" Nullable="false" />
+          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+          <Property Name="operator" Type="nvarchar" MaxLength="255" />
+          <Property Name="UpdateTime" Type="datetime" />
+        </EntityType>
+        <EntityType Name="Sku">
+          <Key>
+            <PropertyRef Name="skuId" />
+            <PropertyRef Name="poNo" />
+          </Key>
+          <Property Name="skuId" Type="bigint" Nullable="false" />
+          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="categoryName" Type="nvarchar" MaxLength="255" />
+          <Property Name="spuName" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuMallCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuCode" Type="nvarchar" MaxLength="255" />
+          <Property Name="storageTemperatureLevel" Type="int" />
+          <Property Name="guaranteePeriod" Type="int" />
+          <Property Name="skuSpec" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuCostPrice" Type="int" />
+          <Property Name="skuDictUnitName" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuBoxQuantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="prePoAmount" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="poAmount" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="productionDate" Type="bigint" />
+          <Property Name="sumPrePoPrice" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="sumPoPrice" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="unitId" Type="int" />
+          <Property Name="packageType" Type="int" />
+          <Property Name="categoryId" Type="int" />
+          <Property Name="tax" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="guaranteePeriodType" Type="int" />
+          <Property Name="availableQuantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="availablePoPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="productionDate2" Type="datetime" />
+          <Property Name="cTime2" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="FinalStatus" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ShQny.dbo.PmsPoView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="PmsPoView">
+          <Key>
+            <PropertyRef Name="poNo" />
+            <PropertyRef Name="id" />
+            <PropertyRef Name="supplierId" />
+            <PropertyRef Name="poiId" />
+            <PropertyRef Name="StatusName" />
+          </Key>
+          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="supplierId" Type="int" Nullable="false" />
+          <Property Name="categoryName" Type="nvarchar" MaxLength="255" />
+          <Property Name="totalSku" Type="int" />
+          <Property Name="totalPrepoAmount" Type="int" />
+          <Property Name="creator" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuPriceType" Type="int" />
+          <Property Name="preArrivalTime2" Type="datetime" />
+          <Property Name="arrivalTime2" Type="datetime" />
+          <Property Name="expairTime2" Type="datetime" />
+          <Property Name="ctime2" Type="datetime" />
+          <Property Name="utime2" Type="datetime" />
+          <Property Name="operator" Type="nvarchar" MaxLength="255" />
+          <Property Name="poiId" Type="int" Nullable="false" />
+          <Property Name="poiname" Type="nvarchar" MaxLength="255" />
+          <Property Name="status" Type="int" />
+          <Property Name="StatusName" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="ReceivingNoteItemView">
+          <Key>
+            <PropertyRef Name="skuid" />
+          </Key>
+          <Property Name="skuid" Type="bigint" Nullable="false" />
+          <Property Name="spuName" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuSpec" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuDictUnitName" Type="nvarchar" MaxLength="255" />
+          <Property Name="prePoAmount" Type="decimal" Precision="38" Scale="1" />
+          <Property Name="cDate" Type="date" />
+          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastGrossProfit" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Supplier" Type="nvarchar" MaxLength="255" />
+          <Property Name="PaymentStatus" Type="bit" />
+          <Property Name="RnId" Type="uniqueidentifier" />
+        </EntityType>
+        <EntityContainer Name="ShQnyModelStoreContainer">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserPois" EntityType="Self.AspNetUserPois" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PmsPo" EntityType="Self.PmsPo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PmsPoDetail" EntityType="Self.PmsPoDetail" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PoiConfig" EntityType="Self.PoiConfig" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ReceivingNote" EntityType="Self.ReceivingNote" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RnPoItem" EntityType="Self.RnPoItem" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sku" EntityType="Self.Sku" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PoiList" EntityType="Self.PoiList" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PoiList].[poiid] AS [poiid], 
+    [PoiList].[poiname] AS [poiname]
+    FROM [dbo].[PoiList] AS [PoiList]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="PmsPoView" EntityType="Self.PmsPoView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [PmsPoView].[poNo] AS [poNo], 
+    [PmsPoView].[id] AS [id], 
+    [PmsPoView].[supplierId] AS [supplierId], 
+    [PmsPoView].[categoryName] AS [categoryName], 
+    [PmsPoView].[totalSku] AS [totalSku], 
+    [PmsPoView].[totalPrepoAmount] AS [totalPrepoAmount], 
+    [PmsPoView].[creator] AS [creator], 
+    [PmsPoView].[skuPriceType] AS [skuPriceType], 
+    [PmsPoView].[preArrivalTime2] AS [preArrivalTime2], 
+    [PmsPoView].[arrivalTime2] AS [arrivalTime2], 
+    [PmsPoView].[expairTime2] AS [expairTime2], 
+    [PmsPoView].[ctime2] AS [ctime2], 
+    [PmsPoView].[utime2] AS [utime2], 
+    [PmsPoView].[operator] AS [operator], 
+    [PmsPoView].[poiId] AS [poiId], 
+    [PmsPoView].[poiname] AS [poiname], 
+    [PmsPoView].[status] AS [status], 
+    [PmsPoView].[StatusName] AS [StatusName]
+    FROM [dbo].[PmsPoView] AS [PmsPoView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="ReceivingNoteItemView" EntityType="Self.ReceivingNoteItemView" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [ReceivingNoteItemView].[skuid] AS [skuid], 
+    [ReceivingNoteItemView].[spuName] AS [spuName], 
+    [ReceivingNoteItemView].[skuSpec] AS [skuSpec], 
+    [ReceivingNoteItemView].[skuDictUnitName] AS [skuDictUnitName], 
+    [ReceivingNoteItemView].[prePoAmount] AS [prePoAmount], 
+    [ReceivingNoteItemView].[cDate] AS [cDate], 
+    [ReceivingNoteItemView].[Quantity] AS [Quantity], 
+    [ReceivingNoteItemView].[UnitPrice] AS [UnitPrice], 
+    [ReceivingNoteItemView].[TotalPrice] AS [TotalPrice], 
+    [ReceivingNoteItemView].[ContrastPrice] AS [ContrastPrice], 
+    [ReceivingNoteItemView].[ContrastGrossProfit] AS [ContrastGrossProfit], 
+    [ReceivingNoteItemView].[Supplier] AS [Supplier], 
+    [ReceivingNoteItemView].[PaymentStatus] AS [PaymentStatus], 
+    [ReceivingNoteItemView].[RnId] AS [RnId]
+    FROM [dbo].[ReceivingNoteItemView] AS [ReceivingNoteItemView]</DefiningQuery>
+          </EntitySet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ShQnyModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="PmsPo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="poNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="supplierId" Type="Int32" Nullable="false" />
+          <Property Name="poiId" Type="Int32" Nullable="false" />
+          <Property Name="preArrivalTime" Type="Int64" />
+          <Property Name="arrivalTime" Type="Int64" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="categoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="totalSku" Type="Int32" />
+          <Property Name="totalPrepoAmount" Type="Int32" />
+          <Property Name="expairTime" Type="Int64" />
+          <Property Name="skuPriceType" Type="Int32" />
+          <Property Name="creator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="ctime" Type="Int64" />
+          <Property Name="utime" Type="Int64" />
+          <Property Name="operator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="preArrivalTime2" Type="DateTime" Precision="3" />
+          <Property Name="arrivalTime2" Type="DateTime" Precision="3" />
+          <Property Name="expairTime2" Type="DateTime" Precision="3" />
+          <Property Name="ctime2" Type="DateTime" Precision="3" />
+          <Property Name="utime2" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityType Name="PmsPoDetail">
+          <Key>
+            <PropertyRef Name="poNo" />
+          </Key>
+          <Property Name="supplierId" Type="Int32" />
+          <Property Name="supplierName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="cTime" Type="Int64" />
+          <Property Name="poiId" Type="Int32" />
+          <Property Name="preArrivalTime" Type="Int64" />
+          <Property Name="arrivalTime" Type="Int64" />
+          <Property Name="creator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poiType" Type="Int32" />
+          <Property Name="supplierCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="supplierPrimaryContactPhone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="supplierPrimaryContactName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poiName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poiAddress" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poiServicePhone" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="status" Type="Int32" Nullable="false" />
+          <Property Name="poiContactName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuPriceType" Type="Int32" />
+          <Property Name="remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="supplyType" Type="Int32" />
+          <Property Name="areaId" Type="Int32" />
+          <Property Name="areaName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="cTime2" Type="DateTime" Precision="3" />
+          <Property Name="preArrivalTime2" Type="DateTime" Precision="3" />
+          <Property Name="arrivalTime2" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="SkuList" Relationship="ShQnyModel.PmsPoDetailSku" FromRole="PmsPoDetail" ToRole="Sku" />
+          <NavigationProperty Name="StatusItem" Relationship="ShQnyModel.PmsPoDetailStatus" FromRole="PmsPoDetail" ToRole="Status" />
+        </EntityType>
+        <EntityType Name="Sku">
+          <Key>
+            <PropertyRef Name="skuId" />
+            <PropertyRef Name="poNo" />
+          </Key>
+          <Property Name="skuId" Type="Int64" Nullable="false" />
+          <Property Name="poNo" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="categoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="spuName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuMallCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuCode" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="storageTemperatureLevel" Type="Int32" />
+          <Property Name="guaranteePeriod" Type="Int32" />
+          <Property Name="skuSpec" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuCostPrice" Type="Int32" />
+          <Property Name="skuDictUnitName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuBoxQuantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="prePoAmount" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="poAmount" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="productionDate" Type="Int64" />
+          <Property Name="sumPrePoPrice" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="sumPoPrice" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="unitId" Type="Int32" />
+          <Property Name="packageType" Type="Int32" />
+          <Property Name="categoryId" Type="Int32" />
+          <Property Name="tax" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="guaranteePeriodType" Type="Int32" />
+          <Property Name="availableQuantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="availablePoPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="productionDate2" Type="DateTime" Precision="3" />
+          <Property Name="cTime2" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="PoiList">
+          <Key>
+            <PropertyRef Name="poiid" />
+          </Key>
+          <Property Name="poiid" Type="Int32" Nullable="false" />
+          <Property Name="poiname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityContainer Name="ShQnyEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="PmsPoes" EntityType="Self.PmsPo" />
+          <EntitySet Name="PmsPoDetails" EntityType="Self.PmsPoDetail" />
+          <EntitySet Name="Skus" EntityType="Self.Sku" />
+          <EntitySet Name="PoiLists" EntityType="Self.PoiList" />
+          <EntitySet Name="PmsPoViews" EntityType="ShQnyModel.PmsPoView" />
+          <EntitySet Name="AspNetUserPois" EntityType="ShQnyModel.AspNetUserPois" />
+          <AssociationSet Name="PmsPoDetailSku" Association="ShQnyModel.PmsPoDetailSku">
+            <End Role="PmsPoDetail" EntitySet="PmsPoDetails" />
+            <End Role="Sku" EntitySet="Skus" />
+          </AssociationSet>
+          <EntitySet Name="Status" EntityType="ShQnyModel.Status" />
+          <EntitySet Name="ReceivingNotes" EntityType="ShQnyModel.ReceivingNote" />
+          <EntitySet Name="RnPoItems" EntityType="ShQnyModel.RnPoItem" />
+          <AssociationSet Name="ReceivingNoteRnPoItem" Association="ShQnyModel.ReceivingNoteRnPoItem">
+            <End Role="ReceivingNote" EntitySet="ReceivingNotes" />
+            <End Role="RnPoItem" EntitySet="RnPoItems" />
+          </AssociationSet>
+          <AssociationSet Name="PmsPoDetailStatus" Association="ShQnyModel.PmsPoDetailStatus">
+            <End Role="PmsPoDetail" EntitySet="PmsPoDetails" />
+            <End Role="Status" EntitySet="Status" />
+          </AssociationSet>
+          <EntitySet Name="ReceivingNoteItemViews" EntityType="ShQnyModel.ReceivingNoteItemView" />
+          <EntitySet Name="AspNetRoles" EntityType="ShQnyModel.AspNetRole" />
+          <EntitySet Name="AspNetUserRoles" EntityType="ShQnyModel.AspNetUserRole" />
+          <AssociationSet Name="AspNetRoleAspNetUserRole" Association="ShQnyModel.AspNetRoleAspNetUserRole">
+            <End Role="AspNetRole" EntitySet="AspNetRoles" />
+            <End Role="AspNetUserRole" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="PoiListAspNetUserPois" Association="ShQnyModel.PoiListAspNetUserPois">
+            <End Role="PoiList" EntitySet="PoiLists" />
+            <End Role="AspNetUserPois" EntitySet="AspNetUserPois" />
+          </AssociationSet>
+          <EntitySet Name="AspNetUsers" EntityType="ShQnyModel.AspNetUser" />
+          <AssociationSet Name="AspNetUserAspNetUserRole" Association="ShQnyModel.AspNetUserAspNetUserRole">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserRole" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="AspNetUserAspNetUserPois" Association="ShQnyModel.AspNetUserAspNetUserPois">
+            <End Role="AspNetUser" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserPois" EntitySet="AspNetUserPois" />
+          </AssociationSet>
+          <EntitySet Name="PoiConfigs" EntityType="ShQnyModel.PoiConfig" />
+        </EntityContainer>
+        <EntityType Name="PmsPoView">
+          <Key>
+            <PropertyRef Name="poNo" />
+            <PropertyRef Name="id" />
+            <PropertyRef Name="supplierId" />
+            <PropertyRef Name="poiId" />
+            <PropertyRef Name="StatusName" />
+          </Key>
+          <Property Name="poNo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="supplierId" Type="Int32" Nullable="false" />
+          <Property Name="status" Type="Int32" />
+          <Property Name="categoryName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="totalSku" Type="Int32" />
+          <Property Name="totalPrepoAmount" Type="Int32" />
+          <Property Name="creator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuPriceType" Type="Int32" />
+          <Property Name="preArrivalTime2" Type="DateTime" Precision="3" />
+          <Property Name="arrivalTime2" Type="DateTime" Precision="3" />
+          <Property Name="expairTime2" Type="DateTime" Precision="3" />
+          <Property Name="ctime2" Type="DateTime" Precision="3" />
+          <Property Name="utime2" Type="DateTime" Precision="3" />
+          <Property Name="operator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poiname" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="poiId" Type="Int32" Nullable="false" />
+          <Property Name="StatusName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetUserPois">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="poiId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="poiId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="PoiList" Relationship="ShQnyModel.PoiListAspNetUserPois" FromRole="AspNetUserPois" ToRole="PoiList" />
+        </EntityType>
+        <Association Name="PmsPoDetailSku">
+          <End Type="ShQnyModel.PmsPoDetail" Role="PmsPoDetail" Multiplicity="1" />
+          <End Type="ShQnyModel.Sku" Role="Sku" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PmsPoDetail">
+              <PropertyRef Name="poNo" />
+            </Principal>
+            <Dependent Role="Sku">
+              <PropertyRef Name="poNo" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="FinalStatus" Type="Int32" />
+        </EntityType>
+        <EntityType Name="ReceivingNote">
+          <Key>
+            <PropertyRef Name="RnId" />
+          </Key>
+          <Property Name="RnId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="skuId" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastGrossProfit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Supplier" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentStatus" Type="Boolean" Nullable="false" />
+          <Property Name="ApplyQuantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CreateTime" Type="DateTime" Precision="3" />
+          <Property Name="Creator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+          <Property Name="operator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="RnPoItems" Relationship="ShQnyModel.ReceivingNoteRnPoItem" FromRole="ReceivingNote" ToRole="RnPoItem" />
+          <Property Name="cDate" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <EntityType Name="RnPoItem">
+          <Key>
+            <PropertyRef Name="RnId" />
+            <PropertyRef Name="poNo" />
+          </Key>
+          <Property Name="RnId" Type="Guid" Nullable="false" />
+          <Property Name="poNo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <Property Name="operator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
+        </EntityType>
+        <Association Name="ReceivingNoteRnPoItem">
+          <End Type="ShQnyModel.ReceivingNote" Role="ReceivingNote" Multiplicity="1" />
+          <End Type="ShQnyModel.RnPoItem" Role="RnPoItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ReceivingNote">
+              <PropertyRef Name="RnId" />
+            </Principal>
+            <Dependent Role="RnPoItem">
+              <PropertyRef Name="RnId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PmsPoDetailStatus">
+          <End Type="ShQnyModel.PmsPoDetail" Role="PmsPoDetail" Multiplicity="*" />
+          <End Type="ShQnyModel.Status" Role="Status" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Status">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="PmsPoDetail">
+              <PropertyRef Name="status" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ReceivingNoteItemView">
+          <Key>
+            <PropertyRef Name="skuid" />
+          </Key>
+          <Property Name="skuid" Type="Int64" Nullable="false" />
+          <Property Name="spuName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuSpec" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuDictUnitName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="prePoAmount" Type="Decimal" Precision="38" Scale="1" />
+          <Property Name="cDate" Type="DateTime" Precision="0" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastGrossProfit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Supplier" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentStatus" Type="Boolean" />
+          <Property Name="RnId" Type="Guid" />
+        </EntityType>
+        <EntityType Name="AspNetRole">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="AspNetUserRole">
+          <Key>
+            <PropertyRef Name="UserId" />
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetRole" Relationship="ShQnyModel.AspNetRoleAspNetUserRole" FromRole="AspNetUserRole" ToRole="AspNetRole" />
+        </EntityType>
+        <Association Name="AspNetRoleAspNetUserRole">
+          <End Type="ShQnyModel.AspNetRole" Role="AspNetRole" Multiplicity="1" />
+          <End Type="ShQnyModel.AspNetUserRole" Role="AspNetUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetRole">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRole">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="PoiListAspNetUserPois">
+          <End Type="ShQnyModel.PoiList" Role="PoiList" Multiplicity="1" />
+          <End Type="ShQnyModel.AspNetUserPois" Role="AspNetUserPois" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PoiList">
+              <PropertyRef Name="poiid" />
+            </Principal>
+            <Dependent Role="AspNetUserPois">
+              <PropertyRef Name="poiId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="AspNetUser">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="0" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserRoles" Relationship="ShQnyModel.AspNetUserAspNetUserRole" FromRole="AspNetUser" ToRole="AspNetUserRole" />
+          <NavigationProperty Name="AspNetUserPois" Relationship="ShQnyModel.AspNetUserAspNetUserPois" FromRole="AspNetUser" ToRole="AspNetUserPois" />
+        </EntityType>
+        <Association Name="AspNetUserAspNetUserRole">
+          <End Type="ShQnyModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="ShQnyModel.AspNetUserRole" Role="AspNetUserRole" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserRole">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AspNetUserAspNetUserPois">
+          <End Type="ShQnyModel.AspNetUser" Role="AspNetUser" Multiplicity="1" />
+          <End Type="ShQnyModel.AspNetUserPois" Role="AspNetUserPois" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUser">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserPois">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PoiConfig">
+          <Key>
+            <PropertyRef Name="poiid" />
+          </Key>
+          <Property Name="poiid" Type="Int32" Nullable="false" />
+          <Property Name="phonenumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ShQnyModelStoreContainer" CdmEntityContainer="ShQnyEntities">
+          <EntitySetMapping Name="PmsPoes">
+            <EntityTypeMapping TypeName="ShQnyModel.PmsPo">
+              <MappingFragment StoreEntitySet="PmsPo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="poNo" ColumnName="poNo" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="poiId" ColumnName="poiId" />
+                <ScalarProperty Name="preArrivalTime" ColumnName="preArrivalTime" />
+                <ScalarProperty Name="arrivalTime" ColumnName="arrivalTime" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="totalSku" ColumnName="totalSku" />
+                <ScalarProperty Name="totalPrepoAmount" ColumnName="totalPrepoAmount" />
+                <ScalarProperty Name="expairTime" ColumnName="expairTime" />
+                <ScalarProperty Name="skuPriceType" ColumnName="skuPriceType" />
+                <ScalarProperty Name="creator" ColumnName="creator" />
+                <ScalarProperty Name="ctime" ColumnName="ctime" />
+                <ScalarProperty Name="utime" ColumnName="utime" />
+                <ScalarProperty Name="operator" ColumnName="operator" />
+                <ScalarProperty Name="preArrivalTime2" ColumnName="preArrivalTime2" />
+                <ScalarProperty Name="arrivalTime2" ColumnName="arrivalTime2" />
+                <ScalarProperty Name="expairTime2" ColumnName="expairTime2" />
+                <ScalarProperty Name="ctime2" ColumnName="ctime2" />
+                <ScalarProperty Name="utime2" ColumnName="utime2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PmsPoDetails">
+            <EntityTypeMapping TypeName="ShQnyModel.PmsPoDetail">
+              <MappingFragment StoreEntitySet="PmsPoDetail">
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="supplierName" ColumnName="supplierName" />
+                <ScalarProperty Name="poNo" ColumnName="poNo" />
+                <ScalarProperty Name="cTime" ColumnName="cTime" />
+                <ScalarProperty Name="poiId" ColumnName="poiId" />
+                <ScalarProperty Name="preArrivalTime" ColumnName="preArrivalTime" />
+                <ScalarProperty Name="arrivalTime" ColumnName="arrivalTime" />
+                <ScalarProperty Name="creator" ColumnName="creator" />
+                <ScalarProperty Name="poiType" ColumnName="poiType" />
+                <ScalarProperty Name="supplierCode" ColumnName="supplierCode" />
+                <ScalarProperty Name="supplierPrimaryContactPhone" ColumnName="supplierPrimaryContactPhone" />
+                <ScalarProperty Name="supplierPrimaryContactName" ColumnName="supplierPrimaryContactName" />
+                <ScalarProperty Name="poiName" ColumnName="poiName" />
+                <ScalarProperty Name="poiAddress" ColumnName="poiAddress" />
+                <ScalarProperty Name="poiServicePhone" ColumnName="poiServicePhone" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="poiContactName" ColumnName="poiContactName" />
+                <ScalarProperty Name="skuPriceType" ColumnName="skuPriceType" />
+                <ScalarProperty Name="remark" ColumnName="remark" />
+                <ScalarProperty Name="supplyType" ColumnName="supplyType" />
+                <ScalarProperty Name="areaId" ColumnName="areaId" />
+                <ScalarProperty Name="areaName" ColumnName="areaName" />
+                <ScalarProperty Name="cTime2" ColumnName="cTime2" />
+                <ScalarProperty Name="preArrivalTime2" ColumnName="preArrivalTime2" />
+                <ScalarProperty Name="arrivalTime2" ColumnName="arrivalTime2" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Skus">
+            <EntityTypeMapping TypeName="ShQnyModel.Sku">
+              <MappingFragment StoreEntitySet="Sku">
+                <ScalarProperty Name="cTime2" ColumnName="cTime2" />
+                <ScalarProperty Name="productionDate2" ColumnName="productionDate2" />
+                <ScalarProperty Name="skuId" ColumnName="skuId" />
+                <ScalarProperty Name="poNo" ColumnName="poNo" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="spuName" ColumnName="spuName" />
+                <ScalarProperty Name="skuMallCode" ColumnName="skuMallCode" />
+                <ScalarProperty Name="skuCode" ColumnName="skuCode" />
+                <ScalarProperty Name="storageTemperatureLevel" ColumnName="storageTemperatureLevel" />
+                <ScalarProperty Name="guaranteePeriod" ColumnName="guaranteePeriod" />
+                <ScalarProperty Name="skuSpec" ColumnName="skuSpec" />
+                <ScalarProperty Name="skuCostPrice" ColumnName="skuCostPrice" />
+                <ScalarProperty Name="skuDictUnitName" ColumnName="skuDictUnitName" />
+                <ScalarProperty Name="skuBoxQuantity" ColumnName="skuBoxQuantity" />
+                <ScalarProperty Name="prePoAmount" ColumnName="prePoAmount" />
+                <ScalarProperty Name="poAmount" ColumnName="poAmount" />
+                <ScalarProperty Name="productionDate" ColumnName="productionDate" />
+                <ScalarProperty Name="sumPrePoPrice" ColumnName="sumPrePoPrice" />
+                <ScalarProperty Name="sumPoPrice" ColumnName="sumPoPrice" />
+                <ScalarProperty Name="unitId" ColumnName="unitId" />
+                <ScalarProperty Name="packageType" ColumnName="packageType" />
+                <ScalarProperty Name="categoryId" ColumnName="categoryId" />
+                <ScalarProperty Name="tax" ColumnName="tax" />
+                <ScalarProperty Name="guaranteePeriodType" ColumnName="guaranteePeriodType" />
+                <ScalarProperty Name="availableQuantity" ColumnName="availableQuantity" />
+                <ScalarProperty Name="availablePoPrice" ColumnName="availablePoPrice" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PoiLists">
+            <EntityTypeMapping TypeName="ShQnyModel.PoiList">
+              <MappingFragment StoreEntitySet="PoiList">
+                <ScalarProperty Name="poiid" ColumnName="poiid" />
+                <ScalarProperty Name="poiname" ColumnName="poiname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PmsPoViews">
+            <EntityTypeMapping TypeName="ShQnyModel.PmsPoView">
+              <MappingFragment StoreEntitySet="PmsPoView">
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="poiId" ColumnName="poiId" />
+                <ScalarProperty Name="poiname" ColumnName="poiname" />
+                <ScalarProperty Name="operator" ColumnName="operator" />
+                <ScalarProperty Name="utime2" ColumnName="utime2" />
+                <ScalarProperty Name="ctime2" ColumnName="ctime2" />
+                <ScalarProperty Name="expairTime2" ColumnName="expairTime2" />
+                <ScalarProperty Name="arrivalTime2" ColumnName="arrivalTime2" />
+                <ScalarProperty Name="preArrivalTime2" ColumnName="preArrivalTime2" />
+                <ScalarProperty Name="skuPriceType" ColumnName="skuPriceType" />
+                <ScalarProperty Name="creator" ColumnName="creator" />
+                <ScalarProperty Name="totalPrepoAmount" ColumnName="totalPrepoAmount" />
+                <ScalarProperty Name="totalSku" ColumnName="totalSku" />
+                <ScalarProperty Name="categoryName" ColumnName="categoryName" />
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="supplierId" ColumnName="supplierId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="poNo" ColumnName="poNo" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserPois">
+            <EntityTypeMapping TypeName="ShQnyModel.AspNetUserPois">
+              <MappingFragment StoreEntitySet="AspNetUserPois">
+                <ScalarProperty Name="poiId" ColumnName="poiId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Status">
+            <EntityTypeMapping TypeName="ShQnyModel.Status">
+              <MappingFragment StoreEntitySet="Status">
+                <ScalarProperty Name="FinalStatus" ColumnName="FinalStatus" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReceivingNotes">
+            <EntityTypeMapping TypeName="ShQnyModel.ReceivingNote">
+              <MappingFragment StoreEntitySet="ReceivingNote">
+                <ScalarProperty Name="cDate" ColumnName="cDate" />
+                <ScalarProperty Name="operator" ColumnName="operator" />
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="Creator" ColumnName="Creator" />
+                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
+                <ScalarProperty Name="ApplyQuantity" ColumnName="ApplyQuantity" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="ContrastGrossProfit" ColumnName="ContrastGrossProfit" />
+                <ScalarProperty Name="ContrastPrice" ColumnName="ContrastPrice" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="skuId" ColumnName="skuId" />
+                <ScalarProperty Name="RnId" ColumnName="RnId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RnPoItems">
+            <EntityTypeMapping TypeName="ShQnyModel.RnPoItem">
+              <MappingFragment StoreEntitySet="RnPoItem">
+                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
+                <ScalarProperty Name="operator" ColumnName="operator" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="poNo" ColumnName="poNo" />
+                <ScalarProperty Name="RnId" ColumnName="RnId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReceivingNoteItemViews">
+            <EntityTypeMapping TypeName="ShQnyModel.ReceivingNoteItemView">
+              <MappingFragment StoreEntitySet="ReceivingNoteItemView">
+                <ScalarProperty Name="RnId" ColumnName="RnId" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="ContrastGrossProfit" ColumnName="ContrastGrossProfit" />
+                <ScalarProperty Name="ContrastPrice" ColumnName="ContrastPrice" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="cDate" ColumnName="cDate" />
+                <ScalarProperty Name="prePoAmount" ColumnName="prePoAmount" />
+                <ScalarProperty Name="skuDictUnitName" ColumnName="skuDictUnitName" />
+                <ScalarProperty Name="skuSpec" ColumnName="skuSpec" />
+                <ScalarProperty Name="spuName" ColumnName="spuName" />
+                <ScalarProperty Name="skuid" ColumnName="skuid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="ShQnyModel.AspNetRole">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserRoles">
+            <EntityTypeMapping TypeName="ShQnyModel.AspNetUserRole">
+              <MappingFragment StoreEntitySet="AspNetUserRoles">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="ShQnyModel.AspNetUser">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PoiConfigs">
+            <EntityTypeMapping TypeName="ShQnyModel.PoiConfig">
+              <MappingFragment StoreEntitySet="PoiConfig">
+                <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
+                <ScalarProperty Name="poiid" ColumnName="poiid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -150,16 +150,32 @@ namespace QnyDownloader
             Utilities.LogInfo($"{methodName}:CheckTime=true");
         }
 
+        internal void UpdateSupplierPmsPoList(string bsid)
+        {
+            LogInfo("UpdateSupplierPmsPoList running");
+
+            var list = GetUpdatePmsPoListFromDb();
+            foreach (var poNo in list)
+            {
+                var detail = GetSupplierPmsPoDetail(bsid, poNo);
+                SavePmsPoDetailToDb(detail);
+                LogInfo("SavePmsPoDetailToDb");
+                SaveSkuToDb(detail.poNo, detail.cTime, detail.skuList);
+                LogInfo("SaveSkuToDb");
+            }
+            LogInfo("UpdateSupplierPmsPoList done");
+        }
         internal void GetSupplierPmsPoList(string bsid)
         {
-            LogInfo("GetSupplierPmsPoList runing");
+            LogInfo("GetSupplierPmsPoList running");
+            var batchSize = 10;
             var sentMsmPoiList = new List<int>();
-            var pmsPoSummary = GetSupplierPmsPoPage(bsid, 0, 20);
+            var pmsPoSummary = GetSupplierPmsPoPage(bsid, 0, batchSize);
             var total = pmsPoSummary.total;
             var lastId = pmsPoSummary.pmsPoList[0].id;
             var maxId = GetMaxPmsPoIdFromDb();
             LogInfo($"total={total}, lastId ={lastId}, maxId={maxId}, lastId > maxId={lastId > maxId}");
-            for (int i = 20; i < total && lastId > maxId; i += 20)
+            for (int i = batchSize; i < total && lastId > maxId; i += batchSize)
             {
                 var pageList = pmsPoSummary.pmsPoList;
                 foreach (var item in pageList)
@@ -168,6 +184,8 @@ namespace QnyDownloader
                     if (lastId <= maxId)
                     {
                         LogInfo("No new Po");
+                        var rows = UpdatePoiListInDb();
+                        LogInfo($"UpdatePoiListInDb, rows={rows}");
                         break;
                     }
                     LogInfo($"poNo={item.poNo})");
@@ -179,9 +197,9 @@ namespace QnyDownloader
                     LogInfo("SavePmsPoDetailToDb");
                     WriteReceivingNoteToPdf(detail, item.categoryName);
                     LogInfo("WriteReceivingNoteToPdf");
-                    SaveSkuToDb(detail.poNo, detail.skuList);
+                    SaveSkuToDb(detail.poNo, detail.cTime, detail.skuList);
                     LogInfo("SaveSkuToDb");
-                    var phoneNumber = PhoneConfig[poiId];
+                    var phoneNumber = string.IsNullOrWhiteSpace(PhoneConfig[poiId]) ? PhoneConfig[-1] : PhoneConfig[poiId];
                     LogInfo($"phoneNumber ={phoneNumber}");
                     if (!string.IsNullOrWhiteSpace(phoneNumber))
                     {
@@ -190,6 +208,7 @@ namespace QnyDownloader
                             poNo = detail.poNo,
                             creator = detail.creator,
                             poiName = GetShopName(detail.poiName),
+                            categoryName = item.categoryName
                             //preArrivalTime = UnixTimeStampToDateTime(detail.preArrivalTime).ToString("yyyy-MM-dd")
                         };
                         string smsResult = SendSms(phoneNumber, JsonConvert.SerializeObject(templateParam), TemplateCode, SignName);
@@ -197,7 +216,7 @@ namespace QnyDownloader
                         LogInfo($"smsResult: {smsResult}");
                     }
                 }
-                pmsPoSummary = GetSupplierPmsPoPage(bsid, i, 20);
+                pmsPoSummary = GetSupplierPmsPoPage(bsid, i, batchSize);
             }
             LogInfo("GetSupplierPmsPoList end");
         }
@@ -333,23 +352,27 @@ IF NOT EXISTS(SELECT ID FROM PMSPO WHERE ID={pmsPo.id})
             {
                 var cmd = connection.CreateCommand();
                 cmd.CommandText = $@"
-IF NOT EXISTS(SELECT [poNo] FROM PMSPODETAIL WHERE [poNo]='{pmsPoDetail.poNo}')
-    INSERT INTO [dbo].[PmsPoDetail]([supplierId],[supplierName],[poNo],[cTime],[poiId],[preArrivalTime],[arrivalTime],[creator],[poiType],[supplierCode],[supplierPrimaryContactPhone],[supplierPrimaryContactName],[poiName],[poiAddress],[poiServicePhone],[status],[poiContactName],[skuPriceType],[remark],[supplyType],[areaId],[areaName],
-                      [cTime2],[preArrivalTime2],[arrivalTime2])
-    VALUES('{pmsPoDetail.supplierId}','{pmsPoDetail.supplierName}','{pmsPoDetail.poNo}','{pmsPoDetail.cTime}','{pmsPoDetail.poiId}','{pmsPoDetail.preArrivalTime}','{pmsPoDetail.arrivalTime}','{pmsPoDetail.creator}','{pmsPoDetail.poiType}','{pmsPoDetail.supplierCode}','{pmsPoDetail.supplierPrimaryContactPhone}','{pmsPoDetail.supplierPrimaryContactName}','{pmsPoDetail.poiName}','{pmsPoDetail.poiAddress}','{pmsPoDetail.poiServicePhone}','{pmsPoDetail.status}','{pmsPoDetail.poiContactName}','{pmsPoDetail.skuPriceType}','{pmsPoDetail.remark}','{pmsPoDetail.supplyType}','{pmsPoDetail.areaId}','{pmsPoDetail.areaName}',
-            {GetUnixTimeStampString(pmsPoDetail.cTime)},{GetUnixTimeStampString(pmsPoDetail.preArrivalTime)},{GetUnixTimeStampString(pmsPoDetail.arrivalTime)})
+IF EXISTS(SELECT [poNo] FROM PMSPODETAIL WHERE [poNo]='{pmsPoDetail.poNo}')
+    DELETE PMSPODETAIL WHERE [poNo]='{pmsPoDetail.poNo}'
+
+INSERT INTO [dbo].[PmsPoDetail]([supplierId],[supplierName],[poNo],[cTime],[poiId],[preArrivalTime],[arrivalTime],[creator],[poiType],[supplierCode],[supplierPrimaryContactPhone],[supplierPrimaryContactName],[poiName],[poiAddress],[poiServicePhone],[status],[poiContactName],[skuPriceType],[remark],[supplyType],[areaId],[areaName],
+                    [cTime2],[preArrivalTime2],[arrivalTime2])
+VALUES('{pmsPoDetail.supplierId}','{pmsPoDetail.supplierName}','{pmsPoDetail.poNo}','{pmsPoDetail.cTime}','{pmsPoDetail.poiId}','{pmsPoDetail.preArrivalTime}','{pmsPoDetail.arrivalTime}','{pmsPoDetail.creator}','{pmsPoDetail.poiType}','{pmsPoDetail.supplierCode}','{pmsPoDetail.supplierPrimaryContactPhone}','{pmsPoDetail.supplierPrimaryContactName}','{pmsPoDetail.poiName}','{pmsPoDetail.poiAddress}','{pmsPoDetail.poiServicePhone}','{pmsPoDetail.status}','{pmsPoDetail.poiContactName}','{pmsPoDetail.skuPriceType}','{pmsPoDetail.remark}','{pmsPoDetail.supplyType}','{pmsPoDetail.areaId}','{pmsPoDetail.areaName}',
+        {GetUnixTimeStampString(pmsPoDetail.cTime)},{GetUnixTimeStampString(pmsPoDetail.preArrivalTime)},{GetUnixTimeStampString(pmsPoDetail.arrivalTime)})
+
+UPDATE PMSPO set status={pmsPoDetail.status}  WHERE [poNo]='{pmsPoDetail.poNo}'
 ";
                 connection.Open();
                 var reader = cmd.ExecuteNonQuery();
                 connection.Close();
             }
         }
-        private void SaveSkuToDb(string poNo, IList<SkuItem> skuList)
+        private void SaveSkuToDb(string poNo, long cTime, IList<SkuItem> skuList)
         {
             var values = string.Empty;
             foreach (var sku in skuList)
             {
-                values += $"('{sku.skuId}','{poNo}','{sku.categoryName}','{sku.spuName}','{sku.skuMallCode}','{sku.skuCode}','{sku.storageTemperatureLevel}','{sku.guaranteePeriod}','{sku.skuSpec}','{sku.skuCostPrice}','{sku.skuDictUnitName}','{sku.skuBoxQuantity}','{sku.prePoAmount}','{sku.poAmount}','{sku.productionDate}','{sku.sumPrePoPrice}','{sku.sumPoPrice}','{sku.unitId}','{sku.packageType}','{sku.categoryId}','{sku.tax}','{sku.guaranteePeriodType}','{sku.availableQuantity}','{sku.availablePoPrice}'),";
+                values += $"('{sku.skuId}','{poNo}','{sku.categoryName}','{sku.spuName}','{sku.skuMallCode}','{sku.skuCode}','{sku.storageTemperatureLevel}','{sku.guaranteePeriod}','{sku.skuSpec}','{sku.skuCostPrice}','{sku.skuDictUnitName}','{sku.skuBoxQuantity}','{sku.prePoAmount}','{sku.poAmount}','{sku.productionDate}','{sku.sumPrePoPrice}','{sku.sumPoPrice}','{sku.unitId}','{sku.packageType}','{sku.categoryId}','{sku.tax}','{sku.guaranteePeriodType}','{sku.availableQuantity}','{sku.availablePoPrice}',{GetUnixTimeStampString(sku.productionDate)},{GetUnixTimeStampString(cTime)}),";
             }
             values = values.TrimEnd(new[] { ',' });
 
@@ -357,9 +380,11 @@ IF NOT EXISTS(SELECT [poNo] FROM PMSPODETAIL WHERE [poNo]='{pmsPoDetail.poNo}')
             {
                 var cmd = connection.CreateCommand();
                 cmd.CommandText = $@"
-IF NOT EXISTS(SELECT [poNo] FROM Sku WHERE [poNo]='{poNo}')
-    INSERT INTO [dbo].[Sku]([skuId],[poNo],[categoryName],[spuName],[skuMallCode],[skuCode],[storageTemperatureLevel],[guaranteePeriod],[skuSpec],[skuCostPrice],[skuDictUnitName],[skuBoxQuantity],[prePoAmount],[poAmount],[productionDate],[sumPrePoPrice],[sumPoPrice],[unitId],[packageType],[categoryId],[tax],[guaranteePeriodType],[availableQuantity],[availablePoPrice])
-    VALUES {values}
+IF EXISTS(SELECT [poNo] FROM Sku WHERE [poNo]='{poNo}') 
+    DELETE Sku WHERE [poNo]='{poNo}' 
+    
+INSERT INTO [dbo].[Sku]([skuId],[poNo],[categoryName],[spuName],[skuMallCode],[skuCode],[storageTemperatureLevel],[guaranteePeriod],[skuSpec],[skuCostPrice],[skuDictUnitName],[skuBoxQuantity],[prePoAmount],[poAmount],[productionDate],[sumPrePoPrice],[sumPoPrice],[unitId],[packageType],[categoryId],[tax],[guaranteePeriodType],[availableQuantity],[availablePoPrice],[productionDate2],[cTime2])
+VALUES {values}
 ";
                 connection.Open();
                 var reader = cmd.ExecuteNonQuery();
@@ -375,6 +400,40 @@ IF NOT EXISTS(SELECT [poNo] FROM Sku WHERE [poNo]='{poNo}')
                 cmd.CommandText = "SELECT COALESCE(MAX(ID),-1) FROM PMSPO";
                 connection.Open();
                 id = (long)cmd.ExecuteScalar();
+                connection.Close();
+            }
+            return id;
+        }
+        private IList<string> GetUpdatePmsPoListFromDb()
+        {
+            var list = new List<string>();
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = "SELECT pono FROM PmsPoDetail p join status s on p.status=s.Id  where s.FinalStatus=0 order by pono desc";
+                connection.Open();
+                var reader = cmd.ExecuteReader();
+                while (reader.Read())
+                {
+                    list.Add(reader.GetString(0));
+                }
+                connection.Close();
+            }
+            return list;
+        }
+        private int UpdatePoiListInDb()
+        {
+            var id = -1;
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                var cmd = connection.CreateCommand();
+                cmd.CommandText = @"
+insert [PoiList] select distinct poiId,poiName from PmsPoDetail where poiId not in (select poiId from PoiList) order by poiId;
+insert PoiConfig(poiid) select poiId from [PoiList] where poiId not in (select poiId from PoiConfig) order by poiId;
+--insert AspNetRoles select distinct poiId,poiName from [PoiList] where cast(poiid as nvarchar(128)) not in (select Id from AspNetRoles) order by poiId;
+";
+                connection.Open();
+                id = (int)cmd.ExecuteNonQuery();
                 connection.Close();
             }
             return id;

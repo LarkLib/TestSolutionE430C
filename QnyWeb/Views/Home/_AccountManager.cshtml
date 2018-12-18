@@ -1,0 +1,22 @@
+﻿@{
+    ViewBag.Title = "AccountManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2></h2>
+<div class="row">
+    <div class="col-md-2">
+        <h2></h2>
+        <ul>
+            <li>@Html.ActionLink("AccountManager", "AccountManager", "Home")</li>
+            <li>@Html.ActionLink("Create New User", "Register", "Account")</li>
+            <li>@Html.ActionLink("Set Sms Phone Number", "SmsPhoneNumber", "Home")</li>
+        </ul>
+        <p></p>
+    </div>
+    <div class="col-md-8">
+        @RenderBody()
+    </div>
+</div>
+@section Scripts {
+    @RenderSection("scripts", required: false)
+}
