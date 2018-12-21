@@ -127,7 +127,14 @@ namespace QnyDownloader
 
         private void GetSupplierPmsPoList()
         {
-            utilities.UpdateSupplierPmsPoList(Bsid);
+            try
+            {
+                utilities.UpdateSupplierPmsPoList(Bsid);
+            }
+            catch (Exception e)
+            {
+                Utilities.LogInfo($"WebBrowserForm,UpdateSupplierPmsPoList,ErrorMessage,{e.Message}");
+            }
             SyncTimer.Interval = Interval;
             SyncTimer.Enabled = true;
             SyncTimer.Start();
@@ -141,8 +148,16 @@ namespace QnyDownloader
         private void SyncTimer_Tick(object sender, EventArgs e)
         {
             SyncTimer.Enabled = false;
-            Utilities.CheckTimeWithExit();
-            utilities.GetSupplierPmsPoList(Bsid);
+            try
+            {
+                Utilities.CheckTimeWithExit();
+                utilities.GetSupplierPmsPoList(Bsid);
+            }
+            catch (Exception ex)
+            {
+
+                Utilities.LogInfo($"WebBrowserForm,GetSupplierPmsPoList,ErrorMessage,{ex.Message}");
+            }
             SyncTimer.Enabled = true;
         }
         private void CheckLogin()

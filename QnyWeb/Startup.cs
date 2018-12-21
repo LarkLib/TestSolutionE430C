@@ -35,11 +35,12 @@ namespace QnyWeb
 
                 var user = new ApplicationUser();
                 user.UserName = "admin";
+                user.LockoutEnabled = false;
                 //user.Email = "admin@gmail.com";
 
-                string userPWD = "admin123";
+                string userPassWord = "admin123";
 
-                var chkUser = UserManager.Create(user, userPWD);
+                var chkUser = UserManager.Create(user, userPassWord);
 
                 //Add default User to Role Admin
                 if (chkUser.Succeeded)

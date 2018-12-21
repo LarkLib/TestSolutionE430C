@@ -1,5 +1,5 @@
-﻿@model IEnumerable<QnyWeb.Models.AspNetUser>
-
+﻿@using NonFactors.Mvc.Grid;
+@model IEnumerable<QnyWeb.Models.AspNetUser>
 @{
     ViewBag.Title = "AccountManager";
     Layout = "~/Views/Home/_AccountManager.cshtml";
@@ -7,21 +7,23 @@
     IList<QnyWeb.Models.PoiList> Pois = ViewBag.Pois;
 }
 
-<h2>AccountManager</h2>
-
+<h2>用户管理</h2>
 <p></p>
 @using (Html.BeginForm("AccountManager", "Home", FormMethod.Post))
 {
     <table class="table">
         <tr>
-            <th>User Name</th>
-            <th colspan="3">Roles</th>
+            <th>用户名</th>
+            <th colspan="3">角色</th>
         </tr>
         @foreach (var item in Model)
         {
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserName)
+                    @*<a href='@Url.RouteUrl("DefaultApi", new { httproute = true, controller ="Qny", action = "DeleteAccount", id = item.Id })'>删除用户</a>*@
+                    <a href="javascript:void(0)" onclick="deletes('@item.Id')">删除</a>
+                    <a href="javascript:void(0)" onclick="resetPassword(this,'@item.Id')">重置密码</a>
                 </td>
                 @foreach (var role in Roles)
                 {
@@ -47,7 +49,7 @@
     </table>
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" id="SaveButton" value="Save" />
+            <input type="submit" class="btn btn-default" id="SaveButton" value="保存" />
         </div>
     </div>
     <input type="hidden" value="" id="hiddenResult" name="hiddenResult" />
@@ -64,5 +66,51 @@
                 });
             document.getElementById("hiddenResult").value = value;
         };
+
+        //删除用户
+        function deletes(id) {
+            //$(function () {
+            $.ajax({
+                type: 'get',
+                async: false,
+                url: '/api/Qny/DeleteAccount/' + id,
+                dataType: 'JSON',
+                data: {},
+                success: function (result) {
+                    //var json = JSON.parse(result);
+                    window.location.href = "/Home/AccountManager";
+                }
+            });
+            //});
+        }
+
+        function resetPassword(e, userId) {
+            cancelResetPassword()
+            $(e).after('<div id="resetDiv">密码:<input type="text" id="password" name="password"/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" id="resetButton" name="resetButton" onclick="postResetPassword(\'' + userId + '\')" value="重置" />&nbsp;&nbsp;&nbsp;&nbsp;<input type="button" onclick="cancelResetPassword()" value="取消" /></div>');
+        }
+        function postResetPassword(userId) {
+            var password = $("#password").val();
+            $.ajax({
+                type: 'POST',
+                //async: false,
+                url: '/api/Qny/ResetPassword/',
+                contentType: "application/json",
+                dataType: 'JSON',
+                data: JSON.stringify({ 'id': userId, 'password': password }),
+                success: function (result) {
+                    var json = JSON.parse(result);
+                    if (json.code == 0) {
+                        $("#resetDiv").html("<p style='color:green'><b>" + json.message + "</b></p>");
+                    } else {
+                        $("#resetDiv").after("<p style='color:red'><b>" + json.message + "</b></p>");
+                    }
+                }
+            });
+        }
+        function cancelResetPassword() {
+            $("#resetDiv").each(function (i, e) {
+                e.remove();
+            });
+        }
     </script>
 }

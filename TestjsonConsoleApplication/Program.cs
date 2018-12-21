@@ -91,6 +91,8 @@ namespace TestjsonConsoleApplication
                     new DataColumn("VolumeMA20", typeof(decimal)),
                     new DataColumn("Turnover", typeof(decimal)),
                 });
+
+            string password = jArrayAkdaily2.Value<string>("password");
             foreach (JArray item in jArrayAkdaily2["record"])
             {
                 var dataRow = dt.NewRow();

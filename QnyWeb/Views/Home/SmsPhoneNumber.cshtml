@@ -1,25 +1,25 @@
 ﻿@model IEnumerable<QnyWeb.Models.PoiConfig>
 
 @{
-    ViewBag.Title = "SmsPhoneNumber";
+    ViewBag.Title = "短消息设置";
     Layout = "~/Views/Home/_AccountManager.cshtml";
     IDictionary<int, string> Pois = ViewBag.Pois;
 }
 
-<h2>SmsPhoneNumber</h2>
+<h2>短消息设置</h2>
 
 <p>
-    <b>Please use "," to separate multiple phone number, example "13666666666,13999999999,13888888888" </b>
+    如果输入多个电话号码,请用逗号隔开, 例如:<b>13666666666,13999999999,13888888888</b>
 </p>
 @using (Html.BeginForm("SmsPhoneNumber", "Home", FormMethod.Post))
 {
     <table class="table">
         <tr>
             <th>
-                @Html.Label("Name")
+                @Html.Label("名称")
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.phonenumber)
+                @Html.Label("电话号码")
             </th>
         </tr>
 
@@ -29,7 +29,7 @@
                 <td>
                     @if (!Pois.Keys.Contains(item.poiid))
                     {
-                        @Html.Label("Default")
+                        @Html.Label("默认号码")
                     }
                     else
                     {
@@ -37,14 +37,14 @@
                     }
                 </td>
                 <td>
-                    <input class="text-box single-line" id="item_phonenumber" name="item.phonenumber.@item.poiid" type="text" value="@item.phonenumber" />
+                    <input class="text-box single-line col-md-10" id="item_phonenumber" name="item.phonenumber.@item.poiid" type="text" value="@item.phonenumber" />
                 </td>
             </tr>
         }
     </table>
     <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" id="SaveButton" class="btn btn-default" value="Save" />
+        <div class="col-md-10">
+            <input type="submit" id="SaveButton" class="btn btn-default" value="保存" />
         </div>
     </div>
 }

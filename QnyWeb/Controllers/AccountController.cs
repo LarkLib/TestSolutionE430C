@@ -60,7 +60,7 @@ namespace QnyWeb.Controllers
             ViewBag.ReturnUrl = returnUrl;
             if (User.Identity.IsAuthenticated && !string.IsNullOrWhiteSpace(returnUrl))
             {
-                ViewBag.ErrorMessage = "Invalid role attempt.";
+                ViewBag.ErrorMessage = "用户权限错误,请重新登录或者联系管理员获得授权.";
             }
             return View();
         }
@@ -90,7 +90,7 @@ namespace QnyWeb.Controllers
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                    ModelState.AddModelError("", "用户名或密码错误.");
                     return View(model);
             }
         }

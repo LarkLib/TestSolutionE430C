@@ -7,6 +7,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using QnyWeb.Utilities;
 using Microsoft.AspNet.Identity.EntityFramework;
+using X.PagedList;
 
 namespace QnyWeb.Controllers
 {
@@ -40,6 +41,7 @@ namespace QnyWeb.Controllers
         [Authorize(Roles = "Inputer,Admin")]
         public ActionResult ReceivingNote(string cDate = null)
         {
+            ViewBag.SaveStatus = string.Empty;
             var date = string.IsNullOrWhiteSpace(cDate) ? DateTime.Now.Date : DateTime.Parse(cDate);
             var dbContext = new ShQnyEntities();
             var rnItems = dbContext.ReceivingNoteItemViews.Where(item => item.cDate.Value == date);
@@ -61,12 +63,14 @@ namespace QnyWeb.Controllers
             //{
             //    // save the ViewModel
             //}
+            ViewBag.SaveStatus = string.Empty;
             var cDate = form["cDate"];
             var operation = new Operation();
             operation.ParserFormCollection(form);
             var date = string.IsNullOrWhiteSpace(cDate) ? DateTime.Now.Date : DateTime.Parse(cDate);
             var dbContext = new ShQnyEntities();
             var rnItems = dbContext.ReceivingNoteItemViews.Where(item => item.cDate.Value == date);
+            ViewBag.SaveStatus = "数据保存成功!";
             return View(rnItems);
         }
         [HttpGet]
@@ -97,7 +101,6 @@ namespace QnyWeb.Controllers
             ViewBag.Pois = shQnydbContext.PoiLists.ToDictionary(p => p.poiid, p => p.poiname);
             return View(phones);
         }
-
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public ActionResult AccountManager()
@@ -150,7 +153,7 @@ namespace QnyWeb.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            //ViewBag.Message = "Your application description page.";
 
             return View();
         }

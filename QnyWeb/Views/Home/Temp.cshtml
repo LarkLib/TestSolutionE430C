@@ -1,33 +1,56 @@
 ﻿
 @{
-    Layout = null;
+//Layout = null;
 }
 <p></p>
 <p></p>
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common-material.min.css" />
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.min.css" />
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.mobile.min.css" />
+<!-- Button trigger modal -->
+<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+    Launch demo modal
+</button>
 
-<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jquery.min.js"></script>
-<script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+@*<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common-material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.mobile.min.css" />
 
-<div id="example">
-    <div class="demo-section k-content">
-        <h4>Remind me on</h4>
-        <input id="datetimepicker" title="datetimepicker" style="width: 100%;" />
-    </div>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jquery.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
 
-    <script>
-        $(document).ready(function () {
-            // create DateTimePicker from input HTML element
-            $("#datetimepicker").kendoDateTimePicker({
-                value: new Date(),
-                dateInput: true
+    <div id="example">
+        <div class="demo-section k-content">
+            <h4>Remind me on</h4>
+            <input id="datetimepicker" title="datetimepicker" style="width: 100%;" />
+        </div>
+
+        <script>
+            $(document).ready(function () {
+                // create DateTimePicker from input HTML element
+                $("#datetimepicker").kendoDateTimePicker({
+                    value: new Date(),
+                    dateInput: true
+                });
             });
-        });
-    </script>
+        </script>
 
-</div>
+    </div>*@
 
 @*<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">*@
 @*<link rel="stylesheet" href="/resources/demos/style.css">*@
@@ -62,10 +85,11 @@
 <p></p>
 <p></p>
 <p></p>
-@*<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+<input type="text" class="datepicker" id="datepicker" placeholder="请选择日期" />
+<a href="javascript:void(0)" onclick="postSimpleData()">重置密码</a>@section Scripts {
     <script src="~/Scripts/bootstrap-datepicker.js"></script>
     <script src="~/Scripts/locales/bootstrap-datepicker.zh-CN.min.js"></script>
-    <input type="text" class="datepicker" placeholder="请选择日期" />
     <script type="text/javascript">
         $(function () {
             $(".datepicker").datepicker({
@@ -76,4 +100,17 @@
                 format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
             });
         });
-    </script>*@
+        function postSimpleData() {
+            $.ajax({
+                type: "POST",
+                url: "/api/qny/SimpleData",
+                contentType: "application/json", //必须有
+                dataType: "json", //表示返回值类型，不必须
+                data: JSON.stringify({ 'foo': 'foovalue', 'bar': 'barvalue' }),  //相当于 //data: "{'str1':'foovalue', 'str2':'barvalue'}",
+                success: function (jsonResult) {
+                    alert(jsonResult);
+                }
+            });
+        }
+    </script>
+}
