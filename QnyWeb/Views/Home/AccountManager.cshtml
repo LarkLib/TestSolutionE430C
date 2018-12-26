@@ -1,4 +1,5 @@
-﻿@using NonFactors.Mvc.Grid;
+﻿@*@using X.PagedList
+@using X.PagedList.Mvc*@
 @model IEnumerable<QnyWeb.Models.AspNetUser>
 @{
     ViewBag.Title = "AccountManager";
@@ -6,7 +7,7 @@
     IList<QnyWeb.Models.AspNetRole> Roles = ViewBag.Roles;
     IList<QnyWeb.Models.PoiList> Pois = ViewBag.Pois;
 }
-
+<link href="/Content/PagedList.css" rel="stylesheet" type="text/css" />
 <h2>用户管理</h2>
 <p></p>
 @using (Html.BeginForm("AccountManager", "Home", FormMethod.Post))
@@ -28,16 +29,29 @@
                 @foreach (var role in Roles)
                 {
                     var roleCheckd = item.AspNetUserRoles.Where(ur => ur.RoleId == role.Id).Any();
+                    var isSales = role.Name.Equals("Sales");
+                    var isAdmin = role.Name.Equals("Admin");
                     <td>
-                        @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}" })
+                        @if (isSales)
+                        {
+                            @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "salesCheck(this)" })
+                        }
+                        else if (isAdmin)
+                        {
+                            @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "adminCheck(this)" })
+                        }
+                        else
+                        {
+                            @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}" })
+                        }
                         @Html.DisplayFor(r => role.Name)
-                        @if (role.Name.Equals("Sales"))
+                        @if (isSales)
                         {
                             <br />
                             foreach (var poi in Pois)
                             {
                                 var poiCheckd = item.AspNetUserPois.Where(up => up.poiId == poi.poiid).Any();
-                                @Html.CheckBoxFor(p => poiCheckd, new { id = $"up_{item.Id}_{poi.poiid}" })
+                                @Html.CheckBoxFor(p => poiCheckd, new { id = $"up_{item.Id}_{poi.poiid}", onclick = "poiCheck(this)" })
                                 @Html.DisplayFor(p => poi.poiname)
                                 <br />
                             }
@@ -47,9 +61,11 @@
             </tr>
         }
     </table>
+    @*@Html.PagedListPager((IPagedList)Model, page => Url.Action("AccountManager", new { page }))*@
+    <input type="submit" class="btn btn-default" id="SaveButton" value="保存" />
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-default" id="SaveButton" value="保存" />
+
         </div>
     </div>
     <input type="hidden" value="" id="hiddenResult" name="hiddenResult" />
@@ -111,6 +127,27 @@
             $("#resetDiv").each(function (i, e) {
                 e.remove();
             });
+        }
+        function salesCheck(chk) {
+            if (!$(chk).is(":checked")) {
+                $(chk).parent().find("input[type=checkbox][id!='" + $(chk).attr("id") + "']").each(
+                function (i, e) {
+                    $(e).prop("checked", false);
+                });
+            }
+        }
+        function poiCheck(chk) {
+            if ($(chk).is(":checked")) {
+                $(chk).parent().find("input[id^=ur]").prop("checked", true);
+            }
+        }
+        function adminCheck(chk) {
+            if ($(chk).is(":checked")) {
+                $(chk).parent().parent().find("input[type=checkbox][id!='" + $(chk).attr("id") + "']").each(
+                function (i, e) {
+                    $(e).prop("checked", false);
+                });
+            }
         }
     </script>
 }

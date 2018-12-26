@@ -103,10 +103,10 @@ namespace QnyWeb.Controllers
         }
         [HttpGet]
         [Authorize(Roles = "Admin")]
-        public ActionResult AccountManager()
+        public ActionResult AccountManager(/*int page = 1*/)
         {
             var shQnydbContext = new ShQnyEntities();
-            var userInfos = shQnydbContext.AspNetUsers.OrderByDescending(u => u.Id).ToList();
+            var userInfos = shQnydbContext.AspNetUsers.OrderByDescending(u => u.Id).ToList();//.ToPagedList(page, 3);
             ViewBag.Roles = shQnydbContext.AspNetRoles.ToList();
             ViewBag.Pois = shQnydbContext.PoiLists.ToList();
             return View(userInfos);
@@ -116,8 +116,6 @@ namespace QnyWeb.Controllers
         public ActionResult AccountManager(FormCollection model)
         {
             var results = string.IsNullOrWhiteSpace(model["hiddenResult"]) ? Enumerable.Empty<string>() : model["hiddenResult"].Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
-
-            IList<AspNetUser> userInfos = null;
             var shQnydbContext = new ShQnyEntities();
             var userRoles = shQnydbContext.AspNetUserRoles;
             foreach (var ur in userRoles)
@@ -140,7 +138,7 @@ namespace QnyWeb.Controllers
                 userPois.Add(new AspNetUserPois() { UserId = values[1], poiId = int.Parse(values[2]) });
             }
             shQnydbContext.SaveChanges();
-            userInfos = shQnydbContext.AspNetUsers.OrderByDescending(u => u.Id).ToList();
+            var userInfos = shQnydbContext.AspNetUsers.OrderByDescending(u => u.Id).ToList();//.ToPagedList(page, 3);
             ViewBag.Roles = shQnydbContext.AspNetRoles.ToList();
             ViewBag.Pois = shQnydbContext.PoiLists.ToList();
             return View(userInfos);

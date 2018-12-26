@@ -69,7 +69,7 @@ namespace QnyWeb.Models
         public string UserName { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "{0}不得少于{2} 位.", MinimumLength = 1)]
         [DataType(DataType.Password)]
         [Display(Name = "密码")]
         public string Password { get; set; }

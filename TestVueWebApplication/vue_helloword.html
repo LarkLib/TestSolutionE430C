@@ -1,0 +1,268 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+    <!--这是我们的View-->
+    <div id="app">
+        {{ message }}
+    </div>
+    <script src="scripts/vue.js"></script>
+    <script>
+        // 这是我们的Model
+        var exampleData = {
+            message: 'Hello World!'
+        }
+
+        // 创建一个 Vue 实例或 "ViewModel"
+        // 它连接 View 与 Model
+        new Vue({
+            el: '#app',
+            data: exampleData
+        })
+    </script>
+
+    <div id="app-2">
+        <span v-bind:title="message">
+            Hover your mouse over me for a few seconds
+            to see my dynamically bound title!
+        </span>
+    </div>
+    <script>
+        var app2 = new Vue({
+            el: '#app-2',
+            data: {
+                message: 'You loaded this page on ' + new Date().toLocaleString()
+            }
+        })
+    </script>
+
+
+    <div id="app-3">
+        <span v-if="seen">Now you see me</span>
+    </div>
+    <script>
+        var app3 = new Vue({
+            el: '#app-3',
+            data: {
+                seen: true
+            }
+        })
+    </script>
+
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+    </div>
+    <script>
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                todos: [
+                  { text: 'Learn JavaScript' },
+                  { text: 'Learn Vue' },
+                  { text: 'Build something awesome' }
+                ]
+            }
+        })
+    </script>
+
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <button v-on:click="reverseMessage">Reverse Message</button>
+    </div>
+    <script>
+        var app5 = new Vue({
+            el: '#app-5',
+            data: {
+                message: 'Hello Vue.js!'
+            },
+            methods: {
+                reverseMessage: function () {
+                    this.message = this.message.split('').reverse().join('')
+                }
+            }
+        })
+    </script>
+
+    <div id="app-6">
+        <p>{{ message }}</p>
+        <input v-model="message">
+    </div>
+    <script>
+        var app6 = new Vue({
+            el: '#app-6',
+            data: {
+                message: 'Hello Vue!'
+            }
+        })
+    </script>
+
+    <div id="app-7">
+        <ol>
+            <!--
+              Now we provide each todo-item with the todo object
+              it's representing, so that its content can be dynamic.
+              We also need to provide each component with a "key",
+              which will be explained later.
+            -->
+            <todo-item v-for="item in groceryList"
+                       v-bind:todo="item"
+                       v-bind:key="item.id">
+            </todo-item>
+        </ol>
+    </div>
+    <script>
+        Vue.component('todo-item', {
+            props: ['todo'],
+            template: '<li>{{ todo.text }}</li>'
+        })
+
+        var app7 = new Vue({
+            el: '#app-7',
+            data: {
+                groceryList: [
+                { id: 0, text: 'Vegetables' },
+                { id: 1, text: 'Cheese' },
+                { id: 2, text: 'Whatever else humans are supposed to eat' }
+                ]
+            }
+        })
+    </script>
+
+    <div id="example">
+        <p>Computed Properties</p>
+        <p>Original message: "{{ message }}"</p>
+        <p>Computed reversed message: "{{ reversedMessage }}"</p>
+    </div>
+    <script>
+        var vm = new Vue({
+            el: '#example',
+            data: {
+                message: 'Hello'
+            },
+            computed: {
+                // a computed getter
+                reversedMessage: function () {
+                    // `this` points to the vm instance
+                    return this.message.split('').reverse().join('')
+                }
+            }
+        })
+    </script>
+    <div id="demo">watch properties:{{ fullName }}</div>
+    <script>
+        var vm = new Vue({
+            el: '#demo',
+            data: {
+                firstName: 'Foo',
+                lastName: 'Bar',
+                fullName: 'Foo Bar'
+            },
+            watch: {
+                firstName: function (val) {
+                    this.fullName = val + ' ' + this.lastName
+                },
+                lastName: function (val) {
+                    this.fullName = this.firstName + ' ' + val
+                }
+            }
+        })
+    </script>
+    <div id="demo2">Computed Setter:{{ fullName }}</div>
+    <script>
+        var vm = new Vue({
+            el: '#demo2',
+            data: {
+                firstName: 'Foo',
+                lastName: 'Bar'
+            },
+            //computed: {
+            //    fullName: function () {
+            //        return this.firstName + ' ' + this.lastName
+            //    }
+            //}
+            computed: {
+                fullName: {
+                    // getter
+                    get: function () {
+                        return this.firstName + ' ' + this.lastName
+                    },
+                    // setter
+                    set: function (newValue) {
+                        var names = newValue.split(' ')
+                        this.firstName = names[0]
+                        this.lastName = names[names.length - 1]
+                    }
+                }
+            }
+        })
+    </script>
+    <div id="templateSyntax">
+        <span v-once>v-once:This will never change: {{ msg }}</span>
+        <p>Using mustaches: {{ rawHtml }}</p>
+        <p>Using v-html directive: <span v-html="rawHtml"></span></p>
+        <p>
+            isButtonDisabled=true
+            <button v-bind:disabled="isButtonDisabled">Button</button>
+            <button v-bind:disabled="!isButtonDisabled">Button</button>
+        </p>
+        <p>
+            Using JavaScript Expressions:<br />
+            <span v-pre>v-pre:{{这个双括号要显示}}</span><br>
+            <span v-pre>{{ number + 1 }}</span>{{ number + 1 }}<br>
+            <span v-pre>{{ ok ? 'YES' : 'NO' }}</span>{{ ok ? 'YES' : 'NO' }}<br>
+            <span v-pre>{{ message.split('').reverse().join('') }}</span>{{ message.split('').reverse().join('') }}<br>
+            <div v-bind:id="'list-' + id">div v-bind:id="'list-' + id"</div><br>
+            <span>{{name}}</span>
+            <span v-html="name">{{name}}</span>
+        </p>
+    </div>
+    <script>
+        var templateSyntax = new Vue({
+            el: '#templateSyntax',
+            data: {
+                msg: 'Hello Vue!',
+                rawHtml: '<span style="color:red">This should be red!</span>',
+                isButtonDisabled: true,
+                number: 9,
+                ok: true,
+                message: "Hello Vue",
+                id: 100,
+                name: '前一部分<br/>后一部分'
+            }
+        })
+    </script>
+
+    <div id="directives">
+        <p>Directives:</p>
+        <p v-if="seen">v-if="seen":Now you see me</p>
+        <p><a v-bind:href="url"> v-bind:href </a></p>
+        <p><button v-on:click="doSomething">v-on:click="doSomething"{{action}}</button></p>
+        <p><a :href="url">shorthand v-bind to :href </a></p>
+        <p><button @:click="doSomething">shorthand v-on to @:click="doSomething"{{action}}</button></p>
+    </div>
+    <script>
+        var directives = new Vue({
+            el: '#directives',
+            data: {
+                seen: true,
+                url: '#',
+                action: ""
+            },
+            methods: {
+                doSomething() {
+                    this.action = "--done!"
+                }
+            }
+
+        })
+    </script>
+
+</body>
+</html>

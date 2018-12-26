@@ -4,7 +4,8 @@
     {
         static void Main(string[] args)
         {
-            new TestMigraDoc().Execute();
+            new TestExcelReader().Execute();
+            //new TestMigraDoc().Execute();
             //new TestPdfSharp().Execute();
             //new TestiText().Execute();
             //new TestiTextSharp().Execute();

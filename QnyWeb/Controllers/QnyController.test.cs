@@ -36,8 +36,8 @@ namespace QnyWeb.Controllers
             return products;
         }
 
-        [HttpGet]
-        public IHttpActionResult SimpleData(string foo, string bar)
+        [HttpPost]
+        public IHttpActionResult SimpleData2(string foo, string bar)
         {
             return Ok("{'SimpleData':'return ok'");
         }

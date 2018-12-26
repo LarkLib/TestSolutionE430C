@@ -45,6 +45,14 @@
       <HintPath>..\packages\Common.Logging.Core.3.4.1\lib\net40\Common.Logging.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="ExcelDataReader, Version=3.4.2.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.3.4.2\lib\net45\ExcelDataReader.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="ExcelDataReader.DataSet, Version=3.4.2.0, Culture=neutral, PublicKeyToken=93517dbe6a4012fa, processorArchitecture=MSIL">
+      <HintPath>..\packages\ExcelDataReader.DataSet.3.4.2\lib\net35\ExcelDataReader.DataSet.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="itext.barcodes, Version=7.1.4.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
       <HintPath>..\packages\itext7.7.1.4\lib\net40\itext.barcodes.dll</HintPath>
       <Private>True</Private>
@@ -121,6 +129,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Management" />
     <Reference Include="System.Printing" />
     <Reference Include="System.Windows.Forms" />
@@ -135,6 +144,7 @@
     <Compile Include="MigraDocPrintDocument.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TestExcelReader.cs" />
     <Compile Include="TestiText.cs" />
     <Compile Include="TestMigraDoc.cs" />
     <Compile Include="TestPdfSharp.cs" />

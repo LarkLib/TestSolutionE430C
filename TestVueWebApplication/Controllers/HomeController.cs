@@ -13,5 +13,10 @@ namespace TestVueWebApplication.Controllers
         {
             return View();
         }
+        public ActionResult TestVue()
+        {
+            return View();
+        }
+
     }
 }
