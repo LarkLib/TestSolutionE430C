@@ -27,7 +27,7 @@ namespace QnyWeb.Utilities
             for (int i = 0; i < RnId.Length; i++)
             {
                 var rnItem = new ReceivingNote();
-                rnItem.cDate = cDate;
+                //rnItem.cDate = cDate;
                 if (!string.IsNullOrWhiteSpace(RnId[i])) rnItem.RnId = new Guid(RnId[i]);
                 if (!string.IsNullOrWhiteSpace(paymentStatus[i])) rnItem.PaymentStatus = bool.Parse(paymentStatus[i]);
                 if (!string.IsNullOrWhiteSpace(Supplier[i])) rnItem.Supplier = Supplier[i];

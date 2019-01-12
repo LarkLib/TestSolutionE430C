@@ -173,6 +173,8 @@
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\vue.js" />
     <Content Include="scripts\vue.min.js" />
+    <Content Include="testiframe.html" />
+    <Content Include="vue.html" />
     <Content Include="vue_helloword.html" />
     <Content Include="Web.config" />
   </ItemGroup>

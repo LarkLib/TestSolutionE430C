@@ -1,0 +1,194 @@
+﻿@model IEnumerable<QnyWeb.Models.ReceivingNoteItemView>
+<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+@{
+    ViewBag.Title = "收货单";
+}
+<div class="form-group">
+    <h3>收货单</h3>
+</div>
+<p>@{var cdate = Model != null && Model.Any() && Model.FirstOrDefault().cDate.HasValue ? Model.FirstOrDefault().cDate.Value.ToString("yyyy-MM-dd") : string.Empty;}</p>
+<div class="form-group">
+    出货日期: <input type="text" id="date" value="@cdate"><button id="searchButton">搜索</button>
+</div>
+<hr />
+<form method="post">
+    出货日期:<b>@cdate</b>
+    <br />
+    <label id="MessageLabel" style="color:green">@ViewBag.SaveStatus</label>
+    <input type="hidden" id="cDate" name="cDate" value="@cdate" />
+    <input type="hidden" id="item_PaymentStatus" name="item.PaymentStatus" />
+    <table class="table">
+        <tr>
+            <th>
+                poNo
+            </th>
+            <th>
+                SkuId
+            </th>
+            <th>
+                商品名称
+            </th>
+            <th>
+                规格
+            </th>
+            <th>
+                单位
+            </th>
+            <th>
+                订单数量
+            </th>
+            <th>
+                采购数量
+            </th>
+            <th>
+                采购单价
+            </th>
+            <th>
+                采购金额
+            </th>
+            <th>
+                对比价格
+            </th>
+            <th>
+                对比毛利
+            </th>
+            <th>
+                供货商
+            </th>
+            <th>
+                付款状态
+            </th>
+        </tr>
+        @foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.poNo)
+                    @Html.HiddenFor(modelItem => item.poNo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.skuId)
+                    @Html.HiddenFor(modelItem => item.skuId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.spuName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.skuSpec)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.skuDictUnitName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.prePoAmount)
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.Quantity, new { style = "width:50px" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.UnitPrice, new { style = "width:50px" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.TotalPrice, new { style = "width:50px" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.ContrastPrice, new { style = "width:50px" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.ContrastGrossProfit, new { style = "width:50px" })
+                </td>
+                <td>
+                    @Html.TextBoxFor(modelItem => item.Supplier)
+                </td>
+                <td>
+                    @Html.CheckBoxFor(modelItem => item.PaymentStatus.Value, new { style = "width:50px" })
+                    @Html.HiddenFor(modelItem => item.RnId)
+                </td>
+            </tr>
+        }
+
+    </table>
+
+    <input type="submit" value="保存" id="saveButton" />
+</form>
+<script>
+    document.getElementById("searchButton").onclick = function () {
+        searchRN();
+    };
+    document.getElementById('date').onkeydown = function (e) {
+        if (e.keyCode == 13) {
+            searchRN();
+        }
+    };
+    function searchRN() {
+        var date = document.getElementById('date').value;
+        url = '/Home/ReceivingNote?cDate=' + date;
+        location.href = url;
+    }
+
+    document.getElementById("saveButton").onclick = function () {
+        var suppliers = document.getElementsByName('item.Supplier');
+        if (suppliers != null && suppliers.length > 0) {
+            for (i = 0; i < suppliers.length; i++) {
+                var value = suppliers[i].value;
+                if (value != null && value != "") {
+                    value = value.replace(/,/g, '');
+                    suppliers[i].value = value;
+                }
+            }
+        }
+
+        var checkboxes = document.getElementsByName('item.PaymentStatus.Value');
+        var paymentValue = document.getElementById('item_PaymentStatus').value;
+        if (checkboxes != null && checkboxes.length > 0) {
+            for (i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].attributes['type'].value == 'checkbox') {
+                    paymentValue += checkboxes[i].checked + ',';
+                }
+            }
+            document.getElementById('item_PaymentStatus').value = paymentValue;
+            //alert(document.getElementById('item_PaymentStatus').value)
+        }
+
+        if (!CheckNumber('item.Quantity') ||
+            !CheckNumber('item.UnitPrice') ||
+            !CheckNumber('item.TotalPrice') ||
+            !CheckNumber('item.ContrastPrice') ||
+            !CheckNumber('item.ContrastGrossProfit')) {
+            return false;
+        }
+    };
+
+    function CheckNumber(name) {
+        var elements = document.getElementsByName(name);
+        if (elements != null && elements.length > 0) {
+            for (i = 0; i < elements.length; i++) {
+                var value = elements[i].value;
+                if (value != null && value != "" && isNaN(value)) {
+                    elements[i].focus();
+                    elements[i].select();
+                    //alert("plase input number!")
+                    document.getElementById("MessageLabel").style.color = "red";
+                    document.getElementById("MessageLabel").innerText = "数据格式错误,请确认输入的是半角数字!";
+                    return false
+                }
+            }
+        }
+        return true;
+    };
+</script>
+@section Scripts {
+    <script src="~/Scripts/bootstrap-datepicker.js"></script>
+    <script src="~/Scripts/locales/bootstrap-datepicker.zh-CN.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("#date").datepicker({
+                language: "zh-CN",
+                autoclose: true,//选中之后自动隐藏日期选择框
+                clearBtn: true,//清除按钮
+                todayBtn: true,//今日按钮
+                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
+            });
+        });
+    </script>
+}

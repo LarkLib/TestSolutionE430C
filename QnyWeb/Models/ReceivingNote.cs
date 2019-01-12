@@ -14,13 +14,8 @@ namespace QnyWeb.Models
     
     public partial class ReceivingNote
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public ReceivingNote()
-        {
-            this.RnPoItems = new HashSet<RnPoItem>();
-        }
-    
         public System.Guid RnId { get; set; }
+        public string poNo { get; set; }
         public long skuId { get; set; }
         public Nullable<decimal> Quantity { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }
@@ -29,14 +24,8 @@ namespace QnyWeb.Models
         public Nullable<decimal> ContrastGrossProfit { get; set; }
         public string Supplier { get; set; }
         public bool PaymentStatus { get; set; }
-        public Nullable<decimal> ApplyQuantity { get; set; }
-        public Nullable<System.DateTime> CreateTime { get; set; }
-        public string Creator { get; set; }
-        public Nullable<System.DateTime> UpdateTime { get; set; }
-        public string @operator { get; set; }
-        public System.DateTime cDate { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<RnPoItem> RnPoItems { get; set; }
+        public Nullable<decimal> ReturnAmount { get; set; }
+        public Nullable<decimal> ReturnPrice { get; set; }
+        public string Remark { get; set; }
     }
 }

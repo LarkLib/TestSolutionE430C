@@ -1,0 +1,296 @@
+﻿@*<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />*@
+<link rel="stylesheet" href="~/Content/ElementUI/element-ui.css">
+@{
+    ViewBag.Title = "收货单";
+}
+<p></p>
+<div id="rnItems">
+    <div class="form-group">
+        出货日期: <el-date-picker v-model="selectedDate" type="date" format="yyyy-MM-dd" placeholder="选择日期" id="date"></el-date-picker>
+        <el-button v-on:click="updateRns()">搜索</el-button>
+    </div>
+    <hr />
+    出货日期:<b>{{cdate}}</b>
+    <br />
+    <table class="table">
+        <tr>
+            <td>
+                <b>商品名称</b>
+            </td>
+            <th>
+                规格
+            </th>
+            <th>
+                单位
+            </th>
+            <th>
+                订单数量
+            </th>
+            <th>
+                实收数量
+            </th>
+            <th>
+                实收金额
+            </th>
+            <th>
+                采购数量
+            </th>
+            <th>
+                采购单价
+            </th>
+            <th>
+                采购金额
+            </th>
+            <th>
+                供货商
+            </th>
+            <th>
+                付款状态
+            </th>
+            <th>
+                退货数量
+            </th>
+            <th>
+                退货金额
+            </th>
+            <th>
+                备注
+            </th>
+            <th></th>
+        </tr>
+        <template v-for="(rng,index) in rns">
+            <tr><td colspan="15" style="color:darkblue"><b>订单号:{{index}}</b></td></tr>
+            <tr v-for="(rn,index) in rng">
+                <td>{{rn.spuName}}</td>
+                <td>{{rn.skuSpec}}</td>
+                <td>{{rn.skuDictUnitName}}</td>
+                <td>{{rn.prePoAmount}}</td>
+                <td>{{rn.poAmount<0 ? '' : rn.poAmount}}</td>
+                <td>{{rn.poAmount<0 ? '' : rn.sumPoPrice/100.00}}</td>
+                <td><input data-val="true" data-val-number="The field ContrastPrice must be a number." style="width:60px" type="text" name="item.Quantity" v-model="rn.Quantity" /></td>
+                <td><input data-val="true" data-val-number="The field ContrastPrice must be a number." style="width:60px" type="text" name="item.UnitPrice" v-model="rn.UnitPrice" /></td>
+                <td><input data-val="true" data-val-number="The field ContrastPrice must be a number." style="width:70px" type="text" name="item.TotalPrice" disabled="disabled" v-model="rn.Quantity * rn.UnitPrice" /></td>
+                <td style="width:150px">
+                    <template>
+                        <el-select v-on:change="onSelectChanged($event,rn.skuId)" v-model="rn.Supplier" clearable filterable allow-create default-first-option size="mini" placeholder="请选择供应商">
+                            <el-option v-for="item in supplierOptions[rn.skuId]" :label="item.Value" :value="item.Value"> </el-option>
+                        </el-select>
+                    </template>
+                </td>
+                <td><input style="width:30px" type="checkbox" v-model="rn.PaymentStatus" /></td>
+                <td><input data-val="true" data-val-number="The field ContrastPrice must be a number." style="width:50px" type="text" name="item.ReturnAmount" v-model="rn.ReturnAmount" /></td>
+                <td><input data-val="true" data-val-number="The field ContrastPrice must be a number." style="width:50px" type="text" name="item.ReturnPrice" v-model="rn.ReturnPrice" /></td>
+                <td><input data-val="true" type="text" v-model="rn.Remark" style="width:50px" /></td>
+                <td>
+                    <div v-on:click="addRn(rn.poNo,index)" style="cursor:pointer;color:darkgreen"><b>+</b></div><div v-on:click="delRn(rn.poNo,index)" style="cursor:pointer;color:red"><b>-</b></div>
+                </td>
+            </tr>
+        </template>
+    </table>
+    <div class="form-group">
+        <label style="color:green">{{saveStatus}}</label><br />
+        <el-button v-on:click="SaveRns()">保存</el-button>
+    </div>
+
+
+</div>
+@section Scripts {
+    <script src="~/Scripts/es6-promise/es6-promise.min.js"></script>
+    <script src="~/Scripts/es6-promise/es6-promise.auto.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+
+    <script src="~/Scripts/ElementUI/element-ui.js"></script>
+    <script>
+        // Production steps of ECMA-262, Edition 6, 22.1.2.1
+        if (!Array.from) {
+            Array.from = (function () {
+                var toStr = Object.prototype.toString;
+                var isCallable = function (fn) {
+                    return typeof fn === 'function' || toStr.call(fn) === '[object Function]';
+                };
+                var toInteger = function (value) {
+                    var number = Number(value);
+                    if (isNaN(number)) { return 0; }
+                    if (number === 0 || !isFinite(number)) { return number; }
+                    return (number > 0 ? 1 : -1) * Math.floor(Math.abs(number));
+                };
+                var maxSafeInteger = Math.pow(2, 53) - 1;
+                var toLength = function (value) {
+                    var len = toInteger(value);
+                    return Math.min(Math.max(len, 0), maxSafeInteger);
+                };
+
+                // The length property of the from method is 1.
+                return function from(arrayLike/*, mapFn, thisArg */) {
+                    // 1. Let C be the this value.
+                    var C = this;
+
+                    // 2. Let items be ToObject(arrayLike).
+                    var items = Object(arrayLike);
+
+                    // 3. ReturnIfAbrupt(items).
+                    if (arrayLike == null) {
+                        throw new TypeError('Array.from requires an array-like object - not null or undefined');
+                    }
+
+                    // 4. If mapfn is undefined, then let mapping be false.
+                    var mapFn = arguments.length > 1 ? arguments[1] : void undefined;
+                    var T;
+                    if (typeof mapFn !== 'undefined') {
+                        // 5. else
+                        // 5. a If IsCallable(mapfn) is false, throw a TypeError exception.
+                        if (!isCallable(mapFn)) {
+                            throw new TypeError('Array.from: when provided, the second argument must be a function');
+                        }
+
+                        // 5. b. If thisArg was supplied, let T be thisArg; else let T be undefined.
+                        if (arguments.length > 2) {
+                            T = arguments[2];
+                        }
+                    }
+
+                    // 10. Let lenValue be Get(items, "length").
+                    // 11. Let len be ToLength(lenValue).
+                    var len = toLength(items.length);
+
+                    // 13. If IsConstructor(C) is true, then
+                    // 13. a. Let A be the result of calling the [[Construct]] internal method
+                    // of C with an argument list containing the single item len.
+                    // 14. a. Else, Let A be ArrayCreate(len).
+                    var A = isCallable(C) ? Object(new C(len)) : new Array(len);
+
+                    // 16. Let k be 0.
+                    var k = 0;
+                    // 17. Repeat, while k < len… (also steps a - h)
+                    var kValue;
+                    while (k < len) {
+                        kValue = items[k];
+                        if (mapFn) {
+                            A[k] = typeof T === 'undefined' ? mapFn(kValue, k) : mapFn.call(T, kValue, k);
+                        } else {
+                            A[k] = kValue;
+                        }
+                        k += 1;
+                    }
+                    // 18. Let putStatus be Put(A, "length", len, true).
+                    A.length = len;
+                    // 20. Return A.
+                    return A;
+                };
+            }());
+        }
+    </script>
+    <script>
+        'use strict';
+        Vue.prototype.$http = axios;
+        var rnsVm = new Vue({
+            el: "#rnItems",
+            data: {
+                selectedDate: '',
+                cdate: '',
+                rns: '',//空的数据
+                supplierOptions: '',
+                saveStatus: '',
+                deletedRns: [],
+                newRnId: 100000
+            },
+            mounted: function () {
+                this.getData('/api/qny/GetRnItems');//通过this.getData的URL取得API数据
+            },
+            //computed: {
+            //    remaining: function () {
+            //        return this.num;
+            //    }
+            //},//这里我们声明了一个计算属性 remaining,通过返回this.num的值做为未完成总数
+            methods: {//VUE事件处理器
+                getData: function (url) {
+                    var _this = this;
+
+                    if (this.selectedDate == '') this.selectedDate = moment().format("YYYY-MM-DD");
+                    this.$http.get(url, { params: { cDate: moment(this.selectedDate).format("YYYY-MM-DD") }, headers: { "Content-Type": "application/json" } }).then(function (response) {
+                        _this.rns = response.data;
+                        _this.cdate = moment(_this.selectedDate).format("YYYY-MM-DD");
+                        _this.saveStatus = '';
+                        _this.getSupplierOptions();
+                    });
+                },//this.getData取得数据库数据，并取得未完成事件总数
+                postData: function (url) {
+                    if ((this.rns == null || JSON.stringify(this.rns) <= 2) && (this.deletedRns == null || !deletedRns.length < 0)) return;
+                    this.$http.post(url, { payload: { rns: this.rns, deletedRns: this.deletedRns } }).then(function (response) {
+                        this.saveStatus = response.data;
+                    });
+                },
+                getSupplierOptions: function () {
+                    var skuIds = [];
+                    var url = '/api/qny/GetSupplierOptions';
+                    for (var rn in this.rns) {
+                        for (var r in this.rns[rn]) {
+                            skuIds.push(this.rns[rn][r].skuId);
+                        }
+                    }
+                    var _this = this;
+                    this.$http.post(url, { payload: Array.from(new Set(skuIds)), headers: { "Content-Type": "application/json" } }).then(function (response) {
+                        _this.supplierOptions = response.data;
+                    });
+                },
+                updateRns: function () {
+                    this.getData('/api/qny/GetRnItems');
+                },
+                SaveRns: function () {
+                    this.saveStatus = "";
+                    if (!this.CheckNumber('item.Quantity') ||
+                        !this.CheckNumber('item.UnitPrice') ||
+                        !this.CheckNumber('item.TotalPrice') ||
+                        !this.CheckNumber('item.ReturnAmount') ||
+                        !this.CheckNumber('item.ReturnPrice')) {
+                        this.$message.error('数据格式错误,请确认输入的是半角数字!');
+                        return false;
+                    }
+                    this.postData('/api/qny/PostRnItems');
+                },
+                CheckNumber: function (name) {
+                    var elements = document.getElementsByName(name);
+                    if (elements != null && elements.length > 0) {
+                        for (i = 0; i < elements.length; i++) {
+                            var value = elements[i].value;
+                            if (value != null && value != "" && isNaN(value)) {
+                                elements[i].focus();
+                                elements[i].select();
+                                //alert("plase input number!")
+                                //document.getElementById("MessageLabel").style.color = "red";
+                                //document.getElementById("MessageLabel").innerText = "数据格式错误,请确认输入的是半角数字!";
+                                return false
+                            }
+                        }
+                    }
+                    return true;
+                },
+                onSelectChanged: function (value, skuId) {
+                    var obj = {};
+                    obj = this.supplierOptions[skuId].find(function (item) {
+                        return ((item.Value || '') == (value || '')) || ((value || '' != '') && (item.Value || '') != '' && item.Value.toLocaleLowerCase() == value.toLocaleLowerCase());
+                    });
+                    if (obj == undefined || obj == null || obj.length == 0) {
+                        this.supplierOptions[skuId].splice(0, 0, { Key: skuId, Value: value });
+                    }
+                },
+                addRn: function (poNo, index) {
+                    var newRn = JSON.parse(JSON.stringify(this.rns[poNo][index]));
+                    newRn.Id = this.newRnId;
+                    newRn.RnId = '';
+                    this.newRnId++;
+                    this.rns[poNo].splice(index + 1, 0, newRn)
+                },
+                delRn: function (poNo, index) {
+                    var rnId = this.rns[poNo][index].RnId;
+                    if (rnId != null && rnId != '') {
+                        this.deletedRns.push(rnId)
+                    }
+                    this.rns[poNo].splice(index, 1)
+                }
+            },//完成任务或者撤销任务
+        });
+    </script>
+}

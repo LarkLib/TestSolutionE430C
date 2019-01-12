@@ -34,9 +34,17 @@ namespace QnyWeb.Controllers
             var IsAdmin = User.IsInRole("Admin");
             var dbContext = new ShQnyEntities();
             var pois = (from poi in dbContext.AspNetUserPois where poi.UserId.Equals(userId) select poi.poiId).ToList();
-            var pmsPoDetail = dbContext.PmsPoDetails.Where(item => (pois.Contains(item.poiId.Value) && item.poNo.Equals(poNo)) || IsAdmin).First();
+            var pmsPoDetail = dbContext.PmsPoDetails.Where(item => ((pois.Contains(item.poiId.Value) || IsAdmin) && item.poNo.Equals(poNo))).First();
             return View(pmsPoDetail);
         }
+        [HttpGet]
+        [Authorize(Roles = "Inputer,Admin")]
+        public ActionResult ReceivingNote()
+        {
+            return View();
+        }
+
+        /*
         [HttpGet]
         [Authorize(Roles = "Inputer,Admin")]
         public ActionResult ReceivingNote(string cDate = null)
@@ -44,7 +52,7 @@ namespace QnyWeb.Controllers
             ViewBag.SaveStatus = string.Empty;
             var date = string.IsNullOrWhiteSpace(cDate) ? DateTime.Now.Date : DateTime.Parse(cDate);
             var dbContext = new ShQnyEntities();
-            var rnItems = dbContext.ReceivingNoteItemViews.Where(item => item.cDate.Value == date);
+            var rnItems = dbContext.ReceivingNoteItemViews.Where(item => item.cDate.Value == date).OrderBy(p=>p.poNo);
             return View(rnItems);
         }
         [HttpPost]
@@ -73,6 +81,7 @@ namespace QnyWeb.Controllers
             ViewBag.SaveStatus = "数据保存成功!";
             return View(rnItems);
         }
+        */
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public ActionResult SmsPhoneNumber()

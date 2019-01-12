@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0cb14a4cca1d463b8350545fd228e579" Name="ShQnyDiagram" ZoomLevel="86">
+      <Diagram DiagramId="0cb14a4cca1d463b8350545fd228e579" Name="ShQnyDiagram" ZoomLevel="74">
         <EntityTypeShape EntityType="ShQnyModel.PmsPo" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ShQnyModel.PmsPoDetail" Width="1.5" PointX="3.75" PointY="0.5" IsExpanded="true" />
         <EntityTypeShape EntityType="ShQnyModel.Sku" Width="1.5" PointX="5.375" PointY="0.5" IsExpanded="true" />
@@ -13,11 +13,7 @@
         <EntityTypeShape EntityType="ShQnyModel.AspNetUserPois" Width="1.5" PointX="10.25" PointY="4.375" />
         <AssociationConnector Association="ShQnyModel.PmsPoDetailSku" />
         <EntityTypeShape EntityType="ShQnyModel.Status" Width="1.5" PointX="2.125" PointY="5.125" />
-        <EntityTypeShape EntityType="ShQnyModel.ReceivingNote" Width="1.5" PointX="8.625" PointY="0.5" />
-        <EntityTypeShape EntityType="ShQnyModel.RnPoItem" Width="1.5" PointX="8.625" PointY="4.75" />
-        <AssociationConnector Association="ShQnyModel.ReceivingNoteRnPoItem" />
         <AssociationConnector Association="ShQnyModel.PmsPoDetailStatus" />
-        <EntityTypeShape EntityType="ShQnyModel.ReceivingNoteItemView" Width="1.5" PointX="7" PointY="0.5" />
         <EntityTypeShape EntityType="ShQnyModel.AspNetRole" Width="1.5" PointX="12" PointY="2.25" />
         <EntityTypeShape EntityType="ShQnyModel.AspNetUserRole" Width="1.5" PointX="12" PointY="0.5" />
         <AssociationConnector Association="ShQnyModel.AspNetRoleAspNetUserRole" />
@@ -25,7 +21,9 @@
         <EntityTypeShape EntityType="ShQnyModel.AspNetUser" Width="1.5" PointX="10.25" PointY="0.5" IsExpanded="true" />
         <AssociationConnector Association="ShQnyModel.AspNetUserAspNetUserRole" />
         <AssociationConnector Association="ShQnyModel.AspNetUserAspNetUserPois" />
-        <EntityTypeShape EntityType="ShQnyModel.PoiConfig" Width="1.5" PointX="7" PointY="5" />
+        <EntityTypeShape EntityType="ShQnyModel.PoiConfig" Width="1.5" PointX="8.625" PointY="4.25" />
+        <EntityTypeShape EntityType="ShQnyModel.ReceivingNote" Width="1.5" PointX="8.625" PointY="0.5" />
+        <EntityTypeShape EntityType="ShQnyModel.ReceivingNoteItemView" Width="1.5" PointX="7" PointY="0.5" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -1,187 +1,380 @@
-﻿@model IEnumerable<QnyWeb.Models.ReceivingNoteItemView>
-<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />
+﻿@*<link href="~/Content/bootstrap-datepicker3.css" rel="stylesheet" />*@
+<link rel="stylesheet" href="~/Content/ElementUI/element-ui.css">
 @{
     ViewBag.Title = "收货单";
 }
-<div class="form-group">
-    <h3>收货单</h3>
-</div>
-<p>@{var cdate = Model != null && Model.Any() && Model.FirstOrDefault().cDate.HasValue ? Model.FirstOrDefault().cDate.Value.ToString("yyyy-MM-dd") : string.Empty;}</p>
-<div class="form-group">
-    出货日期: <input type="text" id="date" value="@cdate"><button id="searchButton">搜索</button>
-</div>
-<hr />
-<form method="post">
-    出货日期:<b>@cdate</b>
+<p>
+
+</p>
+<div id="rnItems">
+    <div class="form-group">
+        出货日期: <el-date-picker v-model="selectedDate" type="date" format="yyyy-MM-dd" placeholder="选择日期" id="date" v-on:change="updateRns()"></el-date-picker>
+        <el-button v-on:click="updateRns()">搜索</el-button>
+    </div>
+    <hr />
+    出货日期:<b>{{cdate}}</b>
     <br />
-    <label id="MessageLabel" style="color:green">@ViewBag.SaveStatus</label>
-    <input type="hidden" id="cDate" name="cDate" value="@cdate" />
-    <input type="hidden" id="item_PaymentStatus" name="item.PaymentStatus" />
-    <table class="table">
-        <tr>
-            <th>
-                SkuId
-            </th>
-            <th>
-                商品名称
-            </th>
-            <th>
-                规格
-            </th>
-            <th>
-                单位
-            </th>
-            <th>
-                订单数量
-            </th>
-            <th>
-                采购数量
-            </th>
-            <th>
-                采购单价
-            </th>
-            <th>
-                采购金额
-            </th>
-            <th>
-                对比价格
-            </th>
-            <th>
-                对比毛利
-            </th>
-            <th>
-                供货商
-            </th>
-            <th>
-                付款状态
-            </th>
-        </tr>
-        @foreach (var item in Model)
-            {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.skuid)
-                    @Html.HiddenFor(modelItem => item.skuid)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.spuName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.skuSpec)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.skuDictUnitName)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.prePoAmount)
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.Quantity, new { style = "width:50px" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.UnitPrice, new { style = "width:50px" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.TotalPrice, new { style = "width:50px" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.ContrastPrice, new { style = "width:50px" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.ContrastGrossProfit, new { style = "width:50px" })
-                </td>
-                <td>
-                    @Html.TextBoxFor(modelItem => item.Supplier)
-                </td>
-                <td>
-                    @Html.CheckBoxFor(modelItem => item.PaymentStatus.Value, new { style = "width:50px" })
-                    @Html.HiddenFor(modelItem => item.RnId)
-                </td>
-            </tr>
-        }
-
-    </table>
-
-    <input type="submit" value="保存" id="saveButton" />
-</form>
-<script>
-    document.getElementById("searchButton").onclick = function () {
-        searchRN();
-    };
-    document.getElementById('date').onkeydown = function (e) {
-        if (e.keyCode == 13) {
-            searchRN();
-        }
-    };
-    function searchRN() {
-        var date = document.getElementById('date').value;
-        url = '/Home/ReceivingNote?cDate=' + date;
-        location.href = url;
-    }
-
-    document.getElementById("saveButton").onclick = function () {
-        var suppliers = document.getElementsByName('item.Supplier');
-        if (suppliers != null && suppliers.length > 0) {
-            for (i = 0; i < suppliers.length; i++) {
-                var value = suppliers[i].value;
-                if (value != null && value != "") {
-                    value = value.replace(/,/g, '');
-                    suppliers[i].value = value;
-                }
-            }
-        }
-
-        var checkboxes = document.getElementsByName('item.PaymentStatus.Value');
-        var paymentValue = document.getElementById('item_PaymentStatus').value;
-        if (checkboxes != null && checkboxes.length > 0) {
-            for (i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].attributes['type'].value == 'checkbox') {
-                    paymentValue += checkboxes[i].checked + ',';
-                }
-            }
-            document.getElementById('item_PaymentStatus').value = paymentValue;
-            //alert(document.getElementById('item_PaymentStatus').value)
-        }
-
-        if (!CheckNumber('item.Quantity') ||
-            !CheckNumber('item.UnitPrice') ||
-            !CheckNumber('item.TotalPrice') ||
-            !CheckNumber('item.ContrastPrice') ||
-            !CheckNumber('item.ContrastGrossProfit')) {
-            return false;
-        }
-    };
-
-    function CheckNumber(name) {
-        var elements = document.getElementsByName(name);
-        if (elements != null && elements.length > 0) {
-            for (i = 0; i < elements.length; i++) {
-                var value = elements[i].value;
-                if (value != null && value != "" && isNaN(value)) {
-                    elements[i].focus();
-                    elements[i].select();
-                    //alert("plase input number!")
-                    document.getElementById("MessageLabel").style.color = "red";
-                    document.getElementById("MessageLabel").innerText = "数据格式错误,请确认输入的是半角数字!";
-                    return false
-                }
-            }
-        }
-        return true;
-    };
-</script>
+    <div style="font-size:10px" v-loading="dataLoading" element-loading-text="数据加载中" element-loading-background="rgba(0, 0, 0, 0.8)">
+        <vue-bootstrap4-table :rows="rns" :columns="columns" :config="config">
+            <template slot="poAmount" slot-scope="props">
+                {{props.cell_value<0 ? '' : props.cell_value}}
+            </template>
+            <template slot="sumPoPrice" slot-scope="props">
+                {{props.cell_value<0 ? '' : props.cell_value/100}}
+            </template>
+            <template slot="Quantity" slot-scope="props">
+                <input style="width:60px" type="text" name="item.Quantity" v-model="rns[props.row.vbt_id-1].Quantity" />
+            </template>
+            <template slot="UnitPrice" slot-scope="props">
+                <input style="width:60px" type="text" name="item.UnitPrice" v-model="rns[props.row.vbt_id-1].UnitPrice" />
+            </template>
+            <template slot="TotalPrice" slot-scope="props">
+                {{props.row.Quantity * props.row.UnitPrice}}
+            </template>
+            <template slot="Supplier" slot-scope="props">
+                <el-select v-on:change="onSelectChanged($event,props.row.skuId)"
+                           v-model="rns[props.row.vbt_id-1].Supplier"
+                           clearable filterable allow-create default-first-option
+                           size="mini" placeholder="请选择供应商">
+                    <el-option v-for="item in supplierOptions[props.row.skuId]" :label="item.Value" :value="item.Value"> </el-option>
+                </el-select>
+            </template>
+            <template slot="PaymentStatus" slot-scope="props">
+                <input style="width:30px" type="checkbox" v-model="rns[props.row.vbt_id-1].PaymentStatus" />
+            </template>
+            <template slot="ReturnAmount" slot-scope="props">
+                <input style="width:60px" type="text" name="item.ReturnAmount" v-model="rns[props.row.vbt_id-1].ReturnAmount" />
+            </template>
+            <template slot="ReturnPrice" slot-scope="props">
+                <input style="width:60px" type="text" name="item.ReturnPrice" v-model="rns[props.row.vbt_id-1].ReturnPrice" />
+            </template>
+            <template slot="Remark" slot-scope="props">
+                <input style="width:60px" type="text" name="item.Remark" v-model="rns[props.row.vbt_id-1].Remark" />
+            </template>
+            <template slot="action" slot-scope="props">
+                <div v-on:click="addRn(props.row.vbt_id-1)" style="cursor:pointer;color:darkgreen"><b>+</b></div>
+                <div v-on:click="delRn(props.row.vbt_id-1)" style="cursor:pointer;color:red"><b>X</b></div>
+            </template>
+            <template slot="pagination-info" slot-scope="props">
+                本页显示{{props.currentPageRowsLength}}条记录 |
+                过滤后有{{props.filteredRowsLength}}条记录 |
+                原始数据共{{props.originalRowsLength}}条
+            </template>
+        </vue-bootstrap4-table>
+    </div>
+    <div class="form-group">
+        <label style="color:green">{{saveStatus}}</label><br />
+        <el-button v-on:click="SaveRns()">保存</el-button>
+    </div>
+</div>
 @section Scripts {
-    <script src="~/Scripts/bootstrap-datepicker.js"></script>
-    <script src="~/Scripts/locales/bootstrap-datepicker.zh-CN.min.js"></script>
-    <script type="text/javascript">
-        $(function () {
-            $("#date").datepicker({
-                language: "zh-CN",
-                autoclose: true,//选中之后自动隐藏日期选择框
-                clearBtn: true,//清除按钮
-                todayBtn: true,//今日按钮
-                format: "yyyy-mm-dd"//日期格式，详见 http://bootstrap-datepicker.readthedocs.org/en/release/options.html#format
-            });
+    <style>
+        .simple_filter_input_poNo {
+            width: 80px;
+        }
+
+        .simple_filter_input_skuId {
+            width: 30px;
+        }
+    </style>
+    <script src="~/Scripts/es6-promise/es6-promise.min.js"></script>
+    <script src="~/Scripts/es6-promise/es6-promise.auto.min.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
+    <script src="~/Scripts/vue.js"></script>
+    <script src="~/Scripts/moment.min.js"></script>
+    <script src="~/Scripts/vue-bootstrap4-table/vue-bootstrap4-table.min.js"></script>
+    <script src="~/Scripts/ElementUI/element-ui.js"></script>
+    <script src="~/Scripts/compatibility/compatibility.js"></script>
+    <script>
+        "use strict";
+        Vue.prototype.$http = axios;
+        var rnsVm = new Vue({
+            el: "#rnItems",
+            data: {
+                selectedDate: '',
+                cdate: '',
+                rns: [],//空的数据
+                supplierOptions: '',
+                saveStatus: '',
+                deletedRns: [],
+                newRnId: 100000,
+                color: '',
+                dataLoading: false,
+                perPoNo: '',
+                columns: [
+                      {
+                          label: "订单号",
+                          name: "poNo",
+                          row_text_alignment: "text-left",
+                          filter: {
+                              type: "simple",
+                              placeholder: "订单号",
+                              case_sensitive: false, // "false" by default
+                              show_clear_icon: false,
+                              simple_filter_input_class: "simple_filter_input_poNo"
+                          },
+                          sort: false,
+                      },
+                      {
+                          label: "SkuId",
+                          name: "skuId",
+                          row_text_alignment: "text-left",
+                          filter: {
+                              type: "simple",
+                              placeholder: "SkuId",
+                              case_sensitive: false, // "false" by default
+                              show_clear_icon: false,
+                              simple_filter_input_class: "simple_filter_input_skuId"
+                          },
+                          sort: false,
+                      },
+                      {
+                          label: "商品名称",
+                          name: "spuName",
+                          row_text_alignment: "text-left",
+                          filter: {
+                              type: "simple",
+                              placeholder: "商品名称",
+                              case_sensitive: false, // "false" by default
+                              show_clear_icon: false,
+                              simple_filter_input_class: ""
+                          },
+                          sort: false,
+                      },
+                      {
+                          label: "规格",
+                          name: "skuSpec",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "单位",
+                          name: "skuDictUnitName",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "订单数量",
+                          name: "prePoAmount",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "实收数量",
+                          name: "poAmount",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "实收金额",
+                          name: "sumPoPrice",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "采购数量",
+                          name: "Quantity",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "采购单价",
+                          name: "UnitPrice",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "采购金额",
+                          name: "TotalPrice",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "供货商",
+                          name: "Supplier",
+                          row_text_alignment: "text-left",
+                          //filter: {
+                          //    type: "simple",
+                          //    placeholder: "SkuId",
+                          //    case_sensitive: false // "false" by default
+                          //},
+                          sort: false,
+                      },
+                      {
+                          label: "付款状态",
+                          name: "PaymentStatus",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "退货数量",
+                          name: "ReturnAmount",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "退货金额",
+                          name: "ReturnPrice",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "备注",
+                          name: "Remark",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      },
+                      {
+                          label: "",
+                          name: "action",
+                          row_text_alignment: "text-left",
+                          sort: false,
+                      }
+                ],
+                config: {
+                    pagination: false,
+                    pagination_info: true,
+                    //num_of_visibile_pagination_buttons: 7,
+                    //per_page: 10,
+                    //checkbox_rows: true,
+                    highlight_row_hover: true,
+                    //rows_selectable: true,
+                    //multi_column_sort: false,
+                    highlight_row_hover_color: "blanchedalmond",
+                    card_mode: false,
+                    card_title: "采购单",
+                    show_refresh_button: false, // default is also true
+                    show_reset_button: false, // default is also true
+                    global_search: {
+                        placeholder: "搜索",
+                        visibility: false,
+                        case_sensitive: false
+                    },
+                }
+
+            },
+            mounted: function () {
+                this.getData('/api/qny/GetRnItems');//通过this.getData的URL取得API数据
+            },
+            computed: {
+                remaining: function () {
+                    return this.num;
+                }
+            },//这里我们声明了一个计算属性 remaining,通过返回this.num的值做为未完成总数
+            methods: {//VUE事件处理器
+                getData: function (url) {
+                    var _this = this;
+                    this.dataLoading = true;
+                    if (this.selectedDate == null) {
+                        this.dataLoading = false;
+                        return false;
+                    }
+                    else if (this.selectedDate == '') {
+                        this.selectedDate = moment('2018-12-13').format("YYYY-MM-DD");
+                    }
+                    this.$http.get(url, { params: { cDate: moment(this.selectedDate).format("YYYY-MM-DD") }, headers: { "Content-Type": "application/json" } }).then(function (response) {
+                        _this.rns = response.data;
+                        _this.cdate = moment(_this.selectedDate).format("YYYY-MM-DD");
+                        _this.saveStatus = '';
+                        _this.getSupplierOptions();
+                        _this.dataLoading = false;
+                    });
+                },//this.getData取得数据库数据，并取得未完成事件总数
+                postData: function (url) {
+                    var _this = this;
+                    if ((this.rns == null || JSON.stringify(this.rns) <= 2) && (this.deletedRns == null || !deletedRns.length < 0)) return;
+                    this.$http.post(url, { payload: { rns: this.rns, deletedRns: this.deletedRns } }).then(function (response) {
+                        _this.saveStatus = response.data;
+                    });
+                },
+                getSupplierOptions: function () {
+                    var skuIds = [];
+                    var url = '/api/qny/GetSupplierOptions';
+                    for (var rn in this.rns) {
+                        var id = this.rns[rn].skuId;
+                        if (skuIds.indexOf(id) < 0) {
+                            skuIds.push(id);
+                        }
+                    }
+                    var _this = this;
+                    this.$http.post(url, { payload: skuIds, headers: { "Content-Type": "application/json" } }).then(function (response) {
+                        _this.supplierOptions = response.data;
+                    });
+                },
+                updateRns: function () {
+                    this.getData('/api/qny/GetRnItems');
+                },
+                SaveRns: function () {
+                    this.saveStatus = "";
+                    if (!this.CheckNumber('item.Quantity') ||
+                        !this.CheckNumber('item.UnitPrice') ||
+                        !this.CheckNumber('item.TotalPrice') ||
+                        !this.CheckNumber('item.ReturnAmount') ||
+                        !this.CheckNumber('item.ReturnPrice')) {
+                        this.$message.error('数据格式错误,请确认输入的是半角数字!');
+                        return false;
+                    }
+
+                    this.postData('/api/qny/PostRnItems');
+                },
+                CheckNumber: function (name) {
+                    var elements = document.getElementsByName(name);
+                    if (elements != null && elements.length > 0) {
+                        for (var i = 0; i < elements.length; i++) {
+                            var value = elements[i].value;
+                            if (value != null && value != "" && isNaN(value)) {
+                                elements[i].focus();
+                                elements[i].select();
+                                //alert("plase input number!")
+                                //document.getElementById("MessageLabel").style.color = "red";
+                                //document.getElementById("MessageLabel").innerText = "数据格式错误,请确认输入的是半角数字!";
+                                return false
+                            }
+                        }
+                    }
+                    return true;
+                },
+                onSelectChanged: function (value, skuId) {
+                    var obj = {};
+                    obj = this.supplierOptions[skuId].find(function (item) {
+                        return ((item.Value || '') == (value || '')) || ((value || '' != '') && (item.Value || '') != '' && item.Value.toLocaleLowerCase() == value.toLocaleLowerCase());
+                    });
+                    if (obj == undefined || obj == null || obj.length == 0) {
+                        this.supplierOptions[skuId].splice(0, 0, { Key: skuId, Value: value });
+                    }
+                },
+                addRn: function (index) {
+                    var newRn = JSON.parse(JSON.stringify(this.rns[index]));
+                    newRn.Id = this.newRnId;
+                    newRn.RnId = '';
+                    this.newRnId++;
+                    this.rns.splice(index + 1, 0, newRn)
+                },
+                delRn: function (index) {
+                    var rnId = this.rns[index].RnId;
+                    if (rnId != null && rnId != '') {
+                        this.deletedRns.push(rnId)
+                    }
+                    this.rns.splice(index, 1)
+                },
+                getColor: function (poNo) {
+                    var c1 = 'darkblue';
+                    var c2 = 'darkorange';
+                    if (this.perPoNo == '') {
+                        this.color = c1;
+                        this.perPoNo = poNo;
+                        return c1;
+                    }
+                    if (poNo == this.perPoNo) {
+                        return this.color;
+                    }
+                    else {
+                        this.perPoNo = poNo;
+                        this.color = this.color == c1 ? c2 : c1;
+                        return this.color;
+                    }
+                }
+            },//完成任务或者撤销任务
         });
     </script>
 }

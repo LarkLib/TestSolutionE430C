@@ -1,5 +1,5 @@
 ﻿@model QnyWeb.Models.PmsPoDetail
-@Styles.Render("~/Content/MvcGrid")
+@Styles.Render("~/Content/MvcGridCss")
 @{
     ViewBag.Title = "采购单详情";
 }
@@ -143,7 +143,7 @@
             columns.Add(c => c.availableQuantity).Titled("可供数量");
             columns.Add(c => c.availablePoPrice.HasValue ? c.availablePoPrice.Value.ToString(".00") : string.Empty).Titled("可供金额");
             columns.Add(c => c.poAmount > 0 ? c.poAmount.ToString() : string.Empty).Titled("实收数量");
-            columns.Add(c => c.sumPoPrice > 0 ? c.sumPoPrice.ToString() : string.Empty).Titled("实收金额");
+            columns.Add(c => c.sumPoPrice > 0 ? c.sumPoPrice2.Value.ToString("#.00") : string.Empty).Titled("实收金额");
             columns.Add(c => c.productionDate2.HasValue ? c.productionDate2.Value.ToString("yyyy-MM-dd") : string.Empty).Titled("生产日期");
         })
         .WithFooter("_GridFooter")

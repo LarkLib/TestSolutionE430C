@@ -32,12 +32,11 @@ namespace QnyWeb.Models
         public virtual DbSet<PmsPoView> PmsPoViews { get; set; }
         public virtual DbSet<AspNetUserPois> AspNetUserPois { get; set; }
         public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<ReceivingNote> ReceivingNotes { get; set; }
-        public virtual DbSet<RnPoItem> RnPoItems { get; set; }
-        public virtual DbSet<ReceivingNoteItemView> ReceivingNoteItemViews { get; set; }
         public virtual DbSet<AspNetRole> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserRole> AspNetUserRoles { get; set; }
         public virtual DbSet<AspNetUser> AspNetUsers { get; set; }
         public virtual DbSet<PoiConfig> PoiConfigs { get; set; }
+        public virtual DbSet<ReceivingNote> ReceivingNotes { get; set; }
+        public virtual DbSet<ReceivingNoteItemView> ReceivingNoteItemViews { get; set; }
     }
 }

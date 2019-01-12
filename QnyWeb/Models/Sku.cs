@@ -40,5 +40,7 @@ namespace QnyWeb.Models
         public Nullable<decimal> availablePoPrice { get; set; }
         public Nullable<System.DateTime> productionDate2 { get; set; }
         public System.DateTime cTime2 { get; set; }
+        public Nullable<decimal> sumPrePoPrice2 { get; set; }
+        public Nullable<decimal> sumPoPrice2 { get; set; }
     }
 }

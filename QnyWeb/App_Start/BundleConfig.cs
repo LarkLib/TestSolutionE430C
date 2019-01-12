@@ -37,7 +37,7 @@ namespace QnyWeb
         }
         private static void RegisterStyles(BundleCollection bundles)
         {
-            bundles.Add(new StyleBundle("~/Content/MvcGrid")
+            bundles.Add(new StyleBundle("~/Content/MvcGridCss")
                 //.Include("~/Content/Bootstrap/*.css")
                 .Include("~/Content/FontAwesome/*.css")
                 .Include("~/Content/MvcGrid/*.css")

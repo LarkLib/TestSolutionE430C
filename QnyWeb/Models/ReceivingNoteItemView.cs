@@ -14,12 +14,16 @@ namespace QnyWeb.Models
     
     public partial class ReceivingNoteItemView
     {
-        public long skuid { get; set; }
+        public Nullable<System.DateTime> cDate { get; set; }
+        public long skuId { get; set; }
+        public string poNo { get; set; }
         public string spuName { get; set; }
         public string skuSpec { get; set; }
         public string skuDictUnitName { get; set; }
         public Nullable<decimal> prePoAmount { get; set; }
-        public Nullable<System.DateTime> cDate { get; set; }
+        public Nullable<decimal> poAmount { get; set; }
+        public Nullable<decimal> sumPoPrice { get; set; }
+        public Nullable<System.Guid> RnId { get; set; }
         public Nullable<decimal> Quantity { get; set; }
         public Nullable<decimal> UnitPrice { get; set; }
         public Nullable<decimal> TotalPrice { get; set; }
@@ -27,6 +31,9 @@ namespace QnyWeb.Models
         public Nullable<decimal> ContrastGrossProfit { get; set; }
         public string Supplier { get; set; }
         public Nullable<bool> PaymentStatus { get; set; }
-        public Nullable<System.Guid> RnId { get; set; }
+        public Nullable<decimal> ReturnAmount { get; set; }
+        public Nullable<decimal> ReturnPrice { get; set; }
+        public string Remark { get; set; }
+        public long id { get; set; }
     }
 }

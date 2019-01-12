@@ -122,8 +122,8 @@ warning 6002: The table/view 'ShQny.dbo.PoiList' does not have a primary key def
             <PropertyRef Name="RnId" />
           </Key>
           <Property Name="RnId" Type="uniqueidentifier" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="skuId" Type="bigint" Nullable="false" />
-          <Property Name="cDate" Type="date" Nullable="false" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="2" />
@@ -131,22 +131,9 @@ warning 6002: The table/view 'ShQny.dbo.PoiList' does not have a primary key def
           <Property Name="ContrastGrossProfit" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Supplier" Type="nvarchar" MaxLength="255" />
           <Property Name="PaymentStatus" Type="bit" Nullable="false" />
-          <Property Name="ApplyQuantity" Type="decimal" Precision="18" Scale="2" />
-          <Property Name="CreateTime" Type="datetime" />
-          <Property Name="Creator" Type="nvarchar" MaxLength="255" />
-          <Property Name="UpdateTime" Type="datetime" />
-          <Property Name="operator" Type="nvarchar" MaxLength="255" />
-        </EntityType>
-        <EntityType Name="RnPoItem">
-          <Key>
-            <PropertyRef Name="RnId" />
-            <PropertyRef Name="poNo" />
-          </Key>
-          <Property Name="RnId" Type="uniqueidentifier" Nullable="false" />
-          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
-          <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" Nullable="false" />
-          <Property Name="operator" Type="nvarchar" MaxLength="255" />
-          <Property Name="UpdateTime" Type="datetime" />
+          <Property Name="ReturnAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ReturnPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityType Name="Sku">
           <Key>
@@ -179,6 +166,8 @@ warning 6002: The table/view 'ShQny.dbo.PoiList' does not have a primary key def
           <Property Name="availablePoPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="productionDate2" Type="datetime" />
           <Property Name="cTime2" Type="datetime" Nullable="false" />
+          <Property Name="sumPrePoPrice2" Type="numeric" Precision="26" Scale="7" StoreGeneratedPattern="Computed" />
+          <Property Name="sumPoPrice2" Type="numeric" Precision="26" Scale="7" StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="Status">
           <Key>
@@ -220,15 +209,21 @@ warning 6002: The table/view 'ShQny.dbo.PmsPoView' does not have a primary key d
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="ReceivingNoteItemView">
+          
           <Key>
-            <PropertyRef Name="skuid" />
+            <PropertyRef Name="id" />
           </Key>
-          <Property Name="skuid" Type="bigint" Nullable="false" />
+          <Property Name="id" Type="bigint" Nullable="false" />
+          <Property Name="cDate" Type="date" />
+          <Property Name="skuId" Type="bigint" Nullable="false" />
+          <Property Name="poNo" Type="nvarchar" MaxLength="255" Nullable="false" />
           <Property Name="spuName" Type="nvarchar" MaxLength="255" />
           <Property Name="skuSpec" Type="nvarchar" MaxLength="255" />
           <Property Name="skuDictUnitName" Type="nvarchar" MaxLength="255" />
-          <Property Name="prePoAmount" Type="decimal" Precision="38" Scale="1" />
-          <Property Name="cDate" Type="date" />
+          <Property Name="prePoAmount" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="poAmount" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="sumPoPrice" Type="decimal" Precision="18" Scale="1" />
+          <Property Name="RnId" Type="uniqueidentifier" />
           <Property Name="Quantity" Type="decimal" Precision="18" Scale="2" />
           <Property Name="UnitPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="TotalPrice" Type="decimal" Precision="18" Scale="2" />
@@ -236,7 +231,9 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="ContrastGrossProfit" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Supplier" Type="nvarchar" MaxLength="255" />
           <Property Name="PaymentStatus" Type="bit" />
-          <Property Name="RnId" Type="uniqueidentifier" />
+          <Property Name="ReturnAmount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="ReturnPrice" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Remark" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="ShQnyModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -247,7 +244,6 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <EntitySet Name="PmsPoDetail" EntityType="Self.PmsPoDetail" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PoiConfig" EntityType="Self.PoiConfig" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ReceivingNote" EntityType="Self.ReceivingNote" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="RnPoItem" EntityType="Self.RnPoItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Sku" EntityType="Self.Sku" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Status" EntityType="Self.Status" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PoiList" EntityType="Self.PoiList" store:Type="Tables" store:Schema="dbo">
@@ -280,12 +276,17 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           </EntitySet>
           <EntitySet Name="ReceivingNoteItemView" EntityType="Self.ReceivingNoteItemView" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
-    [ReceivingNoteItemView].[skuid] AS [skuid], 
+    [ReceivingNoteItemView].[id] AS [id], 
+    [ReceivingNoteItemView].[cDate] AS [cDate], 
+    [ReceivingNoteItemView].[skuId] AS [skuId], 
+    [ReceivingNoteItemView].[poNo] AS [poNo], 
     [ReceivingNoteItemView].[spuName] AS [spuName], 
     [ReceivingNoteItemView].[skuSpec] AS [skuSpec], 
     [ReceivingNoteItemView].[skuDictUnitName] AS [skuDictUnitName], 
     [ReceivingNoteItemView].[prePoAmount] AS [prePoAmount], 
-    [ReceivingNoteItemView].[cDate] AS [cDate], 
+    [ReceivingNoteItemView].[poAmount] AS [poAmount], 
+    [ReceivingNoteItemView].[sumPoPrice] AS [sumPoPrice], 
+    [ReceivingNoteItemView].[RnId] AS [RnId], 
     [ReceivingNoteItemView].[Quantity] AS [Quantity], 
     [ReceivingNoteItemView].[UnitPrice] AS [UnitPrice], 
     [ReceivingNoteItemView].[TotalPrice] AS [TotalPrice], 
@@ -293,7 +294,9 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
     [ReceivingNoteItemView].[ContrastGrossProfit] AS [ContrastGrossProfit], 
     [ReceivingNoteItemView].[Supplier] AS [Supplier], 
     [ReceivingNoteItemView].[PaymentStatus] AS [PaymentStatus], 
-    [ReceivingNoteItemView].[RnId] AS [RnId]
+    [ReceivingNoteItemView].[ReturnAmount] AS [ReturnAmount], 
+    [ReceivingNoteItemView].[ReturnPrice] AS [ReturnPrice], 
+    [ReceivingNoteItemView].[Remark] AS [Remark]
     FROM [dbo].[ReceivingNoteItemView] AS [ReceivingNoteItemView]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -390,6 +393,8 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="availablePoPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="productionDate2" Type="DateTime" Precision="3" />
           <Property Name="cTime2" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="sumPrePoPrice2" Type="Decimal" Precision="26" Scale="7" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="sumPoPrice2" Type="Decimal" Precision="26" Scale="7" annotation:StoreGeneratedPattern="Computed" />
         </EntityType>
         <EntityType Name="PoiList">
           <Key>
@@ -410,17 +415,10 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
             <End Role="Sku" EntitySet="Skus" />
           </AssociationSet>
           <EntitySet Name="Status" EntityType="ShQnyModel.Status" />
-          <EntitySet Name="ReceivingNotes" EntityType="ShQnyModel.ReceivingNote" />
-          <EntitySet Name="RnPoItems" EntityType="ShQnyModel.RnPoItem" />
-          <AssociationSet Name="ReceivingNoteRnPoItem" Association="ShQnyModel.ReceivingNoteRnPoItem">
-            <End Role="ReceivingNote" EntitySet="ReceivingNotes" />
-            <End Role="RnPoItem" EntitySet="RnPoItems" />
-          </AssociationSet>
           <AssociationSet Name="PmsPoDetailStatus" Association="ShQnyModel.PmsPoDetailStatus">
             <End Role="PmsPoDetail" EntitySet="PmsPoDetails" />
             <End Role="Status" EntitySet="Status" />
           </AssociationSet>
-          <EntitySet Name="ReceivingNoteItemViews" EntityType="ShQnyModel.ReceivingNoteItemView" />
           <EntitySet Name="AspNetRoles" EntityType="ShQnyModel.AspNetRole" />
           <EntitySet Name="AspNetUserRoles" EntityType="ShQnyModel.AspNetUserRole" />
           <AssociationSet Name="AspNetRoleAspNetUserRole" Association="ShQnyModel.AspNetRoleAspNetUserRole">
@@ -441,6 +439,8 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
             <End Role="AspNetUserPois" EntitySet="AspNetUserPois" />
           </AssociationSet>
           <EntitySet Name="PoiConfigs" EntityType="ShQnyModel.PoiConfig" />
+          <EntitySet Name="ReceivingNotes" EntityType="ShQnyModel.ReceivingNote" />
+          <EntitySet Name="ReceivingNoteItemViews" EntityType="ShQnyModel.ReceivingNoteItemView" />
         </EntityContainer>
         <EntityType Name="PmsPoView">
           <Key>
@@ -498,50 +498,6 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="FinalStatus" Type="Int32" />
         </EntityType>
-        <EntityType Name="ReceivingNote">
-          <Key>
-            <PropertyRef Name="RnId" />
-          </Key>
-          <Property Name="RnId" Type="Guid" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="skuId" Type="Int64" Nullable="false" />
-          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ContrastPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ContrastGrossProfit" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Supplier" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentStatus" Type="Boolean" Nullable="false" />
-          <Property Name="ApplyQuantity" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="CreateTime" Type="DateTime" Precision="3" />
-          <Property Name="Creator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
-          <Property Name="operator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="RnPoItems" Relationship="ShQnyModel.ReceivingNoteRnPoItem" FromRole="ReceivingNote" ToRole="RnPoItem" />
-          <Property Name="cDate" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
-        <EntityType Name="RnPoItem">
-          <Key>
-            <PropertyRef Name="RnId" />
-            <PropertyRef Name="poNo" />
-          </Key>
-          <Property Name="RnId" Type="Guid" Nullable="false" />
-          <Property Name="poNo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Quantity" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
-          <Property Name="operator" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="UpdateTime" Type="DateTime" Precision="3" />
-        </EntityType>
-        <Association Name="ReceivingNoteRnPoItem">
-          <End Type="ShQnyModel.ReceivingNote" Role="ReceivingNote" Multiplicity="1" />
-          <End Type="ShQnyModel.RnPoItem" Role="RnPoItem" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ReceivingNote">
-              <PropertyRef Name="RnId" />
-            </Principal>
-            <Dependent Role="RnPoItem">
-              <PropertyRef Name="RnId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="PmsPoDetailStatus">
           <End Type="ShQnyModel.PmsPoDetail" Role="PmsPoDetail" Multiplicity="*" />
           <End Type="ShQnyModel.Status" Role="Status" Multiplicity="1" />
@@ -554,25 +510,6 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="ReceivingNoteItemView">
-          <Key>
-            <PropertyRef Name="skuid" />
-          </Key>
-          <Property Name="skuid" Type="Int64" Nullable="false" />
-          <Property Name="spuName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="skuSpec" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="skuDictUnitName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="prePoAmount" Type="Decimal" Precision="38" Scale="1" />
-          <Property Name="cDate" Type="DateTime" Precision="0" />
-          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ContrastPrice" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="ContrastGrossProfit" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Supplier" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="PaymentStatus" Type="Boolean" />
-          <Property Name="RnId" Type="Guid" />
-        </EntityType>
         <EntityType Name="AspNetRole">
           <Key>
             <PropertyRef Name="Id" />
@@ -663,6 +600,50 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="poiid" Type="Int32" Nullable="false" />
           <Property Name="phonenumber" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="ReceivingNote">
+          <Key>
+            <PropertyRef Name="RnId" />
+          </Key>
+          <Property Name="RnId" Type="Guid" annotation:StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="poNo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuId" Type="Int64" Nullable="false" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastGrossProfit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Supplier" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentStatus" Type="Boolean" Nullable="false" />
+          <Property Name="ReturnAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReturnPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="ReceivingNoteItemView">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="cDate" Type="DateTime" Precision="0" />
+          <Property Name="skuId" Type="Int64" Nullable="false" />
+          <Property Name="poNo" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="spuName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuSpec" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuDictUnitName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="prePoAmount" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="poAmount" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="sumPoPrice" Type="Decimal" Precision="18" Scale="1" />
+          <Property Name="RnId" Type="Guid" />
+          <Property Name="Quantity" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="UnitPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TotalPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ContrastGrossProfit" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Supplier" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="PaymentStatus" Type="Boolean" />
+          <Property Name="ReturnAmount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="ReturnPrice" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="id" Type="Int64" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -730,6 +711,8 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <EntitySetMapping Name="Skus">
             <EntityTypeMapping TypeName="ShQnyModel.Sku">
               <MappingFragment StoreEntitySet="Sku">
+                <ScalarProperty Name="sumPoPrice2" ColumnName="sumPoPrice2" />
+                <ScalarProperty Name="sumPrePoPrice2" ColumnName="sumPrePoPrice2" />
                 <ScalarProperty Name="cTime2" ColumnName="cTime2" />
                 <ScalarProperty Name="productionDate2" ColumnName="productionDate2" />
                 <ScalarProperty Name="skuId" ColumnName="skuId" />
@@ -808,58 +791,6 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="ReceivingNotes">
-            <EntityTypeMapping TypeName="ShQnyModel.ReceivingNote">
-              <MappingFragment StoreEntitySet="ReceivingNote">
-                <ScalarProperty Name="cDate" ColumnName="cDate" />
-                <ScalarProperty Name="operator" ColumnName="operator" />
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="Creator" ColumnName="Creator" />
-                <ScalarProperty Name="CreateTime" ColumnName="CreateTime" />
-                <ScalarProperty Name="ApplyQuantity" ColumnName="ApplyQuantity" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
-                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
-                <ScalarProperty Name="ContrastGrossProfit" ColumnName="ContrastGrossProfit" />
-                <ScalarProperty Name="ContrastPrice" ColumnName="ContrastPrice" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="skuId" ColumnName="skuId" />
-                <ScalarProperty Name="RnId" ColumnName="RnId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="RnPoItems">
-            <EntityTypeMapping TypeName="ShQnyModel.RnPoItem">
-              <MappingFragment StoreEntitySet="RnPoItem">
-                <ScalarProperty Name="UpdateTime" ColumnName="UpdateTime" />
-                <ScalarProperty Name="operator" ColumnName="operator" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="poNo" ColumnName="poNo" />
-                <ScalarProperty Name="RnId" ColumnName="RnId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ReceivingNoteItemViews">
-            <EntityTypeMapping TypeName="ShQnyModel.ReceivingNoteItemView">
-              <MappingFragment StoreEntitySet="ReceivingNoteItemView">
-                <ScalarProperty Name="RnId" ColumnName="RnId" />
-                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
-                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
-                <ScalarProperty Name="ContrastGrossProfit" ColumnName="ContrastGrossProfit" />
-                <ScalarProperty Name="ContrastPrice" ColumnName="ContrastPrice" />
-                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
-                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
-                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
-                <ScalarProperty Name="cDate" ColumnName="cDate" />
-                <ScalarProperty Name="prePoAmount" ColumnName="prePoAmount" />
-                <ScalarProperty Name="skuDictUnitName" ColumnName="skuDictUnitName" />
-                <ScalarProperty Name="skuSpec" ColumnName="skuSpec" />
-                <ScalarProperty Name="spuName" ColumnName="spuName" />
-                <ScalarProperty Name="skuid" ColumnName="skuid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="AspNetRoles">
             <EntityTypeMapping TypeName="ShQnyModel.AspNetRole">
               <MappingFragment StoreEntitySet="AspNetRoles">
@@ -899,6 +830,52 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
               <MappingFragment StoreEntitySet="PoiConfig">
                 <ScalarProperty Name="phonenumber" ColumnName="phonenumber" />
                 <ScalarProperty Name="poiid" ColumnName="poiid" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReceivingNotes">
+            <EntityTypeMapping TypeName="ShQnyModel.ReceivingNote">
+              <MappingFragment StoreEntitySet="ReceivingNote">
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="ReturnPrice" ColumnName="ReturnPrice" />
+                <ScalarProperty Name="ReturnAmount" ColumnName="ReturnAmount" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="ContrastGrossProfit" ColumnName="ContrastGrossProfit" />
+                <ScalarProperty Name="ContrastPrice" ColumnName="ContrastPrice" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="skuId" ColumnName="skuId" />
+                <ScalarProperty Name="poNo" ColumnName="poNo" />
+                <ScalarProperty Name="RnId" ColumnName="RnId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ReceivingNoteItemViews">
+            <EntityTypeMapping TypeName="ShQnyModel.ReceivingNoteItemView">
+              <MappingFragment StoreEntitySet="ReceivingNoteItemView">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Remark" ColumnName="Remark" />
+                <ScalarProperty Name="ReturnPrice" ColumnName="ReturnPrice" />
+                <ScalarProperty Name="ReturnAmount" ColumnName="ReturnAmount" />
+                <ScalarProperty Name="PaymentStatus" ColumnName="PaymentStatus" />
+                <ScalarProperty Name="Supplier" ColumnName="Supplier" />
+                <ScalarProperty Name="ContrastGrossProfit" ColumnName="ContrastGrossProfit" />
+                <ScalarProperty Name="ContrastPrice" ColumnName="ContrastPrice" />
+                <ScalarProperty Name="TotalPrice" ColumnName="TotalPrice" />
+                <ScalarProperty Name="UnitPrice" ColumnName="UnitPrice" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="RnId" ColumnName="RnId" />
+                <ScalarProperty Name="sumPoPrice" ColumnName="sumPoPrice" />
+                <ScalarProperty Name="poAmount" ColumnName="poAmount" />
+                <ScalarProperty Name="prePoAmount" ColumnName="prePoAmount" />
+                <ScalarProperty Name="skuDictUnitName" ColumnName="skuDictUnitName" />
+                <ScalarProperty Name="skuSpec" ColumnName="skuSpec" />
+                <ScalarProperty Name="spuName" ColumnName="spuName" />
+                <ScalarProperty Name="poNo" ColumnName="poNo" />
+                <ScalarProperty Name="skuId" ColumnName="skuId" />
+                <ScalarProperty Name="cDate" ColumnName="cDate" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h3>VueJS 2 in ASP.NET MVC 5</h3>
+    <div id="app">
+        {{message}}
+    </div>
+
+    <script src="scripts/vue.js"></script>
+    <script>
+        var aboutPage = new Vue({
+            el: '#app',
+            data: {
+                message: 'Hello Vue!'
+            }            
+        });
+    </script>
+</body>
+</html>
