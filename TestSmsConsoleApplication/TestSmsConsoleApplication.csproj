@@ -33,11 +33,19 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="aliyun-net-sdk-core">
-      <HintPath>Dll\aliyun-net-sdk-core.dll</HintPath>
+    <Reference Include="aliyun-net-sdk-core, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\aliyun-net-sdk-core.dll</HintPath>
     </Reference>
-    <Reference Include="aliyun-net-sdk-dysmsapi">
-      <HintPath>Dll\aliyun-net-sdk-dysmsapi.dll</HintPath>
+    <Reference Include="aliyun-net-sdk-dybaseapi">
+      <HintPath>dll\aliyun-net-sdk-dybaseapi.dll</HintPath>
+    </Reference>
+    <Reference Include="aliyun-net-sdk-dysmsapi, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>dll\aliyun-net-sdk-dysmsapi.dll</HintPath>
+    </Reference>
+    <Reference Include="Aliyun.MNS">
+      <HintPath>dll\Aliyun.MNS.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

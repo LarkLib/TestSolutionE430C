@@ -134,10 +134,10 @@ namespace QnyDownloader
         {
             return unixTimeStamp > 0 ? "'" + UnixTimeStampToDateTime(unixTimeStamp).ToString(format) + "'" : "null";
         }
-        internal static bool CheckTime(bool ignoreChank = false)
+        internal static bool CheckTime(bool ignoreCheck = false)
         {
             TimeSpan currentSpan = DateTime.Now - DateTime.Now.Date;
-            return (currentSpan >= StarTime && currentSpan < StopTime) || ignoreChank || IgnoreTimeCheck;
+            return (currentSpan >= StarTime && currentSpan < StopTime) || ignoreCheck || IgnoreTimeCheck;
         }
         internal static void CheckTimeWithExit(bool ignoreChank = false, [CallerMemberName] string methodName = "")
         {
@@ -159,9 +159,9 @@ namespace QnyDownloader
             {
                 var detail = GetSupplierPmsPoDetail(bsid, poNo);
                 SavePmsPoDetailToDb(detail);
-                LogInfo("SavePmsPoDetailToDb");
+                LogInfo($"Update-{detail.poNo},SavePmsPoDetailToDb");
                 SaveSkuToDb(detail.poNo, detail.cTime, detail.skuList);
-                LogInfo("SaveSkuToDb");
+                LogInfo($"Update-{detail.poNo},SaveSkuToDb,count:{detail.skuList.Count}");
             }
             LogInfo("UpdateSupplierPmsPoList done");
         }
@@ -184,22 +184,26 @@ namespace QnyDownloader
                     if (lastId <= maxId)
                     {
                         LogInfo("No new Po");
-                        var rows = UpdatePoiListInDb();
-                        LogInfo($"UpdatePoiListInDb, rows={rows}");
                         break;
                     }
-                    LogInfo($"poNo={item.poNo})");
+                    LogInfo($"poNo={item.poNo}");
                     var poiId = int.Parse(item.poiId);
                     SavePmsPoToDb(item);
-                    LogInfo("SavePmsPoToDb");
+                    LogInfo($"{item.poNo},SavePmsPoToDb");
                     var detail = GetSupplierPmsPoDetail(bsid, item.poNo);
                     SavePmsPoDetailToDb(detail);
-                    LogInfo("SavePmsPoDetailToDb");
-                    WriteReceivingNoteToPdf(detail, item.categoryName);
-                    LogInfo("WriteReceivingNoteToPdf");
+                    LogInfo($"{detail.poNo},SavePmsPoDetailToDb");
+                    //WriteReceivingNoteToPdf(detail, item.categoryName);
+                    //LogInfo("WriteReceivingNoteToPdf");
                     SaveSkuToDb(detail.poNo, detail.cTime, detail.skuList);
-                    LogInfo("SaveSkuToDb");
-                    var phoneNumber = string.IsNullOrWhiteSpace(PhoneConfig[poiId]) ? PhoneConfig[-1] : PhoneConfig[poiId];
+                    LogInfo($"{detail.poNo},SaveSkuToDb,,count:{detail.skuList.Count}");
+                    if (!PhoneConfig.ContainsKey(poiId))
+                    {
+                        var rows = UpdatePoiListInDb();
+                        LogInfo($"UpdatePoiListInDb, rows={rows}");
+                        GetPhoneConfigFromDb(true);
+                    }
+                    var phoneNumber = !PhoneConfig.ContainsKey(poiId) || string.IsNullOrWhiteSpace(PhoneConfig[poiId]) ? PhoneConfig[-1] : PhoneConfig[poiId];
                     LogInfo($"phoneNumber ={phoneNumber}");
                     if (!string.IsNullOrWhiteSpace(phoneNumber))
                     {
@@ -410,7 +414,7 @@ VALUES {values}
             using (var connection = new SqlConnection(ConnectionString))
             {
                 var cmd = connection.CreateCommand();
-                cmd.CommandText = "SELECT pono FROM PmsPoDetail p join status s on p.status=s.Id  where s.FinalStatus=0 order by pono desc";
+                cmd.CommandText = "SELECT pono FROM PmsPoDetail p join status s on p.status=s.Id  where s.FinalStatus=0 and cTime2>DATEADD(m,-1,getdate()) order by pono desc";
                 connection.Open();
                 var reader = cmd.ExecuteReader();
                 while (reader.Read())
@@ -440,9 +444,9 @@ insert PoiConfig(poiid) select poiId from [PoiList] where poiId not in (select p
         }
         private Dictionary<int, string> PhoneConfig { get { return GetPhoneConfigFromDb(); } }
         private static Dictionary<int, string> phoneConfig = null;
-        private Dictionary<int, string> GetPhoneConfigFromDb()
+        private Dictionary<int, string> GetPhoneConfigFromDb(bool forceRefresh = false)
         {
-            if (phoneConfig == null)
+            if (phoneConfig == null || forceRefresh)
             {
                 phoneConfig = new Dictionary<int, string>();
                 using (var connection = new SqlConnection(ConnectionString))
@@ -467,7 +471,7 @@ insert PoiConfig(poiid) select poiId from [PoiList] where poiId not in (select p
         }
         internal string SendSms(string phoneNumber, string templateParam, string templateCode, string signName)
         {
-            LogInfo("Send a Sms message!");
+            LogInfo("SendSms Begin");
             //您有新采购单(${poNo})，下单人mis账号(${creator})，收货方(${poiName})，约定到货(${preArrivalTime})，请于小象系统中确认。
             String product = "Dysmsapi";//短信API产品名称
             String domain = "dysmsapi.aliyuncs.com";//短信API产品域名
@@ -509,15 +513,26 @@ insert PoiConfig(poiid) select poiId from [PoiList] where poiId not in (select p
             {
                 result = e.Message;
             }
+            catch (Exception e)
+            {
+                result = e.Message;
+            }
+            LogInfo("SendSms end");
             return result;
         }
         internal string AdminSendSms()
         {
+            if (string.IsNullOrWhiteSpace(AdminPhone))
+            {
+                return null;
+            }
             return SendSms(AdminPhone, AdminTemplateCode, null, SignName);
         }
         internal static void LogInfo(string content)
         {
-            File.AppendAllText(LogFile, $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")},{content}{Environment.NewLine}");
+            var info = $"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")},{content}";
+            File.AppendAllText(LogFile, $"{info}{Environment.NewLine}");
+            Console.WriteLine(info);
         }
         internal void WriteReceivingNoteToPdf(PmsPoDetailItem pmsPoDetail, string categoryName)
         {

@@ -39,6 +39,7 @@
             this.GoButton = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
             this.TestWebBrowser = new System.Windows.Forms.WebBrowser();
+            this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.contextMenuStripTray.SuspendLayout();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -124,6 +125,10 @@
             this.TestWebBrowser.TabIndex = 0;
             this.TestWebBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.TestWebBrowser_DocumentCompleted);
             // 
+            // timer1
+            // 
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
+            // 
             // TestTrayForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -154,6 +159,7 @@
         private System.Windows.Forms.Button GoButton;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.WebBrowser TestWebBrowser;
+        private System.Windows.Forms.Timer timer1;
     }
 }
 

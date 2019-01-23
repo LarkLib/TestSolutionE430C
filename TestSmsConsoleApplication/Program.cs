@@ -29,11 +29,11 @@ namespace TestSmsConsoleApplication
                 //必填:待发送手机号。支持以逗号分隔的形式进行批量调用，批量上限为20个手机号码,批量调用相对于单条调用及时性稍有延迟,验证码类型的短信推荐使用单条调用的方式
                 request.PhoneNumbers = "18516595434";
                 //必填:短信签名-可在短信控制台中找到
-                request.SignName = "天风";
+                request.SignName = "";
                 //必填:短信模板-可在短信控制台中找到
-                request.TemplateCode = "SMS_126865429";
+                request.TemplateCode = "";
                 //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
-                request.TemplateParam = "{\"name\":\"name\",\"remark\":\"remark\"}";
+                //request.TemplateParam = "{\"name\":\"name\",\"remark\":\"remark\"}";
                 //可选:outId为提供给业务方扩展字段,最终在短信回执消息中将此值带回给调用者
                 request.OutId = "21212121211";
                 //请求失败这里会抛ClientException异常
@@ -45,11 +45,16 @@ namespace TestSmsConsoleApplication
             }
             catch (ServerException e)
             {
-                System.Console.WriteLine("Hello World!");
+                //System.Console.WriteLine("Hello World!");
+                Console.WriteLine("ServerException");
+                Console.WriteLine(e.Message);
             }
             catch (ClientException e)
             {
-                System.Console.WriteLine("Hello World!");
+                //System.Console.WriteLine("Hello World!");
+                Console.WriteLine("ClientException");
+                Console.WriteLine(e.Message);
+
             }
             Console.WriteLine("Please any key to exit ...");
             Console.ReadKey();

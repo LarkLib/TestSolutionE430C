@@ -118,8 +118,7 @@ namespace QnyDownloader
                 {
                     Utilities.LogInfo("redirct to list page");
                     //Task.Run(() => GetSupplierPmsPoList());
-                    GetSupplierPmsPoList();
-                    TestWebBrowser.Visible = false;
+                    SwitchToLogModel();
                 }
                 #endregion
             }
@@ -127,14 +126,6 @@ namespace QnyDownloader
 
         private void GetSupplierPmsPoList()
         {
-            try
-            {
-                utilities.UpdateSupplierPmsPoList(Bsid);
-            }
-            catch (Exception e)
-            {
-                Utilities.LogInfo($"WebBrowserForm,UpdateSupplierPmsPoList,ErrorMessage,{e.Message}");
-            }
             SyncTimer.Interval = Interval;
             SyncTimer.Enabled = true;
             SyncTimer.Start();
@@ -147,11 +138,21 @@ namespace QnyDownloader
         }
         private void SyncTimer_Tick(object sender, EventArgs e)
         {
+            Utilities.LogInfo("SyncTimer_Tick");
             SyncTimer.Enabled = false;
             try
             {
+                try
+                {
+                    utilities.UpdateSupplierPmsPoList(Bsid);
+                }
+                catch (Exception ee)
+                {
+                    Utilities.LogInfo($"WebBrowserForm,UpdateSupplierPmsPoList,ErrorMessage,{ee.Message}");
+                }
                 Utilities.CheckTimeWithExit();
                 utilities.GetSupplierPmsPoList(Bsid);
+                Utilities.LogInfo($"SyncTimer_Tick: Next run time{DateTime.Now.AddMilliseconds(Interval).ToString("yyyy-MM-dd HH:mm:ss.fff")}");
             }
             catch (Exception ex)
             {
@@ -169,6 +170,45 @@ namespace QnyDownloader
                 utilities.AdminSendSms();
                 IsLogin = true;
                 Utilities.LogInfo("CheckLogin:Auto Login Error.");
+            }
+        }
+        private void SwitchToLogModel()
+        {
+            Utilities.LogInfo("SwitchToLogModel");
+            Thread.Sleep(10 * 1000);
+            QnyNotifyIcon.Visible = true;
+            TopPanel.Controls.Clear();
+            WebViewPanel.Controls.Clear();
+            TextBox txtOutput = new TextBox { Multiline = true, ScrollBars = ScrollBars.Both, MaxLength = 10 };
+            txtOutput.Dock = System.Windows.Forms.DockStyle.Fill;
+            WebViewPanel.Controls.Add(txtOutput);
+            //redirect console output to textbox
+            Console.SetOut(new TextBoxWriter(txtOutput));
+            //QnyNotifyIcon.ShowBalloonTip(100);
+            this.WindowState = FormWindowState.Minimized;
+            this.Hide();
+            GetSupplierPmsPoList();
+            Utilities.LogInfo("SwitchToLogModel end");
+        }
+        private void QnyNotifyIcon_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Show();
+                this.WindowState = FormWindowState.Normal;
+                this.ShowInTaskbar = true;
+                this.Activate();
+            }
+        }
+
+        private void WebBrowserForm_Resize(object sender, EventArgs e)
+        {
+            if (this.WindowState == FormWindowState.Minimized)
+            {
+                this.Hide();
+                this.ShowInTaskbar = false;
+                this.QnyNotifyIcon.Visible = true;
+                this.Activate();
             }
         }
     }

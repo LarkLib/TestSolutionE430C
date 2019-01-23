@@ -76,6 +76,10 @@ namespace TestWindowsFormsApplication
 
         private void GoButton_Click(object sender, EventArgs e)
         {
+            timer1.Interval = 5000;
+            //timer1.Enabled = true;
+            //timer1.Start();
+            //return;
             //TestWebBrowser.Url = new Uri(AddressTextBox.Text);
             //AddressTextBox.Text = "http://finance.sina.com.cn/realstock/company/sh600900/nc.shtml";
             //AddressTextBox.Text = "http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/600900.phtml";
@@ -249,6 +253,14 @@ function inputPassword() {
         private void Input_Click(object sender, HtmlElementEventArgs e)
         {
             //throw new NotImplementedException();
+        }
+        int iTimer = 1;
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            timer1.Enabled = false;
+            iTimer++;
+            timer1.Interval = iTimer * 5 * 1000;
+            timer1.Enabled = true;
         }
     }
 }

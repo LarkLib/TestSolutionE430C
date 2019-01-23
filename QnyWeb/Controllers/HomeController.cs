@@ -152,12 +152,14 @@ namespace QnyWeb.Controllers
             ViewBag.Pois = shQnydbContext.PoiLists.ToList();
             return View(userInfos);
         }
-
         public ActionResult Index()
         {
             return View();
         }
-
+         public ActionResult Products()
+        {
+            return View();
+        }
         public ActionResult About()
         {
             //ViewBag.Message = "Your application description page.";
@@ -171,5 +173,5 @@ namespace QnyWeb.Controllers
 
             return View();
         }
-    }
+   }
 }

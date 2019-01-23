@@ -17,11 +17,25 @@ namespace TestjsonConsoleApplication
     {
         static void Main(string[] args)
         {
-            TestJson();
+            //TestJson();
+            TestGetWo();
             Console.Write("Press any key to exit.");
             Console.ReadKey();
         }
+
+        private static void TestGetWo()
+        {
+            var json = "{\"ResultCode\":\"200\",\"ErrorMsg\":\"\",\"Data\":{\"data\":[{\"CHANGE\":{},\"ALL\":{\"WO\":\"M181224001\",\"ReceiveQty\":1200,\"Barcode\":\"FGP1901003\",\"ProdDesc\":\"测试 CS-0001A 台湾大香蕉纸箱 香蕉10kg (外径 400*400*430 H1/H2/H3 :B)SCS-0001A\",\"WOByBOM\":\"M1812240011\",\"BOM\":\"CS-0001A\",\"Location\":\"A区\",\"SOCategory\":\"正常\",\"CustID\":\"CS\",\"ProdQty\":1200,\"CustName\":\"测试有限公司\",\"GroupManagementDistributedFactoryID\":\"\",\"ReceiveDate\":\"2019-01-21 00:00:00.000\",\"ProdDescShort\":\"台湾大香蕉纸箱 外径 (400*400*430)\",\"CustShortName\":\"测试\",\"LocSub\":\"A1\"}}]},\"ReceivedParam\":{\"CustNo\":\"A001\",\"EncryptStr\":\"5C9D1EC5A5AB4DFD8688D7AA6707BD09\",\"params\":{\"ActionID\":\"ODIStoreFGPreReceiveQuery\",\"GroupManagementDistributedFactoryID\":\"\",\"Data\":{\"Barcode\":\"FGP1901003\"}},\"Timestamp\":\"2019-01-22 09:57:03\",\"WEComConfigParams\":{\"WEDCNameMap\":{\"DI\":\"\"},\"functionID\":\"ODIAction\"},\"GroupManagementDistributedFactoryID\":\"\"}}";
+            var jObject = (JObject)JsonConvert.DeserializeObject(json);
+            var dataArray = (JArray)((JObject)jObject.GetValue("Data")).GetValue("data");
+            foreach (var item in dataArray)
+            {
+                var all= ((JObject)item).GetValue("ALL");
+                var wo = all.Value<string>("WO");
+            }
+        }
         #region Test Json
+
         private static void TestJson()
         {
             var json = "[{\"Id\":0,\"Name\":\"待确认\",\"FinalStatus\":0},{\"Id\":1,\"Name\":\"待收货\",\"FinalStatus\":0},{\"Id\":2,\"Name\":\"完成收货\",\"FinalStatus\":1},{\"Id\":3,\"Name\":\"生成中\",\"FinalStatus\":0},{\"Id\":4,\"Name\":\"超时关闭\",\"FinalStatus\":1},{\"Id\":5,\"Name\":\"生成失败\",\"FinalStatus\":1},{\"Id\":7,\"Name\":\"部分收货\",\"FinalStatus\":0},{\"Id\":8,\"Name\":\"已取消\",\"FinalStatus\":1},{\"Id\":9,\"Name\":\"取消中\",\"FinalStatus\":0},{\"Id\":10,\"Name\":\"取消失败\",\"FinalStatus\":1},{\"Id\":11,\"Name\":\"待审核\",\"FinalStatus\":0}]";

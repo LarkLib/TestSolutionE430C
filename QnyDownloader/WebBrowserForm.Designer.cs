@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WebBrowserForm));
             this.TopPanel = new System.Windows.Forms.Panel();
             this.AddressTextBox = new System.Windows.Forms.TextBox();
             this.GoButton = new System.Windows.Forms.Button();
@@ -36,6 +37,7 @@
             this.TestWebBrowser = new System.Windows.Forms.WebBrowser();
             this.InfoPanel = new System.Windows.Forms.Panel();
             this.SyncTimer = new System.Windows.Forms.Timer(this.components);
+            this.QnyNotifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.TopPanel.SuspendLayout();
             this.WebViewPanel.SuspendLayout();
             this.SuspendLayout();
@@ -102,6 +104,14 @@
             // 
             this.SyncTimer.Tick += new System.EventHandler(this.SyncTimer_Tick);
             // 
+            // QnyNotifyIcon
+            // 
+            this.QnyNotifyIcon.BalloonTipText = "亲农渔数据采集系统";
+            this.QnyNotifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("QnyNotifyIcon.Icon")));
+            this.QnyNotifyIcon.Text = "亲农渔";
+            this.QnyNotifyIcon.Visible = true;
+            this.QnyNotifyIcon.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.QnyNotifyIcon_MouseDoubleClick);
+            // 
             // WebBrowserForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -110,9 +120,11 @@
             this.Controls.Add(this.WebViewPanel);
             this.Controls.Add(this.InfoPanel);
             this.Controls.Add(this.TopPanel);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "WebBrowserForm";
-            this.Text = "WebBrowserForm";
+            this.Text = "上海亲农渔";
             this.Load += new System.EventHandler(this.WebBrowserForm_Load);
+            this.Resize += new System.EventHandler(this.WebBrowserForm_Resize);
             this.TopPanel.ResumeLayout(false);
             this.TopPanel.PerformLayout();
             this.WebViewPanel.ResumeLayout(false);
@@ -129,5 +141,6 @@
         private System.Windows.Forms.WebBrowser TestWebBrowser;
         private System.Windows.Forms.Panel InfoPanel;
         private System.Windows.Forms.Timer SyncTimer;
+        private System.Windows.Forms.NotifyIcon QnyNotifyIcon;
     }
 }

@@ -81,11 +81,11 @@ namespace TestVoteConsoleApplication
         private void Votes()
         {
             int i = 0;
-            while (true)
+            //while (true)
             {
                 var spenTime = GetNextTime(DateTime.Now);
                 Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")},Sleep:{spenTime / 1000 } s,Vote Time:{DateTime.Now.AddMilliseconds(spenTime)}");
-                Thread.Sleep(spenTime);
+                //Thread.Sleep(spenTime);
                 //var uniqueMark = Convert.ToString((int)(DateTime.Now - DateTime.Now.Date.AddHours(7)).TotalSeconds, 16);
                 var uniqueMark = (int)(DateTime.Now - DateTime.Now.Date.AddHours(7)).TotalSeconds;
                 var uniqueUserAgent = string.Format(GetUserAgent(), uniqueMark);
@@ -131,7 +131,7 @@ namespace TestVoteConsoleApplication
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.CookieContainer = cookies;
-            request.Proxy = webProxy;
+            //request.Proxy = webProxy;
             request.Method = "POST";
             request.ContentType = "application/x-www-form-urlencoded";
             request.Accept = "text/html, application/xhtml+xml, */*";
@@ -174,7 +174,7 @@ namespace TestVoteConsoleApplication
             cookies = new CookieContainer();
             request.CookieContainer = cookies;
             request.AllowAutoRedirect = false;
-            request.Proxy = webProxy;
+            //request.Proxy = webProxy;
             request.Method = "GET";
             request.Accept = "text/html, application/xhtml+xml, */*";
             request.UserAgent = userAgent;
