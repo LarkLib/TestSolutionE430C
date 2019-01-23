@@ -162,6 +162,7 @@ namespace QnyDownloader
                 LogInfo($"Update-{detail.poNo},SavePmsPoDetailToDb");
                 SaveSkuToDb(detail.poNo, detail.cTime, detail.skuList);
                 LogInfo($"Update-{detail.poNo},SaveSkuToDb,count:{detail.skuList.Count}");
+                Thread.Sleep(3000);
             }
             LogInfo("UpdateSupplierPmsPoList done");
         }

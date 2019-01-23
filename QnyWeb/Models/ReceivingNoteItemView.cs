@@ -35,5 +35,6 @@ namespace QnyWeb.Models
         public Nullable<decimal> ReturnPrice { get; set; }
         public string Remark { get; set; }
         public long id { get; set; }
+        public string poiName { get; set; }
     }
 }

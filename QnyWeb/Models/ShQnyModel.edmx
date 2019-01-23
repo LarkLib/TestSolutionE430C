@@ -234,6 +234,7 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="ReturnAmount" Type="decimal" Precision="18" Scale="2" />
           <Property Name="ReturnPrice" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Remark" Type="nvarchar" MaxLength="255" />
+          <Property Name="poiName" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <EntityContainer Name="ShQnyModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
@@ -296,7 +297,8 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
     [ReceivingNoteItemView].[PaymentStatus] AS [PaymentStatus], 
     [ReceivingNoteItemView].[ReturnAmount] AS [ReturnAmount], 
     [ReceivingNoteItemView].[ReturnPrice] AS [ReturnPrice], 
-    [ReceivingNoteItemView].[Remark] AS [Remark]
+    [ReceivingNoteItemView].[Remark] AS [Remark], 
+    [ReceivingNoteItemView].[poiName] AS [poiName]
     FROM [dbo].[ReceivingNoteItemView] AS [ReceivingNoteItemView]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
@@ -643,6 +645,7 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="ReturnPrice" Type="Decimal" Precision="18" Scale="2" />
           <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="id" Type="Int64" Nullable="false" />
+          <Property Name="poiName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -855,6 +858,7 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <EntitySetMapping Name="ReceivingNoteItemViews">
             <EntityTypeMapping TypeName="ShQnyModel.ReceivingNoteItemView">
               <MappingFragment StoreEntitySet="ReceivingNoteItemView">
+                <ScalarProperty Name="poiName" ColumnName="poiName" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="Remark" ColumnName="Remark" />
                 <ScalarProperty Name="ReturnPrice" ColumnName="ReturnPrice" />

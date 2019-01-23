@@ -1,5 +1,5 @@
 ﻿@*@using X.PagedList
-@using X.PagedList.Mvc*@
+    @using X.PagedList.Mvc*@
 @model IEnumerable<QnyWeb.Models.AspNetUser>
 @{
     ViewBag.Title = "AccountManager";
@@ -19,56 +19,67 @@
         </tr>
         @foreach (var item in Model)
         {
+            var isReserveUser = item.UserName.ToLower().Equals("admin");
             <tr>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserName)
                     @*<a href='@Url.RouteUrl("DefaultApi", new { httproute = true, controller ="Qny", action = "DeleteAccount", id = item.Id })'>删除用户</a>*@
-                    <a href="javascript:void(0)" onclick="deletes('@item.Id')">删除</a>
+                    @if (!isReserveUser)
+                    {
+                        <a href="javascript:void(0)" onclick="deletes('@item.Id')">删除</a>
+                    }
                     <a href="javascript:void(0)" onclick="resetPassword(this,'@item.Id')">重置密码</a>
                 </td>
                 @foreach (var role in Roles)
                 {
-                    var roleCheckd = item.AspNetUserRoles.Where(ur => ur.RoleId == role.Id).Any();
-                    var isSales = role.Name.Equals("Sales");
-                    var isAdmin = role.Name.Equals("Admin");
-                    <td>
-                        @if (isSales)
-                        {
-                            @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "salesCheck(this)" })
-                        }
-                        else if (isAdmin)
-                        {
-                            @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "adminCheck(this)" })
-                        }
-                        else
-                        {
-                            @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}" })
-                        }
-                        @Html.DisplayFor(r => role.Name)
-                        @if (isSales)
-                        {
-                            <br />
-                            foreach (var poi in Pois)
+                    if (!isReserveUser)
+                    {
+                        var roleCheckd = item.AspNetUserRoles.Where(ur => ur.RoleId == role.Id).Any();
+                        var isSales = role.Name.Equals("Sales");
+                        var isAdmin = role.Name.Equals("Admin");
+                        <td>
+                            @if (isSales)
                             {
-                                var poiCheckd = item.AspNetUserPois.Where(up => up.poiId == poi.poiid).Any();
-                                @Html.CheckBoxFor(p => poiCheckd, new { id = $"up_{item.Id}_{poi.poiid}", onclick = "poiCheck(this)" })
-                                @Html.DisplayFor(p => poi.poiname)
-                                <br />
+                                @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "salesCheck(this)" })
                             }
-                        }
-                    </td>
+                            else if (isAdmin)
+                            {
+                                @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "adminCheck(this)" })
+                            }
+                            else
+                            {
+                                @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}" })
+                            }
+                            @Html.DisplayFor(r => role.Name)
+                            @if (isSales)
+                            {
+                                <br />
+                                foreach (var poi in Pois)
+                                {
+                                    var poiCheckd = item.AspNetUserPois.Where(up => up.poiId == poi.poiid).Any();
+                                    @Html.CheckBoxFor(p => poiCheckd, new { id = $"up_{item.Id}_{poi.poiid}", onclick = "poiCheck(this)" })
+                                    @Html.DisplayFor(p => poi.poiname)
+                                    <br />
+                                }
+                            }
+                        </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
                 }
             </tr>
         }
     </table>
     @*@Html.PagedListPager((IPagedList)Model, page => Url.Action("AccountManager", new { page }))*@
     <input type="submit" class="btn btn-default" id="SaveButton" value="保存" />
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
 
-        </div>
-    </div>
-    <input type="hidden" value="" id="hiddenResult" name="hiddenResult" />
+                </div>
+            </div>
+            <input type="hidden" value="" id="hiddenResult" name="hiddenResult" />
 }
 
 @section Scripts {
