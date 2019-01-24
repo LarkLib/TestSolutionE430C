@@ -22,36 +22,43 @@
             var isReserveUser = item.UserName.ToLower().Equals("admin");
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.UserName)
-                    @*<a href='@Url.RouteUrl("DefaultApi", new { httproute = true, controller ="Qny", action = "DeleteAccount", id = item.Id })'>删除用户</a>*@
-                    @if (!isReserveUser)
+                    <div disabled="true">
+                        @Html.DisplayFor(modelItem => item.UserName)
+                        @*<a href='@Url.RouteUrl("DefaultApi", new { httproute = true, controller ="Qny", action = "DeleteAccount", id = item.Id })'>删除用户</a>*@
+                        @if (!isReserveUser)
                     {
-                        <a href="javascript:void(0)" onclick="deletes('@item.Id')">删除</a>
-                    }
-                    <a href="javascript:void(0)" onclick="resetPassword(this,'@item.Id')">重置密码</a>
+                            <a href="javascript:void(0)" onclick="deletes('@item.Id')">删除</a>
+                        }
+                        <a href="javascript:void(0)" onclick="resetPassword(this,'@item.Id')">重置密码</a>
+                    </div>
                 </td>
                 @foreach (var role in Roles)
                 {
-                    if (!isReserveUser)
-                    {
                         var roleCheckd = item.AspNetUserRoles.Where(ur => ur.RoleId == role.Id).Any();
                         var isSales = role.Name.Equals("Sales");
                         var isAdmin = role.Name.Equals("Admin");
                         <td>
-                            @if (isSales)
+                            @if (isSales && !isReserveUser)
                             {
                                 @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "salesCheck(this)" })
                             }
                             else if (isAdmin)
                             {
-                                @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "adminCheck(this)" })
+                                if (!isReserveUser)
+                                {
+                                    @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "adminCheck(this)" })
+                                }
+                                else
+                                {
+                                    @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", disabled = "false" })
+                                }
                             }
                             else
                             {
                                 @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}" })
                             }
                             @Html.DisplayFor(r => role.Name)
-                            @if (isSales)
+                            @if (isSales && !isReserveUser)
                             {
                                 <br />
                                 foreach (var poi in Pois)
@@ -63,11 +70,6 @@
                                 }
                             }
                         </td>
-                    }
-                    else
-                    {
-                        <td></td>
-                    }
                 }
             </tr>
         }
