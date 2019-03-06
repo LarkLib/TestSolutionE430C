@@ -38,5 +38,7 @@ namespace QnyWeb.Models
         public virtual DbSet<PoiConfig> PoiConfigs { get; set; }
         public virtual DbSet<ReceivingNote> ReceivingNotes { get; set; }
         public virtual DbSet<ReceivingNoteItemView> ReceivingNoteItemViews { get; set; }
+        public virtual DbSet<StatisticsByMonthSku> StatisticsByMonthSkus { get; set; }
+        public virtual DbSet<StatisticsByDaySku> StatisticsByDaySkus { get; set; }
     }
 }

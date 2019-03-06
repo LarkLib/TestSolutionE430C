@@ -311,6 +311,12 @@
     <Compile Include="Models\Sku.cs">
       <DependentUpon>ShQnyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StatisticsByDaySku.cs">
+      <DependentUpon>ShQnyModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\StatisticsByMonthSku.cs">
+      <DependentUpon>ShQnyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Status.cs">
       <DependentUpon>ShQnyModel.tt</DependentUpon>
     </Compile>
@@ -345,6 +351,10 @@
     <Content Include="Images\calendar.gif">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\products\yellowcroaker1.png" />
+    <Content Include="Images\products\yellowcroaker2.png" />
+    <Content Include="Images\products\yellowcroaker3.png" />
+    <Content Include="Images\products\yellowcroakerbk.jpg" />
     <Content Include="Models\ShQnyModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>ShQnyModel.edmx</DependentUpon>
@@ -584,6 +594,8 @@
     <Content Include="Scripts\underscore\underscore-min.js.map" />
     <Content Include="Views\Home\ReceivingNoteTemplate.cshtml" />
     <Content Include="Views\Home\Products.cshtml" />
+    <Content Include="Views\Home\StatisticsByMonthSku.cshtml" />
+    <Content Include="Views\Home\StatisticsByDaySku.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

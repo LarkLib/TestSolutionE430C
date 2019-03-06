@@ -24,6 +24,8 @@
         <EntityTypeShape EntityType="ShQnyModel.PoiConfig" Width="1.5" PointX="8.625" PointY="4.25" />
         <EntityTypeShape EntityType="ShQnyModel.ReceivingNote" Width="1.5" PointX="8.625" PointY="0.5" />
         <EntityTypeShape EntityType="ShQnyModel.ReceivingNoteItemView" Width="1.5" PointX="7" PointY="0.5" />
+        <EntityTypeShape EntityType="ShQnyModel.StatisticsByMonthSku" Width="1.5" PointX="13.75" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="ShQnyModel.StatisticsByDaySku" Width="1.5" PointX="13.75" PointY="3" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

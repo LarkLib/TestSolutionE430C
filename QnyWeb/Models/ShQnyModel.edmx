@@ -236,6 +236,32 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="Remark" Type="nvarchar" MaxLength="255" />
           <Property Name="poiName" Type="nvarchar" MaxLength="255" />
         </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ShQny.dbo.StatisticsByDaySku' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StatisticsByDaySku">
+          <Key>
+            <PropertyRef Name="date" />
+            <PropertyRef Name="skuId" />
+          </Key>
+          <Property Name="date" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="skuId" Type="bigint" Nullable="false" />
+          <Property Name="spuName" Type="char" MaxLength="50" />
+          <Property Name="poAmount" Type="char" MaxLength="9" />
+          <Property Name="sumPoPrice2" Type="decimal" Precision="38" Scale="1" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ShQny.dbo.StatisticsByMonthSku' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StatisticsByMonthSku">
+          <Key>
+            <PropertyRef Name="skuId" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="date" Type="char" MaxLength="7" Nullable="false" />
+          <Property Name="skuId" Type="bigint" Nullable="false" />
+          <Property Name="spuName" Type="char" MaxLength="50" />
+          <Property Name="poAmount" Type="char" MaxLength="9" />
+          <Property Name="sumPoPrice2" Type="decimal" Precision="38" Scale="1" />
+        </EntityType>
         <EntityContainer Name="ShQnyModelStoreContainer">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUserPois" EntityType="Self.AspNetUserPois" Schema="dbo" store:Type="Tables" />
@@ -300,6 +326,24 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
     [ReceivingNoteItemView].[Remark] AS [Remark], 
     [ReceivingNoteItemView].[poiName] AS [poiName]
     FROM [dbo].[ReceivingNoteItemView] AS [ReceivingNoteItemView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StatisticsByDaySku" EntityType="Self.StatisticsByDaySku" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StatisticsByDaySku].[date] AS [date], 
+    [StatisticsByDaySku].[skuId] AS [skuId], 
+    [StatisticsByDaySku].[spuName] AS [spuName], 
+    [StatisticsByDaySku].[poAmount] AS [poAmount], 
+    [StatisticsByDaySku].[sumPoPrice2] AS [sumPoPrice2]
+    FROM [dbo].[StatisticsByDaySku] AS [StatisticsByDaySku]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StatisticsByMonthSku" EntityType="Self.StatisticsByMonthSku" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StatisticsByMonthSku].[date] AS [date], 
+    [StatisticsByMonthSku].[skuId] AS [skuId], 
+    [StatisticsByMonthSku].[spuName] AS [spuName], 
+    [StatisticsByMonthSku].[poAmount] AS [poAmount], 
+    [StatisticsByMonthSku].[sumPoPrice2] AS [sumPoPrice2]
+    FROM [dbo].[StatisticsByMonthSku] AS [StatisticsByMonthSku]</DefiningQuery>
           </EntitySet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -443,6 +487,8 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <EntitySet Name="PoiConfigs" EntityType="ShQnyModel.PoiConfig" />
           <EntitySet Name="ReceivingNotes" EntityType="ShQnyModel.ReceivingNote" />
           <EntitySet Name="ReceivingNoteItemViews" EntityType="ShQnyModel.ReceivingNoteItemView" />
+          <EntitySet Name="StatisticsByMonthSkus" EntityType="ShQnyModel.StatisticsByMonthSku" />
+          <EntitySet Name="StatisticsByDaySkus" EntityType="ShQnyModel.StatisticsByDaySku" />
         </EntityContainer>
         <EntityType Name="PmsPoView">
           <Key>
@@ -646,6 +692,28 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="Remark" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
           <Property Name="id" Type="Int64" Nullable="false" />
           <Property Name="poiName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="StatisticsByMonthSku">
+          <Key>
+            <PropertyRef Name="skuId" />
+            <PropertyRef Name="date" />
+          </Key>
+          <Property Name="date" Type="String" MaxLength="7" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="skuId" Type="Int64" Nullable="false" />
+          <Property Name="spuName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="poAmount" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="sumPoPrice2" Type="Decimal" Precision="38" Scale="1" />
+        </EntityType>
+        <EntityType Name="StatisticsByDaySku">
+          <Key>
+            <PropertyRef Name="date" />
+            <PropertyRef Name="skuId" />
+          </Key>
+          <Property Name="date" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="skuId" Type="Int64" Nullable="false" />
+          <Property Name="spuName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
+          <Property Name="poAmount" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
+          <Property Name="sumPoPrice2" Type="Decimal" Precision="38" Scale="1" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -880,6 +948,28 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
                 <ScalarProperty Name="poNo" ColumnName="poNo" />
                 <ScalarProperty Name="skuId" ColumnName="skuId" />
                 <ScalarProperty Name="cDate" ColumnName="cDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatisticsByMonthSkus">
+            <EntityTypeMapping TypeName="ShQnyModel.StatisticsByMonthSku">
+              <MappingFragment StoreEntitySet="StatisticsByMonthSku">
+                <ScalarProperty Name="sumPoPrice2" ColumnName="sumPoPrice2" />
+                <ScalarProperty Name="poAmount" ColumnName="poAmount" />
+                <ScalarProperty Name="spuName" ColumnName="spuName" />
+                <ScalarProperty Name="skuId" ColumnName="skuId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatisticsByDaySkus">
+            <EntityTypeMapping TypeName="ShQnyModel.StatisticsByDaySku">
+              <MappingFragment StoreEntitySet="StatisticsByDaySku">
+                <ScalarProperty Name="sumPoPrice2" ColumnName="sumPoPrice2" />
+                <ScalarProperty Name="poAmount" ColumnName="poAmount" />
+                <ScalarProperty Name="spuName" ColumnName="spuName" />
+                <ScalarProperty Name="skuId" ColumnName="skuId" />
+                <ScalarProperty Name="date" ColumnName="date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

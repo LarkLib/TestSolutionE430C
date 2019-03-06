@@ -43,6 +43,20 @@ namespace QnyWeb.Controllers
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
+        public ActionResult StatisticsByMonthSku()
+        {
+            var shQnydbContext = new ShQnyEntities();
+            var data = shQnydbContext.StatisticsByMonthSkus.OrderBy(u => u.date);
+            return View(data);
+        }
+        [Authorize(Roles = "Admin")]
+        public ActionResult StatisticsByDaySku()
+        {
+            var shQnydbContext = new ShQnyEntities();
+            var data = shQnydbContext.StatisticsByDaySkus.OrderBy(u => u.date);
+            return View(data);
+        }
 
         /*
         [HttpGet]
@@ -156,7 +170,7 @@ namespace QnyWeb.Controllers
         {
             return View();
         }
-         public ActionResult Products()
+        public ActionResult Products()
         {
             return View();
         }
@@ -173,5 +187,5 @@ namespace QnyWeb.Controllers
 
             return View();
         }
-   }
+    }
 }

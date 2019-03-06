@@ -1,0 +1,44 @@
+﻿@model IEnumerable<QnyWeb.Models.StatisticsByDaySku>
+
+@{
+    ViewBag.Title = "StatisticsByDaySku";
+}
+
+<h2>StatisticsByDaySku</h2>
+
+<p>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.spuName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.poAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.sumPoPrice2)
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.spuName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.poAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.sumPoPrice2)
+        </td>
+    </tr>
+}
+
+</table>
