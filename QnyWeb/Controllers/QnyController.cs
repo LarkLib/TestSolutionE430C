@@ -104,39 +104,64 @@ namespace QnyWeb.Controllers
             var deletedRns = ((JObject)payload.GetValue("payload")).GetValue("deletedRns");
             if (rns != null && rns.Count() > 0)
             {
-                var updateRnItemList = new List<ReceivingNote>();
-                var insertRnItemList = new List<ReceivingNote>();
-                //var rnsDictionary = rns.ToObject<IDictionary<string, List<ReceivingNoteItemView>>>();
-                var rnList = rns.ToObject<List<ReceivingNoteItemView>>();
-                foreach (var rn in rnList)
-                {
-                    var r = new ReceivingNote();
-                    var propertyInfos = r.GetType().GetProperties();
-                    foreach (var propertyInfo in propertyInfos)
-                    {
-                        var itemPropertyInfo = rn.GetType().GetProperty(propertyInfo.Name);
-                        if (itemPropertyInfo != null)
-                        {
-                            propertyInfo.SetValue(r, itemPropertyInfo.GetValue(rn), null);
-                        }
-                    }
-                    if (r.RnId == Guid.Empty)
-                    {
-                        r.RnId = UuidHelper.NewUuid();
-                        insertRnItemList.Add(r);
-                    }
-                    else
-                    {
-                        updateRnItemList.Add(r);
-                    }
+                //var updateRnItemList = new List<ReceivingNote>();
+                //var insertRnItemList = new List<ReceivingNote>();
+                ////var rnsDictionary = rns.ToObject<IDictionary<string, List<ReceivingNoteItemView>>>();
+                //var rnList = rns.ToObject<List<ReceivingNoteItemView>>();
+                //foreach (var rn in rnList)
+                //{
+                //    var r = new ReceivingNote();
+                //    var propertyInfos = r.GetType().GetProperties();
+                //    foreach (var propertyInfo in propertyInfos)
+                //    {
+                //        var itemPropertyInfo = rn.GetType().GetProperty(propertyInfo.Name);
+                //        if (itemPropertyInfo != null)
+                //        {
+                //            propertyInfo.SetValue(r, itemPropertyInfo.GetValue(rn), null);
+                //        }
+                //    }
+                //    if (r.RnId == Guid.Empty)
+                //    {
+                //        r.RnId = UuidHelper.NewUuid();
+                //        insertRnItemList.Add(r);
+                //    }
+                //    else
+                //    {
+                //        updateRnItemList.Add(r);
+                //    }
 
-                }
+                //}
 
+                //using (var dbContext = new ShQnyEntities())
+                //{
+                //    //dbContext.ReceivingNotes.AddRange(rnItemList.Where(rn => rn.RnId != null || rn.Quantity > 0 || rn.TotalPrice > 0 || rn.UnitPrice > 0));
+                //    //var updates = updateRnItemList.Where(rn => rn.RnId != null && rn.RnId != Guid.Empty);
+                //    foreach (var item in updateRnItemList)
+                //    {
+                //        var original = dbContext.ReceivingNotes.Where(rn => rn.RnId == item.RnId).First();
+                //        var originalPropertyInfos = original.GetType().GetProperties();
+                //        foreach (var propertyInfo in originalPropertyInfos)
+                //        {
+                //            var itemPropertyInfo = item.GetType().GetProperty(propertyInfo.Name);
+                //            propertyInfo.SetValue(original, itemPropertyInfo.GetValue(item), null);
+                //        }
+                //    }
+                //    if (deletedRns != null && deletedRns.Count() > 0)
+                //    {
+                //        var deletedList = deletedRns.ToObject<List<Guid>>();
+                //        foreach (var item in deletedList)
+                //        {
+                //            var rnItem = dbContext.ReceivingNotes.Where(rn => rn.RnId == item).FirstOrDefault();
+                //            dbContext.ReceivingNotes.Remove(rnItem);
+                //        }
+                //    }
+                //    dbContext.ReceivingNotes.AddRange(insertRnItemList);//only update now
+                //    var rows = dbContext.SaveChanges();
+                //}
                 using (var dbContext = new ShQnyEntities())
                 {
-                    //dbContext.ReceivingNotes.AddRange(rnItemList.Where(rn => rn.RnId != null || rn.Quantity > 0 || rn.TotalPrice > 0 || rn.UnitPrice > 0));
-                    //var updates = updateRnItemList.Where(rn => rn.RnId != null && rn.RnId != Guid.Empty);
-                    foreach (var item in updateRnItemList)
+                    var rnList = rns.ToObject<List<ReceivingNoteItemView>>();
+                    foreach (var item in rnList)
                     {
                         var original = dbContext.ReceivingNotes.Where(rn => rn.RnId == item.RnId).First();
                         var originalPropertyInfos = original.GetType().GetProperties();
@@ -146,16 +171,6 @@ namespace QnyWeb.Controllers
                             propertyInfo.SetValue(original, itemPropertyInfo.GetValue(item), null);
                         }
                     }
-                    if (deletedRns != null && deletedRns.Count() > 0)
-                    {
-                        var deletedList = deletedRns.ToObject<List<Guid>>();
-                        foreach (var item in deletedList)
-                        {
-                            var rnItem = dbContext.ReceivingNotes.Where(rn => rn.RnId == item).FirstOrDefault();
-                            dbContext.ReceivingNotes.Remove(rnItem);
-                        }
-                    }
-                    dbContext.ReceivingNotes.AddRange(insertRnItemList);
                     var rows = dbContext.SaveChanges();
                 }
             }

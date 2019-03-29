@@ -37,6 +37,7 @@ namespace QnyDownloader
         private static TimeSpan StarTime = TimeSpan.Parse(ConfigurationManager.AppSettings["StarTime"]);
         private static TimeSpan StopTime = TimeSpan.Parse(ConfigurationManager.AppSettings["StopTime"]);
         private static bool IgnoreTimeCheck = string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["IgnoreTimeCheck"]) ? false : bool.Parse(ConfigurationManager.AppSettings["IgnoreTimeCheck"]);
+        private static bool IgnoreSendSms = string.IsNullOrWhiteSpace(ConfigurationManager.AppSettings["IgnoreSendSms"]) ? false : bool.Parse(ConfigurationManager.AppSettings["IgnoreSendSms"]);
         private static string ReceivingNotePath
         {
             get
@@ -208,17 +209,24 @@ namespace QnyDownloader
                     LogInfo($"phoneNumber ={phoneNumber}");
                     if (!string.IsNullOrWhiteSpace(phoneNumber))
                     {
-                        var templateParam = new SmsTemplateParam()
+                        if (IgnoreSendSms)
                         {
-                            poNo = detail.poNo,
-                            creator = detail.creator,
-                            poiName = GetShopName(detail.poiName),
-                            categoryName = item.categoryName
-                            //preArrivalTime = UnixTimeStampToDateTime(detail.preArrivalTime).ToString("yyyy-MM-dd")
-                        };
-                        string smsResult = SendSms(phoneNumber, JsonConvert.SerializeObject(templateParam), TemplateCode, SignName);
-                        LogInfo($"sent sms: phoneNumber ={phoneNumber}, poNo={item.poNo}");
-                        LogInfo($"smsResult: {smsResult}");
+                            LogInfo($"IgnoreSendSms=true");
+                        }
+                        else
+                        {
+                            var templateParam = new SmsTemplateParam()
+                            {
+                                poNo = detail.poNo,
+                                creator = detail.creator,
+                                poiName = GetShopName(detail.poiName),
+                                categoryName = item.categoryName
+                                //preArrivalTime = UnixTimeStampToDateTime(detail.preArrivalTime).ToString("yyyy-MM-dd")
+                            };
+                            string smsResult = SendSms(phoneNumber, JsonConvert.SerializeObject(templateParam), TemplateCode, SignName);
+                            LogInfo($"sent sms: phoneNumber ={phoneNumber}, poNo={item.poNo}");
+                            LogInfo($"smsResult: {smsResult}");
+                        }
                     }
                 }
                 pmsPoSummary = GetSupplierPmsPoPage(bsid, i, batchSize);
@@ -375,11 +383,14 @@ UPDATE PMSPO set status={pmsPoDetail.status}  WHERE [poNo]='{pmsPoDetail.poNo}'
         private void SaveSkuToDb(string poNo, long cTime, IList<SkuItem> skuList)
         {
             var values = string.Empty;
+            var insertRnsSql = string.Empty;
             foreach (var sku in skuList)
             {
                 values += $"('{sku.skuId}','{poNo}','{sku.categoryName}','{sku.spuName}','{sku.skuMallCode}','{sku.skuCode}','{sku.storageTemperatureLevel}','{sku.guaranteePeriod}','{sku.skuSpec}','{sku.skuCostPrice}','{sku.skuDictUnitName}','{sku.skuBoxQuantity}','{sku.prePoAmount}','{sku.poAmount}','{sku.productionDate}','{sku.sumPrePoPrice}','{sku.sumPoPrice}','{sku.unitId}','{sku.packageType}','{sku.categoryId}','{sku.tax}','{sku.guaranteePeriodType}','{sku.availableQuantity}','{sku.availablePoPrice}',{GetUnixTimeStampString(sku.productionDate)},{GetUnixTimeStampString(cTime)}),";
+                insertRnsSql += $"if not exists(select 1 from ReceivingNote where poNo='{poNo}' and skuId={sku.skuId}) insert ReceivingNote (poNo,skuId) values('{poNo}',{sku.skuId});";
             }
             values = values.TrimEnd(new[] { ',' });
+            insertRnsSql = insertRnsSql.TrimEnd(new[] { ',' });
 
             using (var connection = new SqlConnection(ConnectionString))
             {
@@ -389,7 +400,8 @@ IF EXISTS(SELECT [poNo] FROM Sku WHERE [poNo]='{poNo}')
     DELETE Sku WHERE [poNo]='{poNo}' 
     
 INSERT INTO [dbo].[Sku]([skuId],[poNo],[categoryName],[spuName],[skuMallCode],[skuCode],[storageTemperatureLevel],[guaranteePeriod],[skuSpec],[skuCostPrice],[skuDictUnitName],[skuBoxQuantity],[prePoAmount],[poAmount],[productionDate],[sumPrePoPrice],[sumPoPrice],[unitId],[packageType],[categoryId],[tax],[guaranteePeriodType],[availableQuantity],[availablePoPrice],[productionDate2],[cTime2])
-VALUES {values}
+VALUES {values};
+{insertRnsSql}
 ";
                 connection.Open();
                 var reader = cmd.ExecuteNonQuery();

@@ -113,6 +113,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestWindowsFormsApplication
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QnyWin", "QnyWin\QnyWin.csproj", "{4FCD2FCF-F204-438B-923A-CD6B12AF32DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDirectoryServicesConsoleApplication", "TestDirectoryServicesConsoleApplication\TestDirectoryServicesConsoleApplication.csproj", "{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -759,6 +761,18 @@ Global
 		{4FCD2FCF-F204-438B-923A-CD6B12AF32DA}.Release|x64.Build.0 = Release|Any CPU
 		{4FCD2FCF-F204-438B-923A-CD6B12AF32DA}.Release|x86.ActiveCfg = Release|Any CPU
 		{4FCD2FCF-F204-438B-923A-CD6B12AF32DA}.Release|x86.Build.0 = Release|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Debug|x64.Build.0 = Debug|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Debug|x86.Build.0 = Debug|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Release|x64.ActiveCfg = Release|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Release|x64.Build.0 = Release|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Release|x86.ActiveCfg = Release|Any CPU
+		{BCEDADB9-A3D4-4E8D-BD79-F103F1BFA283}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

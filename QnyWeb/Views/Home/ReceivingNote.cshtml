@@ -51,7 +51,7 @@
             <template slot="Remark" slot-scope="props">
                 <input style="width:60px" type="text" name="item.Remark" v-model="rns[props.row.vbt_id-1].Remark" />
             </template>
-            <template slot="action" slot-scope="props">
+            <template slot="action" slot-scope="props" v-if="false">
                 <div v-on:click="addRn(props.row.vbt_id-1)" style="cursor:pointer;color:darkgreen"><b>+</b></div>
                 <div v-on:click="delRn(props.row.vbt_id-1)" style="cursor:pointer;color:red"><b>X</b></div>
             </template>

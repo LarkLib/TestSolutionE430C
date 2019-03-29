@@ -31,7 +31,8 @@ namespace QnyDownloader
         private string LoginUrlHeader = "https://epassport.meituan.com/account/unitivelogin";
         private string LoginUrl = "https://epassport.meituan.com/account/unitivelogin?bg_source=14&continue=https:%2F%2Fvss.baobaoaichi.cn%2Fauth%2Flogin%3Ftype%3DLOGIN&leftBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Fsignup.html&part_type=0&rightBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Frecover.html&service=com.sankuai.mall.fe.vss";
         private string AutoLoginUrlHeader = "https://vss.baobaoaichi.cn/auth/login";
-        private string PurchaseListUrl = "https://vss.baobaoaichi.cn/purchase/list.html";
+        //private string PurchaseListUrl = "https://vss.baobaoaichi.cn/purchase/list.html";
+        private string PurchaseListUrl = "https://vss.baobaoaichi.cn/";
         private string Bsid = null;
         public WebBrowserForm()
         {
@@ -111,7 +112,7 @@ namespace QnyDownloader
                 }
                 #endregion
             }
-            else if (currentUrl.Contains(PurchaseListUrl))
+            else if (currentUrl.Equals(PurchaseListUrl))
             {
                 #region PurchaseListUrl
                 if (TestWebBrowser.ReadyState == WebBrowserReadyState.Complete || TestWebBrowser.ReadyState == WebBrowserReadyState.Interactive)
