@@ -40,5 +40,6 @@ namespace QnyWeb.Models
         public virtual DbSet<ReceivingNoteItemView> ReceivingNoteItemViews { get; set; }
         public virtual DbSet<StatisticsByMonthSku> StatisticsByMonthSkus { get; set; }
         public virtual DbSet<StatisticsByDaySku> StatisticsByDaySkus { get; set; }
+        public virtual DbSet<StatisticsByDailySkuPoi> StatisticsByDailySkuPois { get; set; }
     }
 }

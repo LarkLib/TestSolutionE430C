@@ -1,0 +1,60 @@
+﻿@model IEnumerable<QnyWeb.Models.StatisticsByDailySkuPoi>
+
+@{
+    ViewBag.Title = "门店发货统计";
+}
+
+<h2>门店发货统计</h2>
+
+<p>
+</p>
+<table class="table">
+    <tr>
+        <th>
+            
+        </th>
+        <th>
+            日期
+        </th>
+        <th>
+            品名
+        </th>
+        <th>
+            规格
+        </th>
+        <th>
+            单位
+        </th>
+        <th>
+            发货数量
+        </th>
+        <th>
+            门店
+        </th>
+    </tr>
+@{int i = 1; }
+@foreach (var item in Model) {
+    <tr>
+        <td>@(i++)    </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.spuName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.skuSpec)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.skuDictUnitName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.prePoAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.poiName)
+        </td>
+    </tr>
+}
+
+</table>

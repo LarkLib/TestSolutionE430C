@@ -18,7 +18,7 @@ namespace TestNewFeatureConsoleApplication
     {
         public void ExecuteTest()
         {
-            TestMethodDynamic();
+            //TestMethodDynamic();
             TestMethodExpandoObject("Patrick Hines", address: "address", age: 20);
             TestMethodDynamicParser();
             TestMethodDynamicDictionary();

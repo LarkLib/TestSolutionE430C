@@ -237,11 +237,26 @@ warning 6002: The table/view 'ShQny.dbo.ReceivingNoteItemView' does not have a p
           <Property Name="poiName" Type="nvarchar" MaxLength="255" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'ShQny.dbo.StatisticsByDailySkuPoi' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="StatisticsByDailySkuPoi">
+          <Key>
+            <PropertyRef Name="pkey" />
+          </Key>
+          <Property Name="pkey" Type="nvarchar" MaxLength="61" Nullable="false" />
+          <Property Name="date" Type="nvarchar" MaxLength="10" />
+          <Property Name="poiName" Type="nvarchar" MaxLength="255" Nullable="false" />
+          <Property Name="skuid" Type="bigint" Nullable="false" />
+          <Property Name="spuName" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuSpec" Type="nvarchar" MaxLength="255" />
+          <Property Name="skuDictUnitName" Type="nvarchar" MaxLength="255" />
+          <Property Name="prePoAmount" Type="decimal" Precision="38" Scale="1" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'ShQny.dbo.StatisticsByDaySku' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="StatisticsByDaySku">
           <Key>
-            <PropertyRef Name="date" />
             <PropertyRef Name="skuId" />
+            <PropertyRef Name="date" />
           </Key>
           <Property Name="date" Type="char" MaxLength="10" Nullable="false" />
           <Property Name="skuId" Type="bigint" Nullable="false" />
@@ -326,6 +341,18 @@ warning 6002: The table/view 'ShQny.dbo.StatisticsByMonthSku' does not have a pr
     [ReceivingNoteItemView].[Remark] AS [Remark], 
     [ReceivingNoteItemView].[poiName] AS [poiName]
     FROM [dbo].[ReceivingNoteItemView] AS [ReceivingNoteItemView]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="StatisticsByDailySkuPoi" EntityType="Self.StatisticsByDailySkuPoi" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [StatisticsByDailySkuPoi].[pkey] AS [pkey], 
+    [StatisticsByDailySkuPoi].[date] AS [date], 
+    [StatisticsByDailySkuPoi].[poiName] AS [poiName], 
+    [StatisticsByDailySkuPoi].[skuid] AS [skuid], 
+    [StatisticsByDailySkuPoi].[spuName] AS [spuName], 
+    [StatisticsByDailySkuPoi].[skuSpec] AS [skuSpec], 
+    [StatisticsByDailySkuPoi].[skuDictUnitName] AS [skuDictUnitName], 
+    [StatisticsByDailySkuPoi].[prePoAmount] AS [prePoAmount]
+    FROM [dbo].[StatisticsByDailySkuPoi] AS [StatisticsByDailySkuPoi]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="StatisticsByDaySku" EntityType="Self.StatisticsByDaySku" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
@@ -489,6 +516,7 @@ warning 6002: The table/view 'ShQny.dbo.StatisticsByMonthSku' does not have a pr
           <EntitySet Name="ReceivingNoteItemViews" EntityType="ShQnyModel.ReceivingNoteItemView" />
           <EntitySet Name="StatisticsByMonthSkus" EntityType="ShQnyModel.StatisticsByMonthSku" />
           <EntitySet Name="StatisticsByDaySkus" EntityType="ShQnyModel.StatisticsByDaySku" />
+          <EntitySet Name="StatisticsByDailySkuPois" EntityType="ShQnyModel.StatisticsByDailySkuPoi" />
         </EntityContainer>
         <EntityType Name="PmsPoView">
           <Key>
@@ -714,6 +742,19 @@ warning 6002: The table/view 'ShQny.dbo.StatisticsByMonthSku' does not have a pr
           <Property Name="spuName" Type="String" MaxLength="50" FixedLength="true" Unicode="false" />
           <Property Name="poAmount" Type="String" MaxLength="9" FixedLength="true" Unicode="false" />
           <Property Name="sumPoPrice2" Type="Decimal" Precision="38" Scale="1" />
+        </EntityType>
+        <EntityType Name="StatisticsByDailySkuPoi">
+          <Key>
+            <PropertyRef Name="pkey" />
+          </Key>
+          <Property Name="date" Type="String" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="poiName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="skuid" Type="Int64" Nullable="false" />
+          <Property Name="spuName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuSpec" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="skuDictUnitName" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="prePoAmount" Type="Decimal" Precision="38" Scale="1" />
+          <Property Name="pkey" Type="String" MaxLength="61" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -969,6 +1010,20 @@ warning 6002: The table/view 'ShQny.dbo.StatisticsByMonthSku' does not have a pr
                 <ScalarProperty Name="poAmount" ColumnName="poAmount" />
                 <ScalarProperty Name="spuName" ColumnName="spuName" />
                 <ScalarProperty Name="skuId" ColumnName="skuId" />
+                <ScalarProperty Name="date" ColumnName="date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatisticsByDailySkuPois">
+            <EntityTypeMapping TypeName="ShQnyModel.StatisticsByDailySkuPoi">
+              <MappingFragment StoreEntitySet="StatisticsByDailySkuPoi">
+                <ScalarProperty Name="pkey" ColumnName="pkey" />
+                <ScalarProperty Name="prePoAmount" ColumnName="prePoAmount" />
+                <ScalarProperty Name="skuDictUnitName" ColumnName="skuDictUnitName" />
+                <ScalarProperty Name="skuSpec" ColumnName="skuSpec" />
+                <ScalarProperty Name="spuName" ColumnName="spuName" />
+                <ScalarProperty Name="skuid" ColumnName="skuid" />
+                <ScalarProperty Name="poiName" ColumnName="poiName" />
                 <ScalarProperty Name="date" ColumnName="date" />
               </MappingFragment>
             </EntityTypeMapping>

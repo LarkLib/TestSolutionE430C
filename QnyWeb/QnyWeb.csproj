@@ -311,6 +311,9 @@
     <Compile Include="Models\Sku.cs">
       <DependentUpon>ShQnyModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\StatisticsByDailySkuPoi.cs">
+      <DependentUpon>ShQnyModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\StatisticsByDaySku.cs">
       <DependentUpon>ShQnyModel.tt</DependentUpon>
     </Compile>
@@ -596,6 +599,7 @@
     <Content Include="Views\Home\Products.cshtml" />
     <Content Include="Views\Home\StatisticsByMonthSku.cshtml" />
     <Content Include="Views\Home\StatisticsByDaySku.cshtml" />
+    <Content Include="Views\Home\StatisticsByDailySkuPoi.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

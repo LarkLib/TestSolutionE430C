@@ -57,6 +57,13 @@ namespace QnyWeb.Controllers
             var data = shQnydbContext.StatisticsByDaySkus.OrderBy(u => u.date);
             return View(data);
         }
+        [Authorize(Roles = "Admin")]
+        public ActionResult StatisticsByDailySkuPoi()
+        {
+            var shQnydbContext = new ShQnyEntities();
+            var data = shQnydbContext.StatisticsByDailySkuPois.OrderBy(u => u.skuid);
+            return View(data);
+        }
 
         /*
         [HttpGet]
