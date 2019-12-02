@@ -235,20 +235,35 @@ namespace QnyDownloader
         }
         private PmsPoSummary GetSupplierPmsPoPage(string bsid, int offset, int limite)
         {
-            string url = "https://vss.baobaoaichi.cn/thrift/vss/SupplierPMSTService/querySupplierPmsPoList";
+            //string url = "https://vss.baobaoaichi.cn/thrift/vss/SupplierPMSTService/querySupplierPmsPoList";
+            string url = "https://vss.baobaoaichi.cn/api/m/vss/pms/query/pms-list";
+            //            string postDataString = $@"
+            //{{
+            //    ""bizAccountId"": ""NodeJs"",
+            //	""pmsPoListQueryParam"": {{
+            //		""poNo"": """",
+            //		""status"": -1,
+            //		""poiId"": -1,
+            //		""preArrivalStartTime"": -1,
+            //		""preArrivalEndTime"": -1,
+            //		""paging"": {{
+            //			""offset"": {offset},
+            //			""limit"": {limite}
+            //		}}
+            //	}}
+            //}}
+            //";
             string postDataString = $@"
 {{
-    ""bizAccountId"": ""NodeJs"",
-	""pmsPoListQueryParam"": {{
-		""poNo"": """",
-		""status"": -1,
-		""poiId"": -1,
-		""preArrivalStartTime"": -1,
-		""preArrivalEndTime"": -1,
-		""paging"": {{
-			""offset"": {offset},
-			""limit"": {limite}
-		}}
+	""poNo"": """",
+	""status"": -1,
+	""poiId"": -1,
+	""poType"": -1,
+	""preArrivalStartTime"": -1,
+	""preArrivalEndTime"": -1,
+	""paging"": {{
+		""offset"": {offset},
+		""limit"": {limite}
 	}}
 }}
 ";
@@ -297,8 +312,10 @@ namespace QnyDownloader
         }
         private PmsPoDetailItem GetSupplierPmsPoDetail(string bsid, string poNo)
         {
-            string url = "https://vss.baobaoaichi.cn/thrift/vss/SupplierPMSTService/querySupplierPmsPoDetail";
-            string postDataString = $@"{{""pmsPoQueryParam"":{{""poNo"":""{poNo}""}},""bizAccountId"":""NodeJs""}}";
+            //string url = "https://vss.baobaoaichi.cn/thrift/vss/SupplierPMSTService/querySupplierPmsPoDetail";
+            //string postDataString = $@"{{""pmsPoQueryParam"":{{""poNo"":""{poNo}""}},""bizAccountId"":""NodeJs""}}";
+            string url = "https://vss.baobaoaichi.cn/api/m/vss/pms/query/pms-detail";
+            string postDataString = $@"{{""poNo"":""{poNo}""}}";
             byte[] postData = Encoding.UTF8.GetBytes(postDataString);
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.Method = "POST";

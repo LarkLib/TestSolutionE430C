@@ -1,0 +1,109 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Commerce Objectives Global Limited</title>
+    <LINK href="~/Content/css/style.css" rel="stylesheet" type="text/css">
+    <LINK href="~/Content/css/styles1.css" rel="stylesheet" type="text/css">
+</head>
+<BODY id="TotalBodyId" style="background-position: 0pt 0pt; margin: 0px 0pt 0pt;">
+    <DIV id="top-wrap">
+        <DIV id="header-wrap">
+            <DIV id="header">
+                <DIV id="main-menu">
+                    <UL class="topmenu" id="css3menu_top">
+                        <IMG alt="logo" src="~/Content/Image/logo.png">
+                        <LI class="topmenu">
+                            @Html.ActionLink("Home", "Index", "Home", new { style = "font-weight:bold;;width:105px;text-align:center" })
+                        </LI>
+                        <LI class="topmenu">
+                            <a style="height: 24px; line-height: 24px;width:105px;text-align:center"><b>ABOUT US</b></a>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("WHO WE ARE", "WhoWeAre", "Home")</LI>
+                                        <LI>@Html.ActionLink("WHAT WE DO", "WhatWeDo", "Home")</LI>
+                                        <LI>@Html.ActionLink("CORPORATE RESPONSIBILITY", "CorporateResponsibility", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;width:105px;text-align:center">
+                                <b>INSIGHT</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("LONDON METAL EXCHANGE INSIGHT", "LondonMetalExchangeInsight", "Home")</LI>
+                                        <LI>@Html.ActionLink("NYMEX AND COMEX INSIGHT", "NymexAndComexInsight", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;width:105px;text-align:center">
+                                <b>PRODUCT</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("PRECIOUS METAL", "PreciousMetal", "Home")</LI>
+                                        <LI>@Html.ActionLink("PRECIOUS STONE", "PreciousStone", "Home")</LI>
+                                        <LI>@Html.ActionLink("PEARLS", "Pearls", "Home")</LI>
+                                        <LI>@Html.ActionLink("Minerals", "Minerals", "Home")</LI>
+                                        <LI>@Html.ActionLink("OTHER METAL", "OtherMetal", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;width:105px;text-align:center">
+                                <b>SERVICE</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("TRADING", "Trading", "Home")</LI>
+                                        <LI>@Html.ActionLink("INVESTMENT", "Investment", "Home")</LI>
+                                        <LI>@Html.ActionLink("EXCHANGE", "Exchange", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                        <LI class="topmenu">
+                            <A style="height: 24px; line-height: 24px;width:105px;text-align:center">
+                                <b>CAREER</b>
+                            </A>
+                            <DIV class="submenu">
+                                <DIV class="column">
+                                    <UL>
+                                        <LI>@Html.ActionLink("UNDERGRADUATE & POSTGRADUATE", "UndergraduatePostgraduate", "Home")</LI>
+                                        <LI>@Html.ActionLink("EXPERIENCED PROFESSIONAL", "ExperiencedProfessional", "Home")</LI>
+                                    </UL>
+                                </DIV>
+                            </DIV>
+                        </LI>
+                    </UL>
+                </DIV>
+            </DIV>
+        </DIV><!--header ends here-->
+    </DIV><!--end of outer-wrapper-->
+    <div class="container body-content">
+        <DIV id="bodywrap">
+            <DIV id="content-wrap">
+                <DIV class="leftPan" style="color: rgb(255, 0, 0);">
+                    @RenderBody()
+                </DIV>
+            </DIV>
+        </DIV>
+        <p></p>
+        <p></p>
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - Commerce Objectives Global Limited. All rights reserved.</p>
+        </footer>
+    </div>
+</BODY>
+</html>

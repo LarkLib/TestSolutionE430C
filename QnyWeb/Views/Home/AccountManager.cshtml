@@ -40,22 +40,22 @@
                         <td>
                             @if (isSales && !isReserveUser)
                             {
-                                @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "salesCheck(this)" })
+                                @Html.CheckBoxFor(r => roleCheckd, new { id = string.Format("ur_{0}_{1}", item.Id, role.Id), onclick = "salesCheck(this)" })
                             }
                             else if (isAdmin)
                             {
                                 if (!isReserveUser)
                                 {
-                                    @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", onclick = "adminCheck(this)" })
+                                    @Html.CheckBoxFor(r => roleCheckd, new { id = string.Format("ur_{0}_{1}", item.Id, role.Id), onclick = "adminCheck(this)" })
                                 }
                                 else
                                 {
-                                    @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}", disabled = "false" })
+                                    @Html.CheckBoxFor(r => roleCheckd, new { id = string.Format("ur_{0}_{1}", item.Id, role.Id), disabled = "false" })
                                 }
                             }
                             else
                             {
-                                @Html.CheckBoxFor(r => roleCheckd, new { id = $"ur_{item.Id}_{role.Id}" })
+                                @Html.CheckBoxFor(r => roleCheckd, new { id = string.Format("ur_{0}_{1}", item.Id, role.Id) })
                             }
                             @Html.DisplayFor(r => role.Name)
                             @if (isSales && !isReserveUser)
@@ -64,7 +64,7 @@
                                 foreach (var poi in Pois)
                                 {
                                     var poiCheckd = item.AspNetUserPois.Where(up => up.poiId == poi.poiid).Any();
-                                    @Html.CheckBoxFor(p => poiCheckd, new { id = $"up_{item.Id}_{poi.poiid}", onclick = "poiCheck(this)" })
+                                    @Html.CheckBoxFor(p => poiCheckd, new { id = string.Format("up_{0}_{1}", item.Id, poi.poiid), onclick = "poiCheck(this)" })
                                     @Html.DisplayFor(p => poi.poiname)
                                     <br />
                                 }

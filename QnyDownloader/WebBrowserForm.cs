@@ -29,7 +29,8 @@ namespace QnyDownloader
         private static int Interval = int.Parse(ConfigurationManager.AppSettings["Interval"] ?? "180") * 1000;
         private static bool IsLogin = false;
         private string LoginUrlHeader = "https://epassport.meituan.com/account/unitivelogin";
-        private string LoginUrl = "https://epassport.meituan.com/account/unitivelogin?bg_source=14&continue=https:%2F%2Fvss.baobaoaichi.cn%2Fauth%2Flogin%3Ftype%3DLOGIN&leftBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Fsignup.html&part_type=0&rightBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Frecover.html&service=com.sankuai.mall.fe.vss";
+        //private string LoginUrl = "https://epassport.meituan.com/account/unitivelogin?bg_source=14&continue=https:%2F%2Fvss.baobaoaichi.cn%2Fauth%2Flogin%3Ftype%3DLOGIN&leftBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Fsignup.html&part_type=0&rightBottomLink=https:%2F%2Fvss.baobaoaichi.cn%2Frecover.html&service=com.sankuai.mall.fe.vss";
+        private string LoginUrl = "https://epassport.meituan.com/account/unitivelogin?bg_source=14&continue=https%3A%2F%2Fvss.baobaoaichi.cn%2Fauth%2Flogin&leftBottomLink=https%3A%2F%2Fvss.baobaoaichi.cn%2Fsign.html&rightBottomLink=https%3A%2F%2Fvss.baobaoaichi.cn%2Frecover.html&service=com.sankuai.mall.fe.jiemoserver";
         private string AutoLoginUrlHeader = "https://vss.baobaoaichi.cn/auth/login";
         //private string PurchaseListUrl = "https://vss.baobaoaichi.cn/purchase/list.html";
         private string PurchaseListUrl = "https://vss.baobaoaichi.cn/";
@@ -44,6 +45,7 @@ namespace QnyDownloader
 
         private void WebBrowserForm_Load(object sender, EventArgs e)
         {
+            TestWebBrowser.ScriptErrorsSuppressed = true;
             AddressTextBox.Focus();
             AddressTextBox.Text = LoginUrl;
             TestWebBrowser.Navigate(LoginUrl);
