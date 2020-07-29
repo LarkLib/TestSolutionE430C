@@ -52,6 +52,10 @@ namespace TestWebApplication.Controllers
         {
             return View();
         }
+        public ActionResult Manufacture()
+        {
+            return View();
+        }
         public ActionResult Investment()
         {
             return View();

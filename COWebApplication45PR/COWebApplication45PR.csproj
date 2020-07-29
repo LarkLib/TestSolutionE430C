@@ -94,17 +94,22 @@
     <Content Include="Content\Image\Aboust US.png" />
     <Content Include="Content\Image\contactus.png" />
     <Content Include="Content\Image\CorporateResponsbility.png" />
+    <Content Include="Content\Image\CorporateResponsbility.jpg" />
     <Content Include="Content\Image\Exchange.png" />
     <Content Include="Content\Image\ExperiencedProfessional.jpg" />
+    <Content Include="Content\Image\Home.jpg" />
     <Content Include="Content\Image\Investment.png" />
     <Content Include="Content\Image\investorrelations.png" />
     <Content Include="Content\Image\jewelry.png" />
     <Content Include="Content\Image\logo.png" />
     <Content Include="Content\Image\London Metal Exchange Insight.png" />
+    <Content Include="Content\Image\Manufacture.png" />
     <Content Include="Content\Image\mediarelations.png" />
+    <Content Include="Content\Image\Minerals.jpg" />
     <Content Include="Content\Image\Minerals.png" />
     <Content Include="Content\Image\News.png" />
     <Content Include="Content\Image\Nymex and Comex Insight.png" />
+    <Content Include="Content\Image\OtherMetal.jpg" />
     <Content Include="Content\Image\Other_Metal_A.png" />
     <Content Include="Content\Image\Other_Metal_B.png" />
     <Content Include="Content\Image\Pearls.png" />
@@ -115,7 +120,7 @@
     <Content Include="Content\Image\Trading_B.png" />
     <Content Include="Content\Image\UndergraduatePostgraduate.jpg" />
     <Content Include="Content\Image\WhatWeDo.png" />
-    <Content Include="Content\Image\home.bmp" />
+    <Content Include="Content\Image\WhoWeAre.jpg" />
     <Content Include="Content\Image\Worldwide.png" />
     <Content Include="Content\Image\Worldwide_files\image001.png" />
     <Content Include="Content\Image\Worldwide_files\image002.png" />
@@ -172,9 +177,9 @@
     <Content Include="Views\Home\Worldwide.cshtml" />
     <Content Include="Views\Home\MediaRelations.cshtml" />
     <Content Include="Views\Home\InvestorRelations.cshtml" />
-    <Content Include="Views\Home\NewsAnnouncement - Copy.cshtml" />
     <Content Include="Views\Home\Minerals.cshtml" />
     <Content Include="Views\Home\Pearls.cshtml" />
+    <Content Include="Views\Home\Manufacture.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
